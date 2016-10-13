@@ -13,7 +13,14 @@ Please provide a file named `.knex-migrator` in your project root.
 #!/usr/bin/env node
 
 module.exports = {
-    database: {client: 'mysql', connection: {host: '127.0.0.1', user: 'user', password: 'password'}},
+    database: {
+        client: 'mysql',
+        connection: {
+            host: '127.0.0.1',
+            user: 'user',
+            password: 'password'
+        }
+    },
     migrationPath: process.cwd() + '/core/server/data/migrations'
 }
 ```
@@ -29,10 +36,7 @@ knex-migrator init --only 1
 ## JS usage
 ```
 var KnexMigrator = require('knex-migrator');
-var knexMigrator = new KnexMigrator({
-  database: database
-  migrationPath: '...'
-});
+var knexMigrator = new KnexMigrator();
 
 // check your database health
 knexMigrator.isDatabaseOK();
