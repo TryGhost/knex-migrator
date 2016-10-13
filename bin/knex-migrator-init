@@ -8,7 +8,7 @@ var program = require('commander');
  */
 var Log = require('coloured-log');
 var log = new Log(Log.INFO);
-var config;
+var migrator;
 
 program
     .option('--skip')
@@ -16,26 +16,11 @@ program
     .parse(process.argv);
 
 try {
-    config = require(process.cwd() + '/.knex-migrator');
+    migrator = new KnexMigrator();
 } catch (err) {
-    log.error('Please provide a file named .knex-migrator in your root.');
+    log.error(err.message);
     process.exit();
 }
-
-if (!config.database) {
-    log.error('.knex-migrator needs to export a database config.');
-    process.exit();
-}
-
-if (!config.migrationPath) {
-    log.error('.knex-migrator needs to export the location of your migration files.');
-    process.exit();
-}
-
-var migrator = new KnexMigrator({
-    database: config.database,
-    migrationPath: config.migrationPath
-});
 
 return migrator.init({
     skip: program.skip,
