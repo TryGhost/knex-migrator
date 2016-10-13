@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+var program = require('commander'),
+    pkg = require('../package.json');
+
+program
+    .version(pkg.version, '-v, --version')
+    .command('init [config]', 'init db').alias('i')
+    .parse(process.argv);

@@ -1,0 +1,47 @@
+#!/usr/bin/env node
+
+var KnexMigrator = require('../');
+var program = require('commander');
+
+/**
+ * @TODO: remove coloured-log (it can't print errors...)
+ */
+var Log = require('coloured-log');
+var log = new Log(Log.INFO);
+var config;
+
+program
+    .option('--skip')
+    .option('--only')
+    .parse(process.argv);
+
+try {
+    config = require(process.cwd() + '/.knex-migrator');
+} catch (err) {
+    log.error('Please provide a file named .knex-migrator in your root.');
+    process.exit();
+}
+
+if (!config.database) {
+    log.error('.knex-migrator needs to export a database config.');
+    process.exit();
+}
+
+if (!config.migrationPath) {
+    log.error('.knex-migrator needs to export the location of your migration files.');
+    process.exit();
+}
+
+var migrator = new KnexMigrator({
+    database: config.database,
+    migrationPath: config.migrationPath
+});
+
+return migrator.init({
+    skip: program.skip,
+    only: program.only
+}).then(function () {
+    log.info('Finished database init!');
+}).catch(function (err) {
+    log.error(err.message);
+}).finally(process.exit);

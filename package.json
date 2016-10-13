@@ -1,0 +1,39 @@
+{
+  "name": "knex-migrator",
+  "version": "0.0.1",
+  "description": "Database migrations with knex.",
+  "keywords": [
+    "ghost",
+    "migration",
+    "knex"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:TryGhost/knex-migrator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TryGhost//knex-migrator/issues"
+  },
+  "author": {
+    "name": "Ghost Foundation",
+    "email": "hello@ghost.org",
+    "web": "https://ghost.org"
+  },
+  "main": "lib",
+  "license": "MIT",
+  "scripts": {},
+  "bin": {
+    "knex-migrator": "./bin/knex-migrator"
+  },
+  "dependencies": {
+    "bluebird": "3.4.6",
+    "coloured-log": "0.9.7",
+    "commander": "2.9.0",
+    "debug": "2.2.0",
+    "knex": "0.12.5"
+  },
+  "files": [
+    "bin",
+    "lib"
+  ]
+}
