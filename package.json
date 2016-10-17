@@ -35,5 +35,9 @@
   "files": [
     "bin",
     "lib"
-  ]
+  ],
+  "devDependencies": {
+    "grunt": "1.0.1",
+    "grunt-release": "0.14.0"
+  }
 }
