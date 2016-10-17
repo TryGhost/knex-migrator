@@ -21,7 +21,9 @@
   },
   "main": "lib",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "test": "_mocha --report lcovonly -- test/*_spec.js"
+  },
   "bin": {
     "knex-migrator": "./bin/knex-migrator"
   },
@@ -38,6 +40,7 @@
   ],
   "devDependencies": {
     "grunt": "1.0.1",
-    "grunt-release": "0.14.0"
+    "grunt-release": "0.14.0",
+    "mocha": "3.1.2"
   }
 }
