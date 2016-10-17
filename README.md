@@ -71,10 +71,3 @@ knexMigrator.init();
   - 1-create-tables
   - 2-seed
 
-
-## TODO
-- [x] re-design some of the files
-- [ ] tests
-- [ ] add missing migrate task
-- [ ] add reset task
-- [ ] add backup task
