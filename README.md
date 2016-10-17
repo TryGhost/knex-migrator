@@ -57,13 +57,20 @@ knex-migrator init --only 1
 ## JS usage
 ```
 var KnexMigrator = require('knex-migrator');
-var knexMigrator = new KnexMigrator();
+var knexMigrator = new KnexMigrator({
+    knexMigratorFilePath: 'path-to-migrator-config-file' [optional]
+});
 
 // check your database health
-knexMigrator.isDatabaseOK();
+knexMigrator.isDatabaseOK()
+  .then(function() {
+     // database is OK
+  })
+  .catch(function(err) {
+     // database is not initialised?
+     knexMigrator.init();
+  });
 
-// execute db init
-knexMigrator.init();
 ```
 
 ## your migration folder (example)
