@@ -4,8 +4,13 @@ DB migration tool for knex
 ## install
 ```npm install -g knex-migrator --save```
 
+
+## important facts
+If you are using `mysql`, `knex-migrator` is able to create the database for you.
+If it already exists, it skips. Don't forget to set your `connection.charset`.
+
 ## config
-`knex-migrator` needs a config file.
+`knex-migrator` requires a config file.
 Please provide a file named `.knex-migrator` in your project root.
 
 
@@ -18,7 +23,23 @@ module.exports = {
         connection: {
             host: '127.0.0.1',
             user: 'user',
-            password: 'password'
+            password: 'password',
+            charset: 'utf8',
+            name: 'ghost'
+        }
+    },
+    migrationPath: process.cwd() + '/core/server/data/migrations'
+}
+```
+
+```
+#!/usr/bin/env node
+
+module.exports = {
+    database: {
+        client: 'sqlite3',
+        connection: {
+            filename: 'path/to/your.db'
         }
     },
     migrationPath: process.cwd() + '/core/server/data/migrations'
@@ -47,9 +68,8 @@ knexMigrator.init();
 
 ## your migration folder (example)
 - init
-  - 1-create-database
-  - 2-create-tables
-  - 3-seed
+  - 1-create-tables
+  - 2-seed
 
 
 ## TODO
