@@ -6,4 +6,5 @@ var program = require('commander'),
 program
     .version(pkg.version, '-v, --version')
     .command('init [config]', 'init db').alias('i')
+    .command('migrate [config]', 'migrate db').alias('m')
     .parse(process.argv);
