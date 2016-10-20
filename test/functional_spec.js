@@ -85,8 +85,8 @@ describe.only('Functional flow test', function () {
     });
 
     beforeEach(function () {
-        sandbox.spy(knexMigrator, 'beforeTask');
-        sandbox.spy(knexMigrator, 'afterTask');
+        sandbox.spy(knexMigrator, 'beforeEachTask');
+        sandbox.spy(knexMigrator, 'afterEachTask');
     });
 
     afterEach(function () {
@@ -101,6 +101,7 @@ describe.only('Functional flow test', function () {
             .catch(function (err) {
                 should.exist(err);
                 (err instanceof errors.DatabaseIsNotOkError);
+                err.code.should.eql('DB_NOT_INITIALISED');
             });
     });
 
@@ -131,8 +132,16 @@ describe.only('Functional flow test', function () {
             })
     });
 
-    it('is database ok? --> yes', function () {
-        return knexMigrator.isDatabaseOK();
+    it('is database ok? --> no', function () {
+        return knexMigrator.isDatabaseOK()
+            .then(function () {
+                throw new Error('Database should be NOT ok!')
+            })
+            .catch(function (err) {
+                should.exist(err);
+                (err instanceof errors.DatabaseIsNotOkError);
+                err.code.should.eql('DB_NEEDS_MIGRATION');
+            });
     });
 
     it('call init again', function () {
@@ -161,8 +170,16 @@ describe.only('Functional flow test', function () {
             });
     });
 
-    it('is database ok? --> yes', function () {
-        return knexMigrator.isDatabaseOK();
+    it('is database ok? --> no', function () {
+        return knexMigrator.isDatabaseOK()
+            .then(function () {
+                throw new Error('Database should be NOT ok!')
+            })
+            .catch(function (err) {
+                should.exist(err);
+                (err instanceof errors.DatabaseIsNotOkError);
+                err.code.should.eql('DB_NEEDS_MIGRATION');
+            });
     });
 
     it('migrate to v1.1 and v1.2', function () {
@@ -196,6 +213,10 @@ describe.only('Functional flow test', function () {
                 knexMigrator.afterEachTask.called.should.eql(true);
                 knexMigrator.afterEachTask.callCount.should.eql(2);
             });
+    });
+
+    it('is database ok? --> yes', function () {
+        return knexMigrator.isDatabaseOK();
     });
 
     it('migrate v1.2 (--version)', function () {
