@@ -198,6 +198,39 @@ describe.only('Functional flow test', function () {
             });
     });
 
+    it('migrate v1.2 (--version)', function () {
+        return knexMigrator.migrate({version: 'v1.2'})
+            .then(function () {
+                return connection.raw('SELECT * from users;');
+            })
+            .then(function (values) {
+                values.length.should.eql(1);
+                values[0].name.should.eql('Kind');
+
+                return connection.raw('SELECT * from migrations;')
+            })
+            .then(function (values) {
+                values.length.should.eql(4);
+                values[0].name.should.eql('1-create-tables.js');
+                values[0].version.should.eql('init');
+
+                values[1].name.should.eql('2-seed.js');
+                values[1].version.should.eql('init');
+
+                values[2].name.should.eql('1-modify-user.js');
+                values[2].version.should.eql('v1.1');
+
+                values[3].name.should.eql('1-modify-user-again.js');
+                values[3].version.should.eql('v1.2');
+
+                // v1.2 was already executed
+                knexMigrator.beforeTask.called.should.eql(false);
+                knexMigrator.beforeTask.callCount.should.eql(0);
+                knexMigrator.afterTask.called.should.eql(false);
+                knexMigrator.afterTask.callCount.should.eql(0);
+            });
+    });
+
     it('migrate to v1.3', function () {
         fs.mkdirSync(migrationsv13);
 

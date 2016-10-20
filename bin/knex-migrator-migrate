@@ -11,6 +11,7 @@ var log = new Log(Log.INFO);
 var migrator;
 
 program
+    .option('--version')
     .option('--only')
     .parse(process.argv);
 
