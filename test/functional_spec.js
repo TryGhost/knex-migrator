@@ -123,11 +123,11 @@ describe.only('Functional flow test', function () {
                 values[1].name.should.eql('2-seed.js');
                 values[1].version.should.eql('init');
 
-                knexMigrator.beforeTask.called.should.eql(true);
-                knexMigrator.beforeTask.callCount.should.eql(2);
+                knexMigrator.beforeEachTask.called.should.eql(true);
+                knexMigrator.beforeEachTask.callCount.should.eql(2);
 
-                knexMigrator.afterTask.called.should.eql(true);
-                knexMigrator.afterTask.callCount.should.eql(2);
+                knexMigrator.afterEachTask.called.should.eql(true);
+                knexMigrator.afterEachTask.callCount.should.eql(2);
             })
     });
 
@@ -155,9 +155,9 @@ describe.only('Functional flow test', function () {
                 values[1].version.should.eql('init');
 
                 // will throw 2 times an error
-                knexMigrator.beforeTask.called.should.eql(true);
-                knexMigrator.beforeTask.callCount.should.eql(2);
-                knexMigrator.afterTask.called.should.eql(false);
+                knexMigrator.beforeEachTask.called.should.eql(true);
+                knexMigrator.beforeEachTask.callCount.should.eql(2);
+                knexMigrator.afterEachTask.called.should.eql(false);
             });
     });
 
@@ -191,10 +191,10 @@ describe.only('Functional flow test', function () {
                 values[3].version.should.eql('v1.2');
 
                 // will throw 2 times an error
-                knexMigrator.beforeTask.called.should.eql(true);
-                knexMigrator.beforeTask.callCount.should.eql(2);
-                knexMigrator.afterTask.called.should.eql(true);
-                knexMigrator.afterTask.callCount.should.eql(2);
+                knexMigrator.beforeEachTask.called.should.eql(true);
+                knexMigrator.beforeEachTask.callCount.should.eql(2);
+                knexMigrator.afterEachTask.called.should.eql(true);
+                knexMigrator.afterEachTask.callCount.should.eql(2);
             });
     });
 
@@ -224,10 +224,10 @@ describe.only('Functional flow test', function () {
                 values[3].version.should.eql('v1.2');
 
                 // v1.2 was already executed
-                knexMigrator.beforeTask.called.should.eql(false);
-                knexMigrator.beforeTask.callCount.should.eql(0);
-                knexMigrator.afterTask.called.should.eql(false);
-                knexMigrator.afterTask.callCount.should.eql(0);
+                knexMigrator.beforeEachTask.called.should.eql(false);
+                knexMigrator.beforeEachTask.callCount.should.eql(0);
+                knexMigrator.afterEachTask.called.should.eql(false);
+                knexMigrator.afterEachTask.callCount.should.eql(0);
             });
     });
 
@@ -267,10 +267,10 @@ describe.only('Functional flow test', function () {
                 values[4].version.should.eql('v1.3');
 
                 // will throw 2 times an error
-                knexMigrator.beforeTask.called.should.eql(true);
-                knexMigrator.beforeTask.callCount.should.eql(1);
-                knexMigrator.afterTask.called.should.eql(true);
-                knexMigrator.afterTask.callCount.should.eql(1);
+                knexMigrator.beforeEachTask.called.should.eql(true);
+                knexMigrator.beforeEachTask.callCount.should.eql(1);
+                knexMigrator.afterEachTask.called.should.eql(true);
+                knexMigrator.afterEachTask.callCount.should.eql(1);
             });
     });
 
@@ -318,10 +318,10 @@ describe.only('Functional flow test', function () {
                 values[4].name.should.eql('1-delete-user.js');
                 values[4].version.should.eql('v1.3');
 
-                knexMigrator.beforeTask.called.should.eql(true);
-                knexMigrator.beforeTask.callCount.should.eql(2);
-                knexMigrator.afterTask.called.should.eql(true);
-                knexMigrator.afterTask.callCount.should.eql(1);
+                knexMigrator.beforeEachTask.called.should.eql(true);
+                knexMigrator.beforeEachTask.callCount.should.eql(2);
+                knexMigrator.afterEachTask.called.should.eql(true);
+                knexMigrator.afterEachTask.callCount.should.eql(1);
             });
     });
 });
