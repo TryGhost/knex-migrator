@@ -58,7 +58,7 @@ knex-migrator init --skip 1
 knex-migrator init --only 1
 
 knex-migrator migrate [migrates your database to latest state, rolls back if an error happens]
-knex-migrator migrate --version v1.2
+knex-migrator migrate --v v1.2
 
 knex-migrator reset [resets your database]
 ```

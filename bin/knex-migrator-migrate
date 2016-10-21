@@ -11,8 +11,8 @@ var log = new Log(Log.INFO);
 var migrator;
 
 program
-    .option('--version')
-    .option('--only')
+    .option('--v <item>')
+    .option('--only <item>')
     .parse(process.argv);
 
 try {
@@ -23,6 +23,7 @@ try {
 }
 
 return migrator.migrate({
+    version: program.v,
     only: program.only
 }).then(function () {
     log.info('Finished database migration!');

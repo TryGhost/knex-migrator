@@ -11,8 +11,8 @@ var log = new Log(Log.INFO);
 var migrator;
 
 program
-    .option('--skip')
-    .option('--only')
+    .option('--skip <item>')
+    .option('--only <item>')
     .parse(process.argv);
 
 try {
