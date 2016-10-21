@@ -28,7 +28,7 @@ return migrator.isDatabaseOK()
            log.emergency('Migrations are missing. Please run knex-migrate migrate.');
         } else if(err.code === 'MIGRATION_TABLE_IS_MISSING' || err.code === 'DB_NOT_INITIALISED') {
             log.emergency('Database was never initialised. Please run knex-migrate init.');
+        } else {
+            log.error(err.message);
         }
-
-        log.error(err.message);
     });
