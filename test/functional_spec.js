@@ -9,11 +9,11 @@ var KnexMigrator = require('../lib'),
 describe.only('Functional flow test', function () {
     var knexMigrator,
         dbFile = __dirname + '/assets/test.db',
-        migrationsv13 = __dirname + '/assets/migrations/v1.3',
-        migrationsv14 = __dirname + '/assets/migrations/v1.4',
-        migrationsv13File = __dirname + '/assets/migrations/v1.3/1-delete-user.js',
-        migrationsv14File1 = __dirname + '/assets/migrations/v1.4/1-no-error.js',
-        migrationsv14File2 = __dirname + '/assets/migrations/v1.4/2-error.js',
+        migrationsv13 = __dirname + '/assets/migrations/1.3',
+        migrationsv14 = __dirname + '/assets/migrations/1.4',
+        migrationsv13File = __dirname + '/assets/migrations/1.3/1-delete-user.js',
+        migrationsv14File1 = __dirname + '/assets/migrations/1.4/1-no-error.js',
+        migrationsv14File2 = __dirname + '/assets/migrations/1.4/2-error.js',
         connection;
 
     before(function () {
@@ -182,7 +182,7 @@ describe.only('Functional flow test', function () {
             });
     });
 
-    it('migrate to v1.1 and v1.2', function () {
+    it('migrate to 1.1 and 1.2', function () {
         return knexMigrator.migrate()
             .then(function () {
                 return connection.raw('SELECT * from users;');
@@ -202,10 +202,10 @@ describe.only('Functional flow test', function () {
                 values[1].version.should.eql('init');
 
                 values[2].name.should.eql('1-modify-user.js');
-                values[2].version.should.eql('v1.1');
+                values[2].version.should.eql('1.1');
 
                 values[3].name.should.eql('1-modify-user-again.js');
-                values[3].version.should.eql('v1.2');
+                values[3].version.should.eql('1.2');
 
                 // will throw 2 times an error
                 knexMigrator.beforeEachTask.called.should.eql(true);
@@ -219,8 +219,8 @@ describe.only('Functional flow test', function () {
         return knexMigrator.isDatabaseOK();
     });
 
-    it('migrate v1.2 (--version)', function () {
-        return knexMigrator.migrate({version: 'v1.2'})
+    it('migrate 1.2 (--v)', function () {
+        return knexMigrator.migrate({version: '1.2'})
             .then(function () {
                 return connection.raw('SELECT * from users;');
             })
@@ -239,12 +239,12 @@ describe.only('Functional flow test', function () {
                 values[1].version.should.eql('init');
 
                 values[2].name.should.eql('1-modify-user.js');
-                values[2].version.should.eql('v1.1');
+                values[2].version.should.eql('1.1');
 
                 values[3].name.should.eql('1-modify-user-again.js');
-                values[3].version.should.eql('v1.2');
+                values[3].version.should.eql('1.2');
 
-                // v1.2 was already executed
+                // 1.2 was already executed
                 knexMigrator.beforeEachTask.called.should.eql(false);
                 knexMigrator.beforeEachTask.callCount.should.eql(0);
                 knexMigrator.afterEachTask.called.should.eql(false);
@@ -252,7 +252,7 @@ describe.only('Functional flow test', function () {
             });
     });
 
-    it('migrate to v1.3', function () {
+    it('migrate to 1.3', function () {
         fs.mkdirSync(migrationsv13);
 
         var jsFile = '' +
@@ -279,13 +279,13 @@ describe.only('Functional flow test', function () {
                 values[1].version.should.eql('init');
 
                 values[2].name.should.eql('1-modify-user.js');
-                values[2].version.should.eql('v1.1');
+                values[2].version.should.eql('1.1');
 
                 values[3].name.should.eql('1-modify-user-again.js');
-                values[3].version.should.eql('v1.2');
+                values[3].version.should.eql('1.2');
 
                 values[4].name.should.eql('1-delete-user.js');
-                values[4].version.should.eql('v1.3');
+                values[4].version.should.eql('1.3');
 
                 // will throw 2 times an error
                 knexMigrator.beforeEachTask.called.should.eql(true);
@@ -295,7 +295,7 @@ describe.only('Functional flow test', function () {
             });
     });
 
-    it('migrate to v1.4, but error happens in one of the scripts --> expect rollback', function () {
+    it('migrate to 1.4, but error happens in one of the scripts --> expect rollback', function () {
         fs.mkdirSync(migrationsv14);
 
         var jsFile1 = '' +
@@ -331,13 +331,13 @@ describe.only('Functional flow test', function () {
                 values[1].version.should.eql('init');
 
                 values[2].name.should.eql('1-modify-user.js');
-                values[2].version.should.eql('v1.1');
+                values[2].version.should.eql('1.1');
 
                 values[3].name.should.eql('1-modify-user-again.js');
-                values[3].version.should.eql('v1.2');
+                values[3].version.should.eql('1.2');
 
                 values[4].name.should.eql('1-delete-user.js');
-                values[4].version.should.eql('v1.3');
+                values[4].version.should.eql('1.3');
 
                 knexMigrator.beforeEachTask.called.should.eql(true);
                 knexMigrator.beforeEachTask.callCount.should.eql(2);
