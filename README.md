@@ -11,12 +11,10 @@ If it already exists, it skips. Don't forget to set your `connection.charset`.
 
 ## config
 `knex-migrator` requires a config file.
-Please provide a file named `.knex-migrator` in your project root.
+Please provide a file named `MigratorConfig.js` in your project root.
 
 
 ```
-#!/usr/bin/env node
-
 module.exports = {
     database: {
         client: 'mysql',
@@ -34,8 +32,6 @@ module.exports = {
 ```
 
 ```
-#!/usr/bin/env node
-
 module.exports = {
     database: {
         client: 'sqlite3',
