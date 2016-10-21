@@ -93,6 +93,9 @@ The hooks won't work for initialisation right now.
 All hooks are optional. 
 Hooks need to live in the `migrationPath` you have offered.
 
+You can disable the hooks passing:
+`knexMigrator.init({disableHooks: true});`
+
 The folder name must be `hooks` - this is not configureable right now.
 Please create an index.js file to export your functions.
 
