@@ -115,3 +115,6 @@ exports.beforeEach = = require('./before');
 - v1.0
   - 1-update-user.js
   - 2-change-permissions.js
+
+## debug
+`DEBUG=knex-migrator:* knex-migrator health`
