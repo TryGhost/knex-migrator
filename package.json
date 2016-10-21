@@ -32,7 +32,7 @@
     "coloured-log": "0.9.7",
     "commander": "2.9.0",
     "debug": "2.2.0",
-    "knex": "0.12.5",
+    "knex": "0.12.2",
     "lodash": "4.16.4"
   },
   "files": [
