@@ -90,7 +90,9 @@ knexMigrator.isDatabaseOK()
 ## hooks
 Knex-migrator offers you to hook into the process of executing scripts.
 The hooks won't work for initialisation right now.
-All hooks are optional. Hooks need to live in the `migrationPath` you have offered.
+All hooks are optional. 
+Hooks need to live in the `migrationPath` you have offered.
+
 The folder name must be `hooks` - this is not configureable right now.
 Please create an index.js file to export your functions.
 
@@ -107,8 +109,12 @@ exports.beforeEach = = require('./before');
 
 ## your migration folder (example)
 - hooks
-  - before.js
-  - index.js
+  - migrate
+    - before.js
+    - index.js
+  - init
+    - after.js
+    - index.js
 - init
   - 1-create-tables.js
   - 2-seed.js
