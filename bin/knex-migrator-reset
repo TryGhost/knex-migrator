@@ -11,8 +11,6 @@ var log = new Log(Log.INFO);
 var migrator;
 
 program
-    .option('--skip <item>')
-    .option('--only <item>')
     .parse(process.argv);
 
 try {
@@ -22,11 +20,9 @@ try {
     process.exit();
 }
 
-return migrator.init({
-    skip: program.skip,
-    only: program.only
-}).then(function () {
-    log.info('Finished database init!');
-}).catch(function (err) {
-    log.error(err.message);
-});
+return migrator.reset()
+    .then(function () {
+        log.info('Finished database reset!');
+    }).catch(function (err) {
+        log.error(err.message);
+    });
