@@ -9,5 +9,6 @@ module.exports = {
             filename: path.join(process.cwd(), 'test/assets/test.db')
         }
     },
-    migrationPath: path.join(process.cwd(), 'test/assets/migrations')
+    migrationPath: path.join(process.cwd(), 'test/assets/migrations'),
+    currentVersion: '1.4'
 }
