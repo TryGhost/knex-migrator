@@ -7,7 +7,7 @@ var KnexMigrator = require('../lib'),
     should = require('should'),
     fs = require('fs');
 
-describe.only('Functional flow test', function () {
+describe('Functional flow test', function () {
     var knexMigrator,
         dbFile = __dirname + '/assets/test.db',
         migrationsv13 = __dirname + '/assets/migrations/1.3',
