@@ -33,7 +33,8 @@
     "commander": "2.9.0",
     "debug": "2.2.0",
     "knex": "0.12.2",
-    "lodash": "4.16.4"
+    "lodash": "4.16.4",
+    "resolve": "1.1.7"
   },
   "files": [
     "bin",
