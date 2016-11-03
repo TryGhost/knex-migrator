@@ -1,28 +1,32 @@
 #!/usr/bin/env node
 
-var KnexMigrator = require('../');
 var program = require('commander');
+var utils = require('../lib/utils');
 
 /**
  * @TODO: remove coloured-log (it can't print errors...)
  */
 var Log = require('coloured-log');
 var log = new Log(Log.INFO);
-var migrator;
+var knexMigrator;
 
-program
-    .parse(process.argv);
+utils.getKnexMigrator({path: process.cwd()})
+    .then(function (KnexMigrator) {
+        program
+            .parse(process.argv);
 
-try {
-    migrator = new KnexMigrator();
-} catch (err) {
-    log.error(err.message);
-    process.exit();
-}
+        try {
+            knexMigrator = new KnexMigrator();
+        } catch (err) {
+            log.error(err.message);
+            process.exit();
+        }
 
-return migrator.reset()
-    .then(function () {
-        log.info('Finished database reset!');
-    }).catch(function (err) {
+        return knexMigrator.reset()
+            .then(function () {
+                log.info('Finished database reset!');
+            });
+    })
+    .catch(function (err) {
         log.error(err.message);
     });
