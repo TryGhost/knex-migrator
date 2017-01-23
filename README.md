@@ -45,6 +45,7 @@ module.exports = {
 ```
 
 ## CLI usage
+
 ```
 knex-migrator help
 knex-migrator health [shows the database health]
