@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 var path = require('path');
 
 module.exports = {
@@ -11,4 +9,4 @@ module.exports = {
     },
     migrationPath: path.join(process.cwd(), 'test/assets/migrations'),
     currentVersion: '1.4'
-}
+};
