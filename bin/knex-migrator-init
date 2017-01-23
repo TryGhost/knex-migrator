@@ -33,4 +33,5 @@ utils.getKnexMigrator({path: process.cwd()})
     })
     .catch(function (err) {
         log.error(err.message);
+        err.help && log.notice(err.help);
     });
