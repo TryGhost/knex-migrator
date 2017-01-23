@@ -429,7 +429,7 @@ describe('Functional flow test', function () {
             });
     });
 
-    it('migrate to 1.5, but current version is 1.4', function () {
+    it('migrate to 1.5, but current version is 1.4 (no force)', function () {
         fs.mkdirSync(migrationsv15);
 
         var jsFile1 = '' +
@@ -469,6 +469,44 @@ describe('Functional flow test', function () {
 
                 values[6].name.should.eql('2-error.js');
                 values[6].version.should.eql('1.4');
+            });
+    });
+
+    it('migrate 1.5 (--v) and force', function () {
+        // current is 1.4
+        return knexMigrator.migrate({version: '1.5', force: true})
+            .then(function () {
+                return connection.raw('SELECT * from users;');
+            })
+            .then(function (values) {
+                values.length.should.eql(0);
+                return connection.raw('SELECT * from migrations;')
+            })
+            .then(function (values) {
+                values.length.should.eql(8);
+                values[0].name.should.eql('1-create-tables.js');
+                values[0].version.should.eql('init');
+
+                values[1].name.should.eql('2-seed.js');
+                values[1].version.should.eql('init');
+
+                values[2].name.should.eql('1-modify-user.js');
+                values[2].version.should.eql('1.1');
+
+                values[3].name.should.eql('1-modify-user-again.js');
+                values[3].version.should.eql('1.2');
+
+                values[4].name.should.eql('1-delete-user.js');
+                values[4].version.should.eql('1.3');
+
+                values[5].name.should.eql('1-no-error.js');
+                values[5].version.should.eql('1.4');
+
+                values[6].name.should.eql('2-error.js');
+                values[6].version.should.eql('1.4');
+
+                values[7].name.should.eql('1-no-error.js');
+                values[7].version.should.eql('1.5');
             });
     });
 });

@@ -15,6 +15,7 @@ utils.getKnexMigrator({path: process.cwd()})
         program
             .option('--v <item>')
             .option('--only <item>')
+            .option('--force')
             .parse(process.argv);
 
         try {
@@ -26,7 +27,8 @@ utils.getKnexMigrator({path: process.cwd()})
 
         return knexMigrator.migrate({
             version: program.v,
-            only: program.only
+            only: program.only,
+            force: program.force
         }).then(function () {
             log.info('Finished database migration!');
         });
