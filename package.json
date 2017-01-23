@@ -1,6 +1,6 @@
 {
   "name": "knex-migrator",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Database migrations with knex.",
   "keywords": [
     "ghost",
