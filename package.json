@@ -25,7 +25,11 @@
     "test": "_mocha --report lcovonly -- test/*_spec.js"
   },
   "bin": {
-    "knex-migrator": "./bin/knex-migrator"
+    "knex-migrator": "./bin/knex-migrator",
+    "knex-migrator-init": "./bin/knex-migrator-init",
+    "knex-migrator-health": "./bin/knex-migrator-health",
+    "knex-migrator-migrate": "./bin/knex-migrator-migrate",
+    "knex-migrator-reset": "./bin/knex-migrator-reset"
   },
   "dependencies": {
     "bluebird": "3.4.6",
