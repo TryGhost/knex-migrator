@@ -398,6 +398,118 @@ describe('Functional flow test', function () {
             });
     });
 
+    it('migrate to 1.4, but error happens in one of the scripts --> expect rollback', function () {
+        fs.unlinkSync(migrationsv14File1);
+        fs.unlinkSync(migrationsv14File2);
+
+        fs.rmdirSync(migrationsv14);
+        fs.mkdirSync(migrationsv14);
+
+        _.each(require.cache, function (value, key) {
+            if (key.match(/migrations\/versions\/1.4\/2-error.js/)) {
+                delete require.cache[key];
+            }
+        });
+
+        var jsFile1 = '' +
+            'module.exports = function success(options) {' +
+            'return Promise.resolve();' +
+            '};';
+
+        var jsFile2 = '' +
+            'var Promise = require("lalalalala");';
+
+        fs.writeFileSync(migrationsv14File1, jsFile1);
+        fs.writeFileSync(migrationsv14File2, jsFile2);
+
+        return knexMigrator.migrate()
+            .catch(function (err) {
+                should.exist(err);
+                err.message.should.eql('Cannot find module \'lalalalala\'');
+                return connection.raw('SELECT * from users;');
+            })
+            .then(function (values) {
+                values.length.should.eql(0);
+                return connection.raw('SELECT * from migrations;')
+            })
+            .then(function (values) {
+                values.length.should.eql(5);
+                values[0].name.should.eql('1-create-tables.js');
+                values[0].version.should.eql('init');
+
+                values[1].name.should.eql('2-seed.js');
+                values[1].version.should.eql('init');
+
+                values[2].name.should.eql('1-modify-user.js');
+                values[2].version.should.eql('1.1');
+
+                values[3].name.should.eql('1-modify-user-again.js');
+                values[3].version.should.eql('1.2');
+
+                values[4].name.should.eql('1-delete-user.js');
+                values[4].version.should.eql('1.3');
+
+                knexMigrator.beforeEachTask.called.should.eql(false);
+                knexMigrator.afterEachTask.called.should.eql(false);
+            });
+    });
+
+    it('migrate to 1.4, but error happens in one of the scripts --> expect rollback', function () {
+        fs.unlinkSync(migrationsv14File1);
+        fs.unlinkSync(migrationsv14File2);
+
+        fs.rmdirSync(migrationsv14);
+        fs.mkdirSync(migrationsv14);
+
+        _.each(require.cache, function (value, key) {
+            if (key.match(/migrations\/versions\/1.4\/2-error.js/)) {
+                delete require.cache[key];
+            }
+        });
+
+        var jsFile1 = '' +
+            'module.exports = function success(options) {' +
+            'return Promise.resolve();' +
+            '};';
+
+        var jsFile2 = '' +
+            'var x = y;';
+
+        fs.writeFileSync(migrationsv14File1, jsFile1);
+        fs.writeFileSync(migrationsv14File2, jsFile2);
+
+        return knexMigrator.migrate()
+            .catch(function (err) {
+                should.exist(err);
+                err.message.should.eql('y is not defined');
+                return connection.raw('SELECT * from users;');
+            })
+            .then(function (values) {
+                values.length.should.eql(0);
+                return connection.raw('SELECT * from migrations;')
+            })
+            .then(function (values) {
+                values.length.should.eql(5);
+                values[0].name.should.eql('1-create-tables.js');
+                values[0].version.should.eql('init');
+
+                values[1].name.should.eql('2-seed.js');
+                values[1].version.should.eql('init');
+
+                values[2].name.should.eql('1-modify-user.js');
+                values[2].version.should.eql('1.1');
+
+                values[3].name.should.eql('1-modify-user-again.js');
+                values[3].version.should.eql('1.2');
+
+                values[4].name.should.eql('1-delete-user.js');
+                values[4].version.should.eql('1.3');
+
+                knexMigrator.beforeEachTask.called.should.eql(false);
+                knexMigrator.afterEachTask.called.should.eql(false);
+            });
+    });
+
     it('migrate to 1.4, fixed error', function () {
         fs.unlinkSync(migrationsv14File1);
         fs.unlinkSync(migrationsv14File2);
