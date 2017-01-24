@@ -22,7 +22,7 @@
   "main": "lib",
   "license": "MIT",
   "scripts": {
-    "test": "_mocha --report lcovonly -- test/*_spec.js"
+    "test": "LEVEL=fatal _mocha --report lcovonly -- test/*_spec.js"
   },
   "bin": {
     "knex-migrator": "./bin/knex-migrator",
