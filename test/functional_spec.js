@@ -17,6 +17,7 @@ describe('Functional flow test', function () {
         migrationsv14File1 = __dirname + '/assets/migrations/versions/1.4/1-no-error.js',
         migrationsv14File2 = __dirname + '/assets/migrations/versions/1.4/2-error.js',
         migrationsv15File1 = __dirname + '/assets/migrations/versions/1.5/1-no-error.js',
+        migratorConfigPath = __dirname + '/assets/MigratorConfig.js',
         connection;
 
     before(function () {
@@ -62,6 +63,21 @@ describe('Functional flow test', function () {
             useNullAsDefault: true
         });
 
+        var migratorConfig = '' +
+            'var path = require("path");' +
+            'module.exports = {' +
+            '  database: {' +
+            '    client: "sqlite3",' +
+            '    connection: {' +
+            '      filename: path.join(process.cwd(), "test/assets/test.db")' +
+            '    }' +
+            '  },' +
+            '  migrationPath: path.join(process.cwd(), "test/assets/migrations"),' +
+            '  currentVersion: "1.0"' +
+            '};';
+
+        fs.writeFileSync(migratorConfigPath, migratorConfig, 'utf-8');
+
         knexMigrator = new KnexMigrator({
             knexMigratorFilePath: __dirname + '/assets'
         });
@@ -101,6 +117,10 @@ describe('Functional flow test', function () {
         if (fs.existsSync(migrationsv15)) {
             fs.rmdirSync(migrationsv15);
         }
+
+        if (fs.existsSync(migratorConfigPath)) {
+            fs.unlinkSync(migratorConfigPath);
+        }
     });
 
     beforeEach(function () {
@@ -112,7 +132,7 @@ describe('Functional flow test', function () {
         sandbox.restore();
     });
 
-    it('is database ok? --> no', function () {
+    it('is database ok? --> no, because the db was never initialised', function () {
         return knexMigrator.isDatabaseOK()
             .then(function () {
                 throw new Error('Database should be NOT ok!')
@@ -140,6 +160,9 @@ describe('Functional flow test', function () {
                 values[0].name.should.eql('1-create-tables.js');
                 values[0].version.should.eql('init');
 
+                // db was initialised when the service was on 1.0
+                values[0].currentVersion.should.eql('1.0');
+
                 values[1].name.should.eql('2-seed.js');
                 values[1].version.should.eql('init');
 
@@ -151,16 +174,9 @@ describe('Functional flow test', function () {
             })
     });
 
-    it('is database ok? --> no', function () {
-        return knexMigrator.isDatabaseOK()
-            .then(function () {
-                throw new Error('Database should be NOT ok!')
-            })
-            .catch(function (err) {
-                should.exist(err);
-                (err instanceof errors.DatabaseIsNotOkError);
-                err.code.should.eql('DB_NEEDS_MIGRATION');
-            });
+    it('is database ok? --> yes, because user has initialised the database previously', function () {
+        // no execution of 0.9 and 1.0 is required
+        return knexMigrator.isDatabaseOK();
     });
 
     it('call init again', function () {
@@ -178,6 +194,7 @@ describe('Functional flow test', function () {
                 values.length.should.eql(2);
                 values[0].name.should.eql('1-create-tables.js');
                 values[0].version.should.eql('init');
+                values[0].currentVersion.should.eql('1.0');
 
                 values[1].name.should.eql('2-seed.js');
                 values[1].version.should.eql('init');
@@ -189,15 +206,23 @@ describe('Functional flow test', function () {
             });
     });
 
-    it('is database ok? --> no', function () {
+    it('is database ok? --> still yes', function () {
+        // no execution of 0.9 and 1.0 is required
+        return knexMigrator.isDatabaseOK();
+    });
+
+    it('change current version', function () {
+        knexMigrator.currentVersion = '1.2';
+    });
+
+    it('is database ok? --> no, 1.1 and 1.2 migrations are missing', function () {
         return knexMigrator.isDatabaseOK()
             .then(function () {
-                throw new Error('Database should be NOT ok!')
+                throw new Error('database should be not ok');
             })
             .catch(function (err) {
                 should.exist(err);
-                (err instanceof errors.DatabaseIsNotOkError);
-                err.code.should.eql('DB_NEEDS_MIGRATION');
+                (err instanceof errors.DatabaseIsNotOkError).should.eql(true);
             });
     });
 
@@ -234,7 +259,7 @@ describe('Functional flow test', function () {
             });
     });
 
-    it('is database ok? --> yes', function () {
+    it('is database ok? --> yes sure', function () {
         return knexMigrator.isDatabaseOK();
     });
 
@@ -269,6 +294,10 @@ describe('Functional flow test', function () {
                 knexMigrator.afterEachTask.called.should.eql(false);
                 knexMigrator.afterEachTask.callCount.should.eql(0);
             });
+    });
+
+    it('change current version', function () {
+        knexMigrator.currentVersion = '1.3';
     });
 
     it('migrate to 1.3', function () {
@@ -312,6 +341,10 @@ describe('Functional flow test', function () {
                 knexMigrator.afterEachTask.called.should.eql(true);
                 knexMigrator.afterEachTask.callCount.should.eql(1);
             });
+    });
+
+    it('change current version', function () {
+        knexMigrator.currentVersion = '1.4';
     });
 
     it('migrate to 1.4, but error happens in one of the scripts --> expect rollback', function () {
