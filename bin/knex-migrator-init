@@ -3,11 +3,7 @@
 var program = require('commander');
 var utils = require('../lib/utils');
 
-/**
- * @TODO: remove coloured-log (it can't print errors...)
- */
-var Log = require('coloured-log');
-var log = new Log(Log.INFO);
+var logging = require('../logging');
 var knexMigrator;
 
 utils.getKnexMigrator({path: process.cwd()})
@@ -20,7 +16,7 @@ utils.getKnexMigrator({path: process.cwd()})
         try {
             knexMigrator = new KnexMigrator();
         } catch (err) {
-            log.error(err.message);
+            logging.error(err);
             process.exit();
         }
 
@@ -28,11 +24,9 @@ utils.getKnexMigrator({path: process.cwd()})
             skip: program.skip,
             only: program.only
         }).then(function () {
-            log.info('Finished database init!');
+            logging.info('Finished database init!');
         });
     })
     .catch(function (err) {
-        log.error(err.message);
-        err.context && log.notice(err.context);
-        err.help && log.notice(err.help);
+        logging.error(err);
     });

@@ -33,7 +33,6 @@
   },
   "dependencies": {
     "bluebird": "3.4.6",
-    "coloured-log": "0.9.7",
     "commander": "2.9.0",
     "debug": "2.2.0",
     "ghost-ignition": "2.8.1",
