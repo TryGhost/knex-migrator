@@ -27,7 +27,8 @@ module.exports = {
         }
     },
     migrationPath: process.cwd() + '/core/server/data/migrations',
-    currentVersion: 'your-current-database-version'
+    currentVersion: 'your-current-database-version',
+    subfolder: 'upgrades'  [default: versions]
 }
 ```
 
@@ -119,9 +120,10 @@ exports.beforeEach = = require('./before');
 - init
   - 1-create-tables.js
   - 2-seed.js
-- 1.0
-  - 1-update-user.js
-  - 2-change-permissions.js
+- versions
+  - 1.0
+    - 1-update-user.js
+    - 2-change-permissions.js
 
 ## debug
 `DEBUG=knex-migrator:* knex-migrator health`

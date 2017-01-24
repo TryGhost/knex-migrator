@@ -10,13 +10,13 @@ var KnexMigrator = require('../lib'),
 describe('Functional flow test', function () {
     var knexMigrator,
         dbFile = __dirname + '/assets/test.db',
-        migrationsv13 = __dirname + '/assets/migrations/1.3',
-        migrationsv14 = __dirname + '/assets/migrations/1.4',
-        migrationsv15 = __dirname + '/assets/migrations/1.5',
-        migrationsv13File = __dirname + '/assets/migrations/1.3/1-delete-user.js',
-        migrationsv14File1 = __dirname + '/assets/migrations/1.4/1-no-error.js',
-        migrationsv14File2 = __dirname + '/assets/migrations/1.4/2-error.js',
-        migrationsv15File1 = __dirname + '/assets/migrations/1.5/1-no-error.js',
+        migrationsv13 = __dirname + '/assets/migrations/versions/1.3',
+        migrationsv14 = __dirname + '/assets/migrations/versions/1.4',
+        migrationsv15 = __dirname + '/assets/migrations/versions/1.5',
+        migrationsv13File = __dirname + '/assets/migrations/versions/1.3/1-delete-user.js',
+        migrationsv14File1 = __dirname + '/assets/migrations/versions/1.4/1-no-error.js',
+        migrationsv14File2 = __dirname + '/assets/migrations/versions/1.4/2-error.js',
+        migrationsv15File1 = __dirname + '/assets/migrations/versions/1.5/1-no-error.js',
         connection;
 
     before(function () {
@@ -373,7 +373,7 @@ describe('Functional flow test', function () {
         fs.mkdirSync(migrationsv14);
 
         _.each(require.cache, function (value, key) {
-            if (key.match(/migrations\/1.4\/2-error.js/)) {
+            if (key.match(/migrations\/versions\/1.4\/2-error.js/)) {
                 delete require.cache[key];
             }
         });
