@@ -42,7 +42,8 @@
   },
   "files": [
     "bin",
-    "lib"
+    "lib",
+    "logging.js"
   ],
   "devDependencies": {
     "grunt": "1.0.1",
