@@ -3,11 +3,7 @@
 var program = require('commander');
 var utils = require('../lib/utils');
 
-/**
- * @TODO: remove coloured-log (it can't print errors...)
- */
-var Log = require('coloured-log');
-var log = new Log(Log.INFO);
+var logging = require('../logging');
 var knexMigrator;
 
 utils.getKnexMigrator({path: process.cwd()})
@@ -18,21 +14,21 @@ utils.getKnexMigrator({path: process.cwd()})
         try {
             knexMigrator = new KnexMigrator();
         } catch (err) {
-            log.error(err.message);
+            logging.error(err);
             process.exit();
         }
 
         return knexMigrator.isDatabaseOK()
             .then(function () {
-                log.info('Wohoo, Database is healthy');
+                logging.info('Wohoo, Database is healthy');
             });
     })
     .catch(function (err) {
         if (err.code === 'DB_NEEDS_MIGRATION') {
-            log.emergency('Migrations are missing. Please run knex-migrate migrate.');
+            logging.error('Migrations are missing. Please run knex-migrate migrate.');
         } else if(err.code === 'MIGRATION_TABLE_IS_MISSING' || err.code === 'DB_NOT_INITIALISED') {
-            log.emergency('Database was never initialised. Please run knex-migrate init.');
+            logging.error('Database was never initialised. Please run knex-migrate init.');
         } else {
-            log.error(err.message);
+            logging.error(err);
         }
     });
