@@ -140,7 +140,7 @@ describe('Functional flow test', function () {
             .catch(function (err) {
                 should.exist(err);
                 (err instanceof errors.DatabaseIsNotOkError);
-                err.code.should.eql('DB_NOT_INITIALISED');
+                err.code.should.eql('MIGRATION_TABLE_IS_MISSING');
             });
     });
 
