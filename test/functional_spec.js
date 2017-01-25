@@ -157,6 +157,7 @@ describe('Functional flow test', function () {
             })
             .then(function (values) {
                 values.length.should.eql(2);
+                should.exist(values[0].id);
                 values[0].name.should.eql('1-create-tables.js');
                 values[0].version.should.eql('init');
 
