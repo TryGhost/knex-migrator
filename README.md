@@ -127,6 +127,19 @@ exports.beforeEach = = require('./before');
     - 1-update-user.js
     - 2-change-permissions.js
 
+## Example migration file
+
+```
+var Promise = require('bluebird');
+module.exports = function(options) {
+  var transacting = options.transacting;
+  
+  ... 
+  
+  return Promise.resolve();
+}
+```
+
 ## debug
 `DEBUG=knex-migrator:* knex-migrator health`
 
