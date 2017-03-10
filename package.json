@@ -32,12 +32,12 @@
     "knex-migrator-reset": "./bin/knex-migrator-reset"
   },
   "dependencies": {
-    "bluebird": "3.4.6",
+    "bluebird": "^3.4.6",
     "commander": "2.9.0",
-    "debug": "2.2.0",
+    "debug": "^2.2.0",
     "ghost-ignition": "^2.8.2",
-    "knex": "0.12.2",
-    "lodash": "4.16.4",
+    "knex": "^0.12.2",
+    "lodash": "^4.16.4",
     "resolve": "1.1.7"
   },
   "files": [
@@ -53,7 +53,7 @@
     "sinon": "1.17.6"
   },
   "optionalDependencies": {
-    "mysql": "2.11.1",
-    "sqlite3": "3.1.8"
+    "mysql": "^2.11.1",
+    "sqlite3": "^3.1.8"
   }
 }
