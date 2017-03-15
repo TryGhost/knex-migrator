@@ -24,11 +24,5 @@ utils.getKnexMigrator({path: process.cwd()})
             });
     })
     .catch(function (err) {
-        if (err.code === 'DB_NEEDS_MIGRATION') {
-            logging.error('Migrations are missing. Please run knex-migrate migrate.');
-        } else if(err.code === 'MIGRATION_TABLE_IS_MISSING' || err.code === 'DB_NOT_INITIALISED') {
-            logging.error('Database was never initialised. Please run knex-migrate init.');
-        } else {
-            logging.error(err);
-        }
+        logging.error(err);
     });
