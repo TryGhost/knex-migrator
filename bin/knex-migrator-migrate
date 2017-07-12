@@ -12,6 +12,7 @@ utils.getKnexMigrator({path: process.cwd()})
             .option('--v <item>')
             .option('--only <item>')
             .option('--force')
+            .option('--init')
             .parse(process.argv);
 
         try {
