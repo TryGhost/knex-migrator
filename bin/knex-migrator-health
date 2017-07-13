@@ -9,10 +9,11 @@ var knexMigrator;
 utils.getKnexMigrator({path: process.cwd()})
     .then(function (KnexMigrator) {
         program
+            .option('--mgpath <path>')
             .parse(process.argv);
 
         try {
-            knexMigrator = new KnexMigrator();
+            knexMigrator = new KnexMigrator({knexMigratorFilePath: program.mgpath});
         } catch (err) {
             logging.error(err);
             process.exit();

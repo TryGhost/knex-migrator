@@ -54,10 +54,13 @@ knex-migrator health [shows the database health]
 knex-migrator init [initialises your database based on your init scripts]
 knex-migrator init --skip 1
 knex-migrator init --only 1
+knex-migrator init --mgpath <path-to-MigratorConfig.js>
 
 knex-migrator migrate [migrates your database to latest state, rolls back if an error happens]
 knex-migrator migrate --v 1.2
 knex-migrator migrate --v 1.2 --force [doesn't matter which current version you are on, we force executing the version]
+knex-migrator migrate --init [avoids running `init`, a combined command]
+knex-migrator migrate --init --mgpath <path-to-MigratorConfig.js>
 
 knex-migrator reset [resets your database]
 ```

@@ -1,16 +1,15 @@
 var KnexMigrator = require('../lib'),
     errors = require('../lib/errors'),
     _ = require('lodash'),
-    path = require('path'),
     knex = require('knex'),
     sinon = require('sinon'),
     sandbox = sinon.sandbox.create(),
     should = require('should'),
     fs = require('fs');
 
-describe('Functional flow (knex-migrator init) test', function () {
+describe('Functional flow (knex-migrator migrate --init) test', function () {
     var knexMigrator,
-        dbFile = __dirname + '/assets/test.db',
+        dbFile = __dirname + '/assets/test1.db',
         migrationsv13 = __dirname + '/assets/migrations/versions/1.3',
         migrationsv14 = __dirname + '/assets/migrations/versions/1.4',
         migrationsv15 = __dirname + '/assets/migrations/versions/1.5',
@@ -70,12 +69,16 @@ describe('Functional flow (knex-migrator init) test', function () {
             '  database: {' +
             '    client: "sqlite3",' +
             '    connection: {' +
-            '      filename: path.join(process.cwd(), "test/assets/test.db")' +
+            '      filename: path.join(process.cwd(), "test/assets/test1.db")' +
             '    }' +
             '  },' +
             '  migrationPath: path.join(process.cwd(), "test/assets/migrations"),' +
             '  currentVersion: "1.0"' +
             '};';
+
+        if (fs.existsSync(migratorConfigPath)) {
+            fs.unlinkSync(migratorConfigPath);
+        }
 
         fs.writeFileSync(migratorConfigPath, migratorConfig, 'utf-8');
 
@@ -151,8 +154,8 @@ describe('Functional flow (knex-migrator init) test', function () {
             });
     });
 
-    it('init', function () {
-        return knexMigrator.init()
+    it('migrate --init', function () {
+        return knexMigrator.migrate({init: true})
             .then(function () {
                 return connection.raw('SELECT * from users;');
             })
@@ -188,7 +191,7 @@ describe('Functional flow (knex-migrator init) test', function () {
     });
 
     it('call init again', function () {
-        return knexMigrator.init()
+        return knexMigrator.migrate({init: true})
             .then(function () {
                 return connection.raw('SELECT * from users;');
             })
@@ -364,7 +367,6 @@ describe('Functional flow (knex-migrator init) test', function () {
             });
         });
 
-
         it('migrate to 1.4, but error happens in one of the scripts --> expect rollback', function () {
             fs.mkdirSync(migrationsv14);
 
@@ -445,7 +447,6 @@ describe('Functional flow (knex-migrator init) test', function () {
                 .catch(function (err) {
                     should.exist(err);
                     err.message.should.eql('Cannot find module \'lalalalala\'');
-
                     return connection.raw('SELECT * from users;')
                         .then(function (values) {
                             values.length.should.eql(0);
