@@ -18,7 +18,7 @@ utils.getKnexMigrator({path: process.cwd()})
             knexMigrator = new KnexMigrator({knexMigratorFilePath: program.mgpath});
         } catch (err) {
             logging.error(err);
-            process.exit();
+            process.exit(1);
         }
 
         return knexMigrator.init({
@@ -30,4 +30,5 @@ utils.getKnexMigrator({path: process.cwd()})
     })
     .catch(function (err) {
         logging.error(err);
+        process.exit(1);
     });
