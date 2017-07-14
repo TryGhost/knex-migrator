@@ -16,14 +16,15 @@ utils.getKnexMigrator({path: process.cwd()})
             knexMigrator = new KnexMigrator({knexMigratorFilePath: program.mgpath});
         } catch (err) {
             logging.error(err);
-            process.exit();
+            process.exit(1);
         }
 
         return knexMigrator.isDatabaseOK()
             .then(function () {
-                logging.info('Wohoo, Database is healthy');
+                logging.info('Woohoo, Database is healthy');
             });
     })
     .catch(function (err) {
         logging.error(err.message);
+        process.exit(1);
     });
