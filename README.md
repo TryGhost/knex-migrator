@@ -26,7 +26,7 @@ module.exports = {
             database: 'ghost'
         }
     },
-    migrationPath: process.cwd() + '/current/core/server/data/migrations',
+    migrationPath: process.cwd() + '/core/server/data/migrations',
     currentVersion: 'your-current-database-version',
     subfolder: 'upgrades'  [default: versions]
 }
@@ -43,6 +43,11 @@ module.exports = {
     migrationPath: process.cwd() + '/core/server/data/migrations',
     currentVersion: 'your-current-database-version'
 }
+```
+
+Note that if you are using the [Ghost-CLI](https://github.com/TryGhost/Ghost-CLI) the `migrationPath` parameter should point to the `current` directory: 
+```js
+migrationPath: process.cwd() + '/current/core/server/data/migrations'
 ```
 
 ## CLI usage
