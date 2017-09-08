@@ -23,7 +23,7 @@ module.exports = {
             user: 'user',
             password: 'password',
             charset: 'utf8',
-            name: 'ghost'
+            database: 'ghost'
         }
     },
     migrationPath: process.cwd() + '/core/server/data/migrations',
