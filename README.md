@@ -26,7 +26,7 @@ module.exports = {
             database: 'ghost'
         }
     },
-    migrationPath: process.cwd() + '/core/server/data/migrations',
+    migrationPath: process.cwd() + '/current/core/server/data/migrations',
     currentVersion: 'your-current-database-version',
     subfolder: 'upgrades'  [default: versions]
 }
