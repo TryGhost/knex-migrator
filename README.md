@@ -111,12 +111,13 @@ knexMigrator.init({
 The folder name must be `hooks` - this is not configureable right now.
 Please create an index.js file to export your functions.
 
-| hook  |  description |
-|---|---|---|---|---|
-| before  |  is called before anything happens |
-|  beforeEach | is called before each migration script  |
-|  after | is called after everything happened  |
-|  afterEach | is called after each migration script  |
+|hook|description|
+|---|---|
+|before|is called before anything happens|
+|beforeEach| is called before each migration script|
+|after|is called after everything happened|
+|afterEach|is called after each migration script|
+
 
 index.js
 ```
