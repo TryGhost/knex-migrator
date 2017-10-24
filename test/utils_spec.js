@@ -1,3 +1,5 @@
+'use strict';
+
 const utils = require('../lib/utils');
 const should = require('should');
 const fs = require('fs');
