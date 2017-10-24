@@ -1,5 +1,9 @@
-var utils = require('../lib/utils');
-var should = require('should');
+const utils = require('../lib/utils');
+const should = require('should');
+const fs = require('fs');
+const sinon = require('sinon');
+const path = require('path');
+const sandbox = sinon.sandbox.create();
 
 describe('Utils', function () {
     describe('isGreaterThanVersion', function () {
@@ -86,6 +90,36 @@ describe('Utils', function () {
                 greaterVersion: '1',
                 smallerVersion: '2'
             }).should.eql(false);
+        });
+    });
+
+    describe('readFolders', function () {
+        beforeEach(function () {
+            sandbox.restore();
+        });
+
+        it('ensure order', function () {
+            sandbox.stub(fs, 'readdirSync').returns(['1.0', '2.0', '2.3', '2.13']);
+            let folders = utils.readFolders(path.join(__dirname, 'assets', 'migrations', 'versions'));
+            folders.should.eql(['1.0', '2.0', '2.3', '2.13']);
+        });
+
+        it('ensure order', function () {
+            sandbox.stub(fs, 'readdirSync').returns(['1.1.2', '1.1.0', '0.1']);
+            let folders = utils.readFolders(path.join(__dirname, 'assets', 'migrations', 'versions'));
+            folders.should.eql(['0.1', '1.1.0', '1.1.2']);
+        });
+
+        it('ensure order', function () {
+            sandbox.stub(fs, 'readdirSync').returns(['1.6-something', '1.5-something', '1.12-something']);
+            let folders = utils.readFolders(path.join(__dirname, 'assets', 'migrations', 'versions'));
+            folders.should.eql(['1.5-something', '1.6-something', '1.12-something']);
+        });
+
+        it('ensure order', function () {
+            sandbox.stub(fs, 'readdirSync').returns(['version', 'init']);
+            let folders = utils.readFolders(path.join(__dirname, 'assets', 'migrations', 'versions'));
+            folders.should.eql(['init', 'version']);
         });
     });
 });
