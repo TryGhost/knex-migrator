@@ -4,6 +4,12 @@ DB migration tool for knex
 ## install
 ```npm install -g knex-migrator --save```
 
+## testing
+
+`npm test`
+
+By default, knex-migrator tests with Sqlite3 (local & travis).
+If you would like to test MySQL, simply add a config file and use the `NODE_ENV` parameter.
 
 ## important facts
 If you are using `mysql`, `knex-migrator` is able to create the database for you.

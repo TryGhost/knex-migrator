@@ -1,12 +1,17 @@
-var KnexMigrator = require('../lib'),
-    errors = require('../lib/errors'),
-    _ = require('lodash'),
+'use strict';
+
+const _ = require('lodash'),
     path = require('path'),
     knex = require('knex'),
     sinon = require('sinon'),
-    sandbox = sinon.sandbox.create(),
     should = require('should'),
     fs = require('fs'),
+    KnexMigrator = require('../lib'),
+    config = require('ghost-ignition').config(),
+    errors = require('../lib/errors'),
+    testUtils = require('./utils');
+
+let sandbox = sinon.sandbox.create(),
     _private = {};
 
 _private.init = function init(knexMigrator, initMethod) {
@@ -20,7 +25,7 @@ _private.init = function init(knexMigrator, initMethod) {
 _.each(['default', 'migrateInit'], function (initMethod) {
     describe('Functional flow', function () {
         var knexMigrator,
-            dbFile = __dirname + '/assets/test.db',
+            migrationPath = path.join(__dirname, 'assets', 'migrations'),
             migrationsv11 = __dirname + '/assets/migrations/versions/1.1',
             migrationsv12 = __dirname + '/assets/migrations/versions/1.2',
             migrationsv13 = __dirname + '/assets/migrations/versions/1.3',
@@ -36,10 +41,6 @@ _.each(['default', 'migrateInit'], function (initMethod) {
             connection;
 
         before(function () {
-            if (fs.existsSync(dbFile)) {
-                fs.unlinkSync(dbFile);
-            }
-
             if (fs.existsSync(migrationsv11File)) {
                 fs.unlinkSync(migrationsv11File);
             }
@@ -86,40 +87,27 @@ _.each(['default', 'migrateInit'], function (initMethod) {
         });
 
         before(function () {
-            connection = knex({
-                client: 'sqlite3',
-                connection: {
-                    filename: dbFile
-                },
-                useNullAsDefault: true
+            testUtils.writeMigratorConfig({
+                migratorConfigPath: migratorConfigPath,
+                migrationPath: migrationPath,
+                currentVersion: '1.0'
             });
-
-            var migratorConfig = '' +
-                'var path = require("path");' +
-                'module.exports = {' +
-                '  database: {' +
-                '    client: "sqlite3",' +
-                '    connection: {' +
-                '      filename: path.join(process.cwd(), "test/assets/test.db")' +
-                '    }' +
-                '  },' +
-                '  migrationPath: path.join(process.cwd(), "test/assets/migrations"),' +
-                '  currentVersion: "1.0"' +
-                '};';
-
-            fs.writeFileSync(migratorConfigPath, migratorConfig, 'utf-8');
 
             knexMigrator = new KnexMigrator({
                 knexMigratorFilePath: __dirname + '/assets'
             });
         });
 
+        before(function () {
+           return knexMigrator.reset();
+        });
+
+        before(function () {
+            connection = testUtils.connect();
+        });
+
         after(function (done) {
             connection && connection.destroy(done);
-
-            if (fs.existsSync(dbFile)) {
-                fs.unlinkSync(dbFile);
-            }
 
             if (fs.existsSync(migrationsv11File)) {
                 fs.unlinkSync(migrationsv11File);
@@ -193,20 +181,25 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                 .catch(function (err) {
                     should.exist(err);
                     (err instanceof errors.DatabaseIsNotOkError).should.eql(true);
-                    err.code.should.eql('MIGRATION_TABLE_IS_MISSING');
+
+                    if (config.get('database:client') === 'sqlite3') {
+                        err.code.should.eql('MIGRATION_TABLE_IS_MISSING');
+                    } else {
+                        err.code.should.eql('DB_NOT_INITIALISED');
+                    }
                 });
         });
 
         it('init', function () {
             return _private.init(knexMigrator, initMethod)
                 .then(function () {
-                    return connection.raw('SELECT * from users;');
+                    return connection('users');
                 })
                 .then(function (values) {
                     values.length.should.eql(1);
                     values[0].name.should.eql('Hausweib');
 
-                    return connection.raw('SELECT * from migrations;')
+                    return connection('migrations');
                 })
                 .then(function (values) {
                     values.length.should.eql(3);
@@ -238,13 +231,13 @@ _.each(['default', 'migrateInit'], function (initMethod) {
         it('call init again', function () {
             return _private.init(knexMigrator, initMethod)
                 .then(function () {
-                    return connection.raw('SELECT * from users;');
+                    return connection('users');
                 })
                 .then(function (values) {
                     values.length.should.eql(1);
                     values[0].name.should.eql('Hausweib');
 
-                    return connection.raw('SELECT * from migrations;')
+                    return connection('migrations');
                 })
                 .then(function (values) {
                     values.length.should.eql(3);
@@ -296,13 +289,13 @@ _.each(['default', 'migrateInit'], function (initMethod) {
         it('migrate to 1.1 and 1.2', function () {
             return knexMigrator.migrate()
                 .then(function () {
-                    return connection.raw('SELECT * from users;');
+                    return connection('users');
                 })
                 .then(function (values) {
                     values.length.should.eql(1);
                     values[0].name.should.eql('Kind');
 
-                    return connection.raw('SELECT * from migrations;')
+                    return connection('migrations')
                 })
                 .then(function (values) {
                     values.length.should.eql(5);
@@ -336,13 +329,13 @@ _.each(['default', 'migrateInit'], function (initMethod) {
         it('migrate 1.2 (--v)', function () {
             return knexMigrator.migrate({version: '1.2'})
                 .then(function () {
-                    return connection.raw('SELECT * from users;');
+                    return connection('users');
                 })
                 .then(function (values) {
                     values.length.should.eql(1);
                     values[0].name.should.eql('Kind');
 
-                    return connection.raw('SELECT * from migrations;')
+                    return connection('migrations')
                 })
                 .then(function (values) {
                     values.length.should.eql(5);
@@ -385,11 +378,11 @@ _.each(['default', 'migrateInit'], function (initMethod) {
 
             return knexMigrator.migrate()
                 .then(function () {
-                    return connection.raw('SELECT * from users;');
+                    return connection('users');
                 })
                 .then(function (values) {
                     values.length.should.eql(0);
-                    return connection.raw('SELECT * from migrations;')
+                    return connection('migrations')
                 })
                 .then(function (values) {
                     values.length.should.eql(6);
@@ -458,10 +451,10 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                         should.exist(err);
                         err.message.should.eql('unexpected error');
 
-                        return connection.raw('SELECT * from users;')
+                        return connection('users')
                             .then(function (values) {
                                 values.length.should.eql(0);
-                                return connection.raw('SELECT * from migrations;')
+                                return connection('migrations')
                             })
                             .then(function (values) {
                                 values.length.should.eql(6);
@@ -517,10 +510,10 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                         should.exist(err);
                         err.message.should.eql('Cannot find module \'lalalalala\'');
 
-                        return connection.raw('SELECT * from users;')
+                        return connection('users')
                             .then(function (values) {
                                 values.length.should.eql(0);
-                                return connection.raw('SELECT * from migrations;')
+                                return connection('migrations')
                             })
                             .then(function (values) {
                                 values.length.should.eql(6);
@@ -574,10 +567,10 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                         should.exist(err);
                         err.message.should.eql('y is not defined');
 
-                        return connection.raw('SELECT * from users;')
+                        return connection('users')
                             .then(function (values) {
                                 values.length.should.eql(0);
-                                return connection.raw('SELECT * from migrations;')
+                                return connection('migrations')
                             })
                             .then(function (values) {
                                 values.length.should.eql(6);
@@ -627,11 +620,11 @@ _.each(['default', 'migrateInit'], function (initMethod) {
 
                 return knexMigrator.migrate()
                     .then(function () {
-                        return connection.raw('SELECT * from users;');
+                        return connection('users');
                     })
                     .then(function (values) {
                         values.length.should.eql(0);
-                        return connection.raw('SELECT * from migrations;')
+                        return connection('migrations')
                     })
                     .then(function (values) {
                         values.length.should.eql(8);
@@ -680,11 +673,11 @@ _.each(['default', 'migrateInit'], function (initMethod) {
 
                 return knexMigrator.migrate()
                     .then(function () {
-                        return connection.raw('SELECT * from users;');
+                        return connection('users');
                     })
                     .then(function (values) {
                         values.length.should.eql(0);
-                        return connection.raw('SELECT * from migrations;')
+                        return connection('migrations')
                     })
                     .then(function (values) {
                         values.length.should.eql(8);
@@ -718,11 +711,11 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                 // current is 1.4
                 return knexMigrator.migrate({version: '1.5', force: true})
                     .then(function () {
-                        return connection.raw('SELECT * from users;');
+                        return connection('users');
                     })
                     .then(function (values) {
                         values.length.should.eql(0);
-                        return connection.raw('SELECT * from migrations;')
+                        return connection('migrations')
                     })
                     .then(function (values) {
                         values.length.should.eql(9);
