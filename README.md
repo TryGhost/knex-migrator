@@ -123,6 +123,7 @@ Please create an index.js file to export your functions.
 |beforeEach| is called before each migration script|
 |after|is called after everything happened|
 |afterEach|is called after each migration script|
+|shutdown|is called before the migrator shuts down [no database access]|
 
 
 index.js
