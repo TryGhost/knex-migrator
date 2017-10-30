@@ -39,3 +39,9 @@ package-lock.json
 
 # IDE
 .idea/*
+
+# database
+test.db
+
+# config
+config.testing-mysql.json
