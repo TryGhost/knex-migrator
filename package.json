@@ -23,7 +23,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint bin lib",
-    "test": "npm run lint && LEVEL=fatal _mocha --report lcovonly -- test/*_spec.js"
+    "test": "npm run lint && LEVEL=fatal _mocha --require test/utils.js --report lcovonly -- test/*_spec.js"
   },
   "bin": {
     "knex-migrator": "./bin/knex-migrator",
