@@ -10,6 +10,7 @@ utils.getKnexMigrator({path: process.cwd()})
     .then(function (KnexMigrator) {
         program
             .option('--mgpath <path>')
+            .option('--force')
             .parse(process.argv);
 
         try {
@@ -19,9 +20,9 @@ utils.getKnexMigrator({path: process.cwd()})
             process.exit(1);
         }
 
-        return knexMigrator.isDatabaseOK()
+        return knexMigrator.rollback()
             .then(function () {
-                logging.info('Woohoo, Database is healthy');
+                logging.info('Rollback was successful.');
             });
     })
     .catch(function (err) {

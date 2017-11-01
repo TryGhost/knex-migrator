@@ -24,6 +24,8 @@ _private.init = function init(knexMigrator, initMethod) {
 
 _.each(['default', 'migrateInit'], function (initMethod) {
     describe('Functional flow', function () {
+        this.timeout(1000 * 10);
+
         var knexMigrator,
             migrationPath = path.join(__dirname, 'assets', 'migrations'),
             migrationsv11 = __dirname + '/assets/migrations/versions/1.1',
@@ -99,7 +101,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
         });
 
         before(function () {
-           return knexMigrator.reset();
+            return knexMigrator.reset();
         });
 
         before(function () {
@@ -165,8 +167,8 @@ _.each(['default', 'migrateInit'], function (initMethod) {
         });
 
         beforeEach(function () {
-            sandbox.spy(knexMigrator, 'beforeEachTask');
-            sandbox.spy(knexMigrator, 'afterEachTask');
+            sandbox.spy(knexMigrator, 'beforeEach');
+            sandbox.spy(knexMigrator, 'afterEach');
         });
 
         afterEach(function () {
@@ -180,6 +182,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                 })
                 .catch(function (err) {
                     should.exist(err);
+
                     (err instanceof errors.DatabaseIsNotOkError).should.eql(true);
 
                     if (config.get('database:client') === 'sqlite3') {
@@ -216,11 +219,10 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     values[2].name.should.eql('1-another.js');
                     values[2].version.should.eql('1.0');
 
-                    knexMigrator.beforeEachTask.called.should.eql(true);
-                    knexMigrator.beforeEachTask.callCount.should.eql(2);
+                    knexMigrator.beforeEach.called.should.eql(true);
+                    knexMigrator.beforeEach.callCount.should.eql(2);
 
-                    knexMigrator.afterEachTask.called.should.eql(true);
-                    knexMigrator.afterEachTask.callCount.should.eql(2);
+                    knexMigrator.afterEach.called.should.eql(true);
                 })
         });
 
@@ -243,9 +245,9 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     values.length.should.eql(3);
 
                     // will throw 2 times an error
-                    knexMigrator.beforeEachTask.called.should.eql(true);
-                    knexMigrator.beforeEachTask.callCount.should.eql(2);
-                    knexMigrator.afterEachTask.called.should.eql(false);
+                    knexMigrator.beforeEach.called.should.eql(true);
+                    knexMigrator.beforeEach.callCount.should.eql(2);
+                    knexMigrator.afterEach.called.should.eql(false);
                 });
         });
 
@@ -257,15 +259,15 @@ _.each(['default', 'migrateInit'], function (initMethod) {
             fs.mkdirSync(migrationsv11);
             fs.mkdirSync(migrationsv12);
 
-            var jsFile = '' +
-                'module.exports = function something(options) {' +
-                'return options.transacting.raw(\'UPDATE users set name="Hausmann";\');' +
-                '};';
+            let jsFile = testUtils.generateMigrationScript({
+                up: 'UPDATE users set name="Hausmann";',
+                down: 'UPDATE users set name="LULULU";'
+            });
 
-            var jsFile1 = '' +
-                'module.exports = function something(options) {' +
-                'return options.transacting.raw(\'UPDATE users set name="Kind";\');' +
-                '};';
+            let jsFile1 = testUtils.generateMigrationScript({
+                up: 'UPDATE users set name="Kind";',
+                down: 'UPDATE users set name="Hausmann";'
+            });
 
             fs.writeFileSync(migrationsv11File, jsFile);
             fs.writeFileSync(migrationsv12File, jsFile1);
@@ -315,10 +317,10 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     values[4].version.should.eql('1.2');
 
                     // will throw 2 times an error
-                    knexMigrator.beforeEachTask.called.should.eql(true);
-                    knexMigrator.beforeEachTask.callCount.should.eql(2);
-                    knexMigrator.afterEachTask.called.should.eql(true);
-                    knexMigrator.afterEachTask.callCount.should.eql(2);
+                    knexMigrator.beforeEach.called.should.eql(true);
+                    knexMigrator.beforeEach.callCount.should.eql(2);
+                    knexMigrator.afterEach.called.should.eql(true);
+                    knexMigrator.afterEach.callCount.should.eql(2);
                 });
         });
 
@@ -355,10 +357,10 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     values[4].version.should.eql('1.2');
 
                     // 1.2 was already executed
-                    knexMigrator.beforeEachTask.called.should.eql(false);
-                    knexMigrator.beforeEachTask.callCount.should.eql(0);
-                    knexMigrator.afterEachTask.called.should.eql(false);
-                    knexMigrator.afterEachTask.callCount.should.eql(0);
+                    knexMigrator.beforeEach.called.should.eql(false);
+                    knexMigrator.beforeEach.callCount.should.eql(0);
+                    knexMigrator.afterEach.called.should.eql(false);
+                    knexMigrator.afterEach.callCount.should.eql(0);
                 });
         });
 
@@ -369,10 +371,10 @@ _.each(['default', 'migrateInit'], function (initMethod) {
         it('migrate to 1.3', function () {
             fs.mkdirSync(migrationsv13);
 
-            var jsFile = '' +
-                'module.exports = function deleteUser(options) {' +
-                'return options.transacting.raw(\'DELETE FROM users where name="Kind";\');' +
-                '};';
+            let jsFile = testUtils.generateMigrationScript({
+                up: 'DELETE FROM users where name="Kind";',
+                down: 'INSERT INTO users (name) VALUES ("Kind");'
+            });
 
             fs.writeFileSync(migrationsv13File, jsFile);
 
@@ -405,10 +407,10 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     values[5].version.should.eql('1.3');
 
                     // will throw 2 times an error
-                    knexMigrator.beforeEachTask.called.should.eql(true);
-                    knexMigrator.beforeEachTask.callCount.should.eql(1);
-                    knexMigrator.afterEachTask.called.should.eql(true);
-                    knexMigrator.afterEachTask.callCount.should.eql(1);
+                    knexMigrator.beforeEach.called.should.eql(true);
+                    knexMigrator.beforeEach.callCount.should.eql(1);
+                    knexMigrator.afterEach.called.should.eql(true);
+                    knexMigrator.afterEach.callCount.should.eql(1);
                 });
         });
 
@@ -429,14 +431,13 @@ _.each(['default', 'migrateInit'], function (initMethod) {
             it('migrate to 1.4, but error happens in one of the scripts --> expect rollback', function () {
                 fs.mkdirSync(migrationsv14);
 
-                var jsFile1 = '' +
-                    'module.exports = function success(options) {' +
-                    'return Promise.resolve();' +
-                    '};';
+                let jsFile1 = testUtils.generateMigrationScript({
+                    up: 'SELECT * FROM users;'
+                });
 
-                var jsFile2 = '' +
+                let jsFile2 = '' +
                     'var Promise = require("bluebird");' +
-                    'module.exports = function scriptWillThrowError(options) {' +
+                    'module.exports.up = function scriptWillThrowError(options) {' +
                     'return Promise.reject(new Error("unexpected error"));' +
                     '};';
 
@@ -476,10 +477,12 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                                 values[5].name.should.eql('1-delete-user.js');
                                 values[5].version.should.eql('1.3');
 
-                                knexMigrator.beforeEachTask.called.should.eql(true);
-                                knexMigrator.beforeEachTask.callCount.should.eql(2);
-                                knexMigrator.afterEachTask.called.should.eql(true);
-                                knexMigrator.afterEachTask.callCount.should.eql(1);
+                                // 2-error is missing!
+
+                                knexMigrator.beforeEach.called.should.eql(true);
+                                knexMigrator.beforeEach.callCount.should.eql(2);
+                                knexMigrator.afterEach.called.should.eql(true);
+                                knexMigrator.afterEach.callCount.should.eql(1);
                             });
                     });
             });
@@ -491,18 +494,23 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                 fs.rmdirSync(migrationsv14);
                 fs.mkdirSync(migrationsv14);
 
-                var jsFile1 = '' +
-                    'module.exports = function success(options) {' +
-                    'return Promise.resolve();' +
-                    '};';
 
-                var jsFile2 = '' +
+                let jsFile1 = testUtils.generateMigrationScript({
+                    up: 'SELECT * FROM users;'
+                });
+
+                let jsFile2 = '' +
                     'var Promise = require("lalalalala");';
 
                 fs.writeFileSync(migrationsv14File1, jsFile1);
                 fs.writeFileSync(migrationsv14File2, jsFile2);
 
-                return knexMigrator.migrate()
+                return connection('migrations')
+                    .then(function (values) {
+                        values.length.should.eql(6);
+
+                        return knexMigrator.migrate();
+                    })
                     .then(function () {
                         throw new Error('This test case should fail! Please check why!');
                     })
@@ -535,8 +543,10 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                                 values[5].name.should.eql('1-delete-user.js');
                                 values[5].version.should.eql('1.3');
 
-                                knexMigrator.beforeEachTask.called.should.eql(false);
-                                knexMigrator.afterEachTask.called.should.eql(false);
+                                knexMigrator.beforeEach.called.should.eql(false);
+                                knexMigrator.beforeEach.callCount.should.eql(0);
+                                knexMigrator.afterEach.called.should.eql(false);
+                                knexMigrator.afterEach.callCount.should.eql(0);
                             });
                     });
             });
@@ -548,12 +558,12 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                 fs.rmdirSync(migrationsv14);
                 fs.mkdirSync(migrationsv14);
 
-                var jsFile1 = '' +
-                    'module.exports = function success(options) {' +
+                let jsFile1 = '' +
+                    'module.exports.up = function success(options) {' +
                     'return Promise.resolve();' +
                     '};';
 
-                var jsFile2 = '' +
+                let jsFile2 = '' +
                     'var x = y;';
 
                 fs.writeFileSync(migrationsv14File1, jsFile1);
@@ -592,8 +602,8 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                                 values[5].name.should.eql('1-delete-user.js');
                                 values[5].version.should.eql('1.3');
 
-                                knexMigrator.beforeEachTask.called.should.eql(false);
-                                knexMigrator.afterEachTask.called.should.eql(false);
+                                knexMigrator.beforeEach.called.should.eql(false);
+                                knexMigrator.afterEach.called.should.eql(false);
                             });
                     });
             });
@@ -605,13 +615,13 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                 fs.rmdirSync(migrationsv14);
                 fs.mkdirSync(migrationsv14);
 
-                var jsFile1 = '' +
-                    'module.exports = function success(options) {' +
+                let jsFile1 = '' +
+                    'module.exports.up = function success(options) {' +
                     'return Promise.resolve();' +
                     '};';
 
-                var jsFile2 = '' +
-                    'module.exports = function success(options) {' +
+                let jsFile2 = '' +
+                    'module.exports.up = function success(options) {' +
                     'return Promise.resolve();' +
                     '};';
 
@@ -652,10 +662,10 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                         values[7].name.should.eql('2-error.js');
                         values[7].version.should.eql('1.4');
 
-                        knexMigrator.beforeEachTask.called.should.eql(true);
-                        knexMigrator.beforeEachTask.callCount.should.eql(2);
-                        knexMigrator.afterEachTask.called.should.eql(true);
-                        knexMigrator.afterEachTask.callCount.should.eql(2);
+                        knexMigrator.beforeEach.called.should.eql(true);
+                        knexMigrator.beforeEach.callCount.should.eql(2);
+                        knexMigrator.afterEach.called.should.eql(true);
+                        knexMigrator.afterEach.callCount.should.eql(2);
                     });
             });
         });
@@ -664,8 +674,8 @@ _.each(['default', 'migrateInit'], function (initMethod) {
             it('migrate to 1.5, but current version is 1.4 (no force)', function () {
                 fs.mkdirSync(migrationsv15);
 
-                var jsFile1 = '' +
-                    'module.exports = function success(options) {' +
+                let jsFile1 = '' +
+                    'module.exports.up = function success(options) {' +
                     'return Promise.resolve();' +
                     '};';
 
@@ -749,4 +759,5 @@ _.each(['default', 'migrateInit'], function (initMethod) {
             });
         });
     });
-});
+})
+;

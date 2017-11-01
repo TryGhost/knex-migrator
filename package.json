@@ -30,7 +30,8 @@
         "knex-migrator-init": "./bin/knex-migrator-init",
         "knex-migrator-health": "./bin/knex-migrator-health",
         "knex-migrator-migrate": "./bin/knex-migrator-migrate",
-        "knex-migrator-reset": "./bin/knex-migrator-reset"
+        "knex-migrator-reset": "./bin/knex-migrator-reset",
+        "knex-migrator-rollback": "./bin/knex-migrator-rollback"
     },
     "dependencies": {
         "bluebird": "^3.4.6",
