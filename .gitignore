@@ -42,6 +42,3 @@ package-lock.json
 
 # database
 test.db
-
-# config
-config.testing-mysql.json
