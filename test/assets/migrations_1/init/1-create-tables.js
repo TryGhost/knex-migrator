@@ -1,3 +1,3 @@
-module.exports = function createTables(options) {
-    return options.transacting.raw('CREATE TABLE users (name VARCHAR(100));');
+module.exports.up = function up(options) {
+    return options.connection.raw('CREATE TABLE users (name VARCHAR(100));');
 };
