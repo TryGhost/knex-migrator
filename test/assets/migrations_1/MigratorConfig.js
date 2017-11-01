@@ -1,1 +1,0 @@
-module.exports = {"database":{"client":"mysql","connection":{"host":"127.0.0.1","user":"root","password":"","database":"km_testing"}},"migrationPath":"/Users/kirrg001/dev/ghost/knex-migrator/test/assets/migrations_1","currentVersion":"1.0"};

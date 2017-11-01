@@ -42,3 +42,6 @@ package-lock.json
 
 # database
 test.db
+
+# config
+config.*.json

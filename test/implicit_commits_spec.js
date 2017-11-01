@@ -33,6 +33,12 @@ describe('Implicit Commits', function () {
             return knexMigrator.reset();
         });
 
+        after(function () {
+           if (fs.existsSync(migratorConfigPath)) {
+               fs.unlinkSync(migratorConfigPath);
+           }
+        });
+
         it.skip('expect full rollback', function () {
             return knexMigrator.init()
                 .catch(function () {
