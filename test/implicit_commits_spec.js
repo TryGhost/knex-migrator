@@ -7,7 +7,7 @@ const _ = require('lodash'),
     should = require('should'),
     fs = require('fs'),
     KnexMigrator = require('../lib'),
-    config = require('ghost-ignition').config(),
+    config = require('../config'),
     errors = require('../lib/errors'),
     testUtils = require('./utils'),
     migratorConfigPath = path.join(__dirname, 'assets', 'migrations_1', 'MigratorConfig.js'),
@@ -31,6 +31,12 @@ describe('Implicit Commits', function () {
             connection = testUtils.connect();
 
             return knexMigrator.reset();
+        });
+
+        after(function () {
+           if (fs.existsSync(migratorConfigPath)) {
+               fs.unlinkSync(migratorConfigPath);
+           }
         });
 
         it.skip('expect full rollback', function () {

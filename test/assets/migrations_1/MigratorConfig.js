@@ -1,1 +1,0 @@
-module.exports = {"database":{"client":"sqlite3","connection":{"filename":"test.db"},"useNullAsDefault":true},"migrationPath":"/Users/kirrg001/dev/ghost/knex-migrator/test/assets/migrations_1","currentVersion":"1.0"};

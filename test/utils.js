@@ -7,7 +7,7 @@ if (!process.env.NODE_ENV) {
 
 const knex = require('knex');
 const fs = require('fs');
-const config = require('ghost-ignition').config();
+const config = require('../config');
 
 exports.connect = function () {
     return knex(config.get('database'));
