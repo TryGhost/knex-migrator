@@ -9,16 +9,12 @@ All notable changes to this project will be documented in this file. See [standa
 
 * Fixed rollback for init scripts
 
-
 <a name="3.0.3"></a>
 # [3.0.3](https://github.com/TryGhost/Ghost-CLI/compare/3.0.2...v3.0.3) (2017-11-04)
 
 ### Fixes
 
 * Fixed `--force` flag for `knex-migrator rollback`
-
-<a name="3.0.1"></a>
-# [3.0.1](https://github.com/TryGhost/Ghost-CLI/compare/3.0.0...v3.0.1) (2017-11-03)
 
 <a name="3.0.2"></a>
 # [3.0.2](https://github.com/TryGhost/Ghost-CLI/compare/3.0.1...v3.0.2) (2017-11-03)
