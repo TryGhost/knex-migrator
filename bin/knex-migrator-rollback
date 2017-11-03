@@ -20,7 +20,7 @@ utils.getKnexMigrator({path: process.cwd()})
             process.exit(1);
         }
 
-        return knexMigrator.rollback()
+        return knexMigrator.rollback({force: program.force})
             .then(function () {
                 logging.info('Rollback was successful.');
             });
