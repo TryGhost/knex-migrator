@@ -99,6 +99,7 @@ knex-migrator migrate --init [avoids running `init`, a combined command]
 knex-migrator migrate --init --mgpath <path-to-MigratorConfig.js>
 
 knex-migrator reset [resets your database]
+knex-migrator reset --force [resets your database and ignores the migration lock]
 
 knex-migrator rollback
 ```
