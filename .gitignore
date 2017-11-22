@@ -45,3 +45,6 @@ test.db
 
 # config
 config.*.json
+
+# OSX
+.DS_Store
