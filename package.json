@@ -5,7 +5,12 @@
   "keywords": [
     "ghost",
     "migration",
-    "knex"
+    "knex",
+    "knex-migrations",
+    "knex migration",
+    "knex migrations",
+    "bookshelf migration",
+    "bookshelf"
   ],
   "repository": {
     "type": "git",
