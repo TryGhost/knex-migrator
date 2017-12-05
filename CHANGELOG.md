@@ -2,6 +2,44 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.1.0"></a>
+# [3.1.0](https://github.com/TryGhost/Ghost-CLI/compare/3.0.10...v3.1.0) (2017-12-05)
+
+### Improvements
+
+* Added more database upgrades
+* Added unique constaint to the migrations table
+* Define field lengths for migrations table
+
+<a name="3.0.10"></a>
+# [3.0.10](https://github.com/TryGhost/Ghost-CLI/compare/3.0.9...v3.0.10) (2017-12-04)
+
+### Fixes
+
+* Fixed `acquired_at` and `released_at` with correct date format
+
+<a name="3.0.9"></a>
+# [3.0.9](https://github.com/TryGhost/Ghost-CLI/compare/3.0.8...v3.0.9) (2017-12-04)
+
+### Fixes
+
+* Do not unlock if lock was never acquired
+
+<a name="3.0.8"></a>
+# [3.0.8](https://github.com/TryGhost/Ghost-CLI/compare/3.0.7...v3.0.8) (2017-12-04)
+
+### Fixes
+
+* Added more npm keywords
+* Rollback should not happen if lock was never acquired
+
+<a name="3.0.7"></a>
+# [3.0.7](https://github.com/TryGhost/Ghost-CLI/compare/3.0.6...v3.0.7) (2017-11-15)
+
+### Fixes
+
+* Added missing `--force` flag for `knex-migrator reset`
+
 <a name="3.0.6"></a>
 # [3.0.6](https://github.com/TryGhost/Ghost-CLI/compare/3.0.5...v3.0.6) (2017-11-04)
 
