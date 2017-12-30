@@ -109,6 +109,8 @@ knex-migrator rollback
 var KnexMigrator = require('knex-migrator');
 var knexMigrator = new KnexMigrator({
     knexMigratorFilePath: 'path-to-migrator-config-file' [optional]
+    // or
+    knexMigratorConfig: { ... } [optional]
 });
 
 // check your database health
