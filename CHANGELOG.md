@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.1.3"></a>
+# [3.1.3](https://github.com/TryGhost/Ghost-CLI/compare/3.1.2...v3.1.3) (2018-01-02)
+
+### Improvements
+
+* Optimised error message for lock
+* Added support for specifying the config via options
+
+<a name="3.1.2"></a>
+# [3.1.2](https://github.com/TryGhost/Ghost-CLI/compare/3.1.1...v3.1.2) (2017-12-05)
+
+### Improvements
+
+* Make database upgrades more relaxed
+
+<a name="3.1.1"></a>
+# [3.1.1](https://github.com/TryGhost/Ghost-CLI/compare/3.1.0...v3.1.1) (2017-12-05)
+
+### Improvements
+
+* Added protection against database migrations
+
 <a name="3.1.0"></a>
 # [3.1.0](https://github.com/TryGhost/Ghost-CLI/compare/3.0.10...v3.1.0) (2017-12-05)
 
