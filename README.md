@@ -235,4 +235,4 @@ Sqlite does **not** support read locks by default. That's why locks/concurrency 
 
 # Copyright & License
 
-Copyright (c) 2017 Ghost Foundation - Released under the [MIT license](LICENSE).
+Copyright (c) 2017-2018 Ghost Foundation - Released under the [MIT license](LICENSE).
