@@ -43,7 +43,7 @@
     "commander": "2.9.0",
     "debug": "^2.2.0",
     "ghost-ignition": "^2.8.16",
-    "knex": "^0.12.8",
+    "knex": "^0.14.2",
     "lodash": "^4.16.4",
     "moment": "^2.19.3",
     "nconf": "^0.8.5",
