@@ -23,7 +23,7 @@ _private.init = function init(knexMigrator, initMethod) {
 };
 
 _.each(['default', 'migrateInit'], function (initMethod) {
-    describe('Functional flow', function () {
+    describe('Functional flow: ' + initMethod, function () {
         this.timeout(1000 * 10);
 
         var knexMigrator,
@@ -759,5 +759,4 @@ _.each(['default', 'migrateInit'], function (initMethod) {
             });
         });
     });
-})
-;
+});
