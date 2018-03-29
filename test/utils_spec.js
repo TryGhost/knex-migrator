@@ -75,6 +75,20 @@ describe('Utils', function () {
                 greaterVersion: '1.0.0',
                 smallerVersion: '2.0.0'
             }).should.eql(false);
+
+            utils
+            .isGreaterThanVersion({
+                greaterVersion: "2.0.0",
+                smallerVersion: "1.0.10"
+            })
+            .should.eql(true);
+
+            utils
+            .isGreaterThanVersion({
+                greaterVersion: "1.10.0",
+                smallerVersion: "1.2.0"
+            })
+            .should.eql(true);
         });
 
         it('version has this notation: 1', function () {
