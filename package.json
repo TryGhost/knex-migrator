@@ -41,6 +41,7 @@
   "dependencies": {
     "bluebird": "^3.4.6",
     "commander": "2.9.0",
+    "compare-ver": "^2.0.2",
     "debug": "^2.2.0",
     "ghost-ignition": "^2.8.16",
     "knex": "^0.14.2",
