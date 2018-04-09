@@ -28,7 +28,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint bin lib",
-    "test": "npm run lint && LEVEL=fatal _mocha --require test/utils.js --report lcovonly -- test/*_spec.js",
+    "test": "yarn lint && LEVEL=fatal _mocha --require test/utils.js --report lcovonly -- test/*_spec.js",
     "coverage": "nyc --reporter=lcov _mocha --require test/utils.js -- test/*_spec.js"
   },
   "bin": {
