@@ -670,6 +670,50 @@ _.each(['default', 'migrateInit'], function (initMethod) {
             });
         });
 
+        describe('remove a migration script', function () {
+            it('remove one entry from the database', function () {
+                let removedEntry;
+
+                return connection('migrations')
+                    .then(function (values) {
+                        values.length.should.eql(8);
+
+                        removedEntry = values[7];
+
+                        return connection('migrations')
+                            .where('id', values[7].id)
+                            .delete();
+                    })
+                    .then(function () {
+                        return connection('migrations');
+                    })
+                    .then(function (values) {
+                        values.length.should.eql(7);
+                    })
+                    .then(function () {
+                        return knexMigrator.isDatabaseOK();
+                    })
+                    .then(function () {
+                        throw new Error('should fail');
+                    })
+                    .catch(function (err) {
+                        (err instanceof errors.DatabaseIsNotOkError).should.eql(true);
+                    })
+                    .then(function () {
+                        return knexMigrator.migrate();
+                    })
+                    .then(function () {
+                        return connection('migrations');
+                    })
+                    .then(function (values) {
+                        values.length.should.eql(8);
+                        values[7].name.should.eql(removedEntry.name);
+                        values[7].version.should.eql(removedEntry.version);
+                        values[7].currentVersion.should.eql(removedEntry.currentVersion);
+                    });
+            });
+        });
+
         describe('migrate to 1.5', function () {
             it('migrate to 1.5, but current version is 1.4 (no force)', function () {
                 fs.mkdirSync(migrationsv15);
