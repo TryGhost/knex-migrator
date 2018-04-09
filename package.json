@@ -28,7 +28,8 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint bin lib",
-    "test": "npm run lint && LEVEL=fatal _mocha --require test/utils.js --report lcovonly -- test/*_spec.js"
+    "test": "npm run lint && LEVEL=fatal _mocha --require test/utils.js --report lcovonly -- test/*_spec.js",
+    "coverage": "nyc --reporter=lcov _mocha --require test/utils.js -- test/*_spec.js"
   },
   "bin": {
     "knex-migrator": "./bin/knex-migrator",
@@ -60,6 +61,7 @@
     "grunt": "1.0.1",
     "grunt-release": "0.14.0",
     "mocha": "3.1.2",
+    "nyc": "11.6.0",
     "should": "11.1.1",
     "sinon": "1.17.6"
   },
