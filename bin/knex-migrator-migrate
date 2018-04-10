@@ -1,37 +1,21 @@
 #!/usr/bin/env node
 'use strict';
 
-const program = require('commander');
-const utils = require('../lib/utils');
+const command = require('../lib/command');
 const logging = require('../lib/logging');
 
-utils.getKnexMigrator({path: process.cwd()}).then(function (KnexMigrator) {
-    let knexMigrator;
-
-    program
+command(
+    program => program
         .option('--v <item>')
         .option('--only <item>')
-        .option('--mgpath <path>')
         .option('--force')
-        .option('--init')
-        .parse(process.argv);
-
-    try {
-        knexMigrator = new KnexMigrator({knexMigratorFilePath: program.mgpath});
-    } catch (err) {
-        logging.error(err);
-        process.exit(1);
-    }
-
-    return knexMigrator.migrate({
-        version: program.v,
-        only: program.only,
-        force: program.force,
-        init: program.init
-    }).then(function () {
+        .option('--init'),
+    (knexMigrator, args) => knexMigrator.migrate({
+        version: args.v,
+        only: args.only,
+        force: args.force,
+        init: args.init
+    }).then(() => {
         logging.info('Finished database migration!');
-    });
-}).catch(function (err) {
-    logging.error(err);
-    process.exit(1);
-});
+    })
+);

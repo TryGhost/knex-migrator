@@ -1,29 +1,14 @@
 #!/usr/bin/env node
 'use strict';
 
-const program = require('commander');
-const utils = require('../lib/utils');
+const command = require('../lib/command');
 const logging = require('../lib/logging');
 
-utils.getKnexMigrator({path: process.cwd()}).then(function (KnexMigrator) {
-    let knexMigrator;
-
-    program
-        .option('--mgpath <path>')
-        .option('--force')
-        .parse(process.argv);
-
-    try {
-        knexMigrator = new KnexMigrator({knexMigratorFilePath: program.mgpath});
-    } catch (err) {
-        logging.error(err);
-        process.exit(1);
-    }
-
-    return knexMigrator.reset({force: program.force}).then(function () {
+command(
+    program => program.option('--force'),
+    (knexMigrator, args) => knexMigrator.reset({
+        force: args.force
+    }).then(() => {
         logging.info('Finished database reset!');
-    });
-}).catch(function (err) {
-    logging.error(err);
-    process.exit(1);
-});
+    })
+);
