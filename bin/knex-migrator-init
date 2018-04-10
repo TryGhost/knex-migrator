@@ -1,34 +1,33 @@
 #!/usr/bin/env node
+'use strict';
 
-var program = require('commander');
-var utils = require('../lib/utils');
+const program = require('commander');
+const utils = require('../lib/utils');
+const logging = require('../lib/logging');
 
-var logging = require('../logging');
-var knexMigrator;
+utils.getKnexMigrator({path: process.cwd()}).then(function (KnexMigrator) {
+    let knexMigrator;
 
-utils.getKnexMigrator({path: process.cwd()})
-    .then(function (KnexMigrator) {
-        program
-            .option('--skip <item>')
-            .option('--only <item>')
-            .option('--mgpath <path>')
-            .parse(process.argv);
+    program
+        .option('--skip <item>')
+        .option('--only <item>')
+        .option('--mgpath <path>')
+        .parse(process.argv);
 
-        try {
-            knexMigrator = new KnexMigrator({knexMigratorFilePath: program.mgpath});
-        } catch (err) {
-            logging.error(err);
-            process.exit(1);
-        }
-
-        return knexMigrator.init({
-            skip: program.skip,
-            only: program.only
-        }).then(function () {
-            logging.info('Finished database init!');
-        });
-    })
-    .catch(function (err) {
+    try {
+        knexMigrator = new KnexMigrator({knexMigratorFilePath: program.mgpath});
+    } catch (err) {
         logging.error(err);
         process.exit(1);
+    }
+
+    return knexMigrator.init({
+        skip: program.skip,
+        only: program.only
+    }).then(function () {
+        logging.info('Finished database init!');
     });
+}).catch(function (err) {
+    logging.error(err);
+    process.exit(1);
+});
