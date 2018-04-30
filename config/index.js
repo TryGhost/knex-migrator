@@ -1,5 +1,3 @@
-'use strict';
-
 const Nconf = require('nconf'),
     path = require('path'),
     env = process.env.NODE_ENV || 'development';

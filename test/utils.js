@@ -1,5 +1,3 @@
-'use strict';
-
 // DEFAULT env is sqlite3
 if (!process.env.NODE_ENV) {
     process.env.NODE_ENV = 'testing';
