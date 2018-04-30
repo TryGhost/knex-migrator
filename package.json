@@ -44,15 +44,15 @@
   },
   "dependencies": {
     "bluebird": "^3.4.6",
-    "commander": "2.9.0",
+    "commander": "2.15.1",
     "compare-ver": "^2.0.2",
     "debug": "^2.2.0",
-    "ghost-ignition": "^2.8.16",
+    "ghost-ignition": "2.9.2",
     "knex": "^0.14.2",
     "lodash": "^4.16.4",
     "moment": "^2.19.3",
     "nconf": "^0.10.0",
-    "resolve": "1.1.7"
+    "resolve": "1.7.1"
   },
   "files": [
     "bin",
@@ -60,11 +60,11 @@
     "logging.js"
   ],
   "devDependencies": {
-    "eslint": "4.8.0",
-    "grunt": "1.0.1",
+    "eslint": "4.19.1",
+    "grunt": "1.0.2",
     "grunt-release": "0.14.0",
     "mocha": "3.1.2",
-    "nyc": "11.6.0",
+    "nyc": "11.7.1",
     "should": "11.1.1",
     "sinon": "1.17.6"
   },
