@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.1.6"></a>
+# [3.1.6](https://github.com/TryGhost/Ghost-CLI/compare/3.1.5...v3.1.6) (2018-04-30)
+
+### Node
+* 🔥Drop Node v4 support
+
+### Bug fixes
+
+* 🐛Fixed incorrect version number comparison
+* 🐛Fixed wrong folders order on db initialisation 
+* 🐛Fixed comparing expected and actual migration tasks 
+
 <a name="3.1.3"></a>
 # [3.1.3](https://github.com/TryGhost/Ghost-CLI/compare/3.1.2...v3.1.3) (2018-01-02)
 
