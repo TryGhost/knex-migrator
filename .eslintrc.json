@@ -107,10 +107,6 @@
       }
     ],
     "spaced-comment": "error",
-    "strict": [
-      "error",
-      "safe"
-    ],
     "template-curly-spacing": "error",
     "yoda": "error"
   }

@@ -1,5 +1,3 @@
-'use strict';
-
 const _ = require('lodash'),
     path = require('path'),
     sinon = require('sinon'),
