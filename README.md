@@ -219,7 +219,7 @@ Don't mix DDL/DML statements in a migration script. In MySQL DDL statements use 
 ### Shutdown during migrations
 If your process dies while migrations are running, knex-migrator won't be able to release the migration lock.
 To release to lock you can run `knex-migrator rollback`. **But** it's recommended to check your database first to see in which state it is.
-You can check the tables `migrations` and `migration_lock`. The rollback will rollback any migrations which were executed on your current project version.
+You can check the tables `migrations` and `migrations_lock`. The rollback will rollback any migrations which were executed on your current project version.
 
 ### Sqlite and Locks
 
