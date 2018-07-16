@@ -16,7 +16,7 @@
 - Hooks
 - Differentiation between database initialisation and migration
     - Support for a database schema, [like we use in Ghost](https://github.com/TryGhost/Ghost/blob/1.16.2/core/server/data/schema/schema.js)
-- Support for database creation 
+- Support for database creation
 
 ## Other migration tools
 
@@ -74,7 +74,7 @@ module.exports = {
 }
 ```
 
-Note that if you are using the [Ghost-CLI](https://github.com/TryGhost/Ghost-CLI) the `migrationPath` parameter should point to the `current` directory: 
+Note that if you are using the [Ghost-CLI](https://github.com/TryGhost/Ghost-CLI) the `migrationPath` parameter should point to the `current` directory:
 ```js
 migrationPath: process.cwd() + '/current/core/server/data/migrations'
 ```
@@ -120,12 +120,12 @@ knexMigrator.isDatabaseOK()
   })
   .catch(function(err) {
      // err contains a specific code, based on that code you decide (err.code)
-     
+
      // database is not initialised?
      knexMigrator.init();
-     
+
      // database is not migrated?
-     knexMigrator.migrate();     
+     knexMigrator.migrate();
   });
 
 ```
@@ -133,13 +133,13 @@ knexMigrator.isDatabaseOK()
 ## Hooks
 Knex-migrator offers you to hook into the process of executing scripts.
 The hooks won't work for initialisation right now.
-All hooks are optional. 
+All hooks are optional.
 Hooks need to live in the `migrationPath` you have offered.
 
 You can disable the hooks passing:
 ```
 knexMigrator.init({
-  disableHooks: true,           [optional] 
+  disableHooks: true,           [optional]
   noScripts: true | false       [optional]
 });
 ```
@@ -158,7 +158,7 @@ Please create an index.js file to export your functions.
 
 index.js
 ```
-exports.before = require('./before'); 
+exports.before = require('./before');
 exports.beforeEach = = require('./before');
 ```
 
@@ -195,17 +195,17 @@ module.exports.config = {
 var Promise = require('bluebird');
 module.exports.up = function(options) {
   var connection = options.connection;
-  
-  ... 
-  
+
+  ...
+
   return Promise.resolve();
 };
 
 module.exports.down = function(options) {
   var connection = options.connection;
-  
-  ... 
-  
+
+  ...
+
   return Promise.resolve();
 }
 ```
@@ -225,13 +225,16 @@ You can check the tables `migrations` and `migrations_lock`. The rollback will r
 
 Sqlite does **not** support read locks by default. That's why locks/concurrency is not supported atm.
 
-## Testing
-
-`npm test`
-`NODE_ENV=testing-mysql npm test`
-
 ## Debug
 `DEBUG=knex-migrator:* knex-migrator health`
+
+## Test
+- `yarn lint` run just eslint
+- `yarn test` run lint && tests
+- `NODE_ENV=testing-mysql yarn test` to test with MySQL
+
+## Publish
+- `yarn ship`
 
 # Copyright & License
 

@@ -29,7 +29,10 @@
   "scripts": {
     "lint": "eslint bin lib",
     "test": "yarn lint && LEVEL=fatal _mocha --require test/utils.js --report lcovonly -- test/*_spec.js",
-    "coverage": "nyc --reporter=lcov _mocha --require test/utils.js -- test/*_spec.js"
+    "posttest": "yarn lint",
+    "coverage": "nyc --reporter=lcov _mocha --require test/utils.js -- test/*_spec.js",
+    "preship": "yarn test",
+    "ship": "STATUS=$(git status --porcelain); echo $STATUS; if [ -z \"$STATUS\" ]; then yarn publish && git push --follow-tags; fi"
   },
   "bin": {
     "knex-migrator": "./bin/knex-migrator",
@@ -61,8 +64,6 @@
   ],
   "devDependencies": {
     "eslint": "4.19.1",
-    "grunt": "1.0.2",
-    "grunt-release": "0.14.0",
     "mocha": "3.1.2",
     "nyc": "11.7.1",
     "should": "11.1.1",
