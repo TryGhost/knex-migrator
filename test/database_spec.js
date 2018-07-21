@@ -1,9 +1,10 @@
-var database = require('../lib/database'),
+const database = require('../lib/database'),
+    errors = require('../lib/errors'),
     fs = require('fs');
 
 describe('Database', function () {
-    var databaseFile = __dirname + '/knex-migrator-test.db',
-        connection1, connection2,
+    let databaseFile = __dirname + '/knex-migrator-test.db',
+        connection1,
         dbConfig = {
             client: 'sqlite3',
             connection: {
@@ -31,7 +32,7 @@ describe('Database', function () {
     });
 
     it('kill connection2 does not kill connection 1', function (done) {
-        var connection2 = database.connect(dbConfig);
+        const connection2 = database.connect(dbConfig);
 
         connection1.destroy(function (err) {
             if (err) {
@@ -43,6 +44,21 @@ describe('Database', function () {
                     done();
                 })
                 .catch(done);
+        });
+    });
+
+    it('ensure database errors are catched', function () {
+        return database.createDatabaseIfNotExist({
+            client: 'mysql',
+            connection: {
+                host: 'unknown'
+            }
+        }).then(()=> {
+            '1'.should.eql(1, 'Test should fail.');
+        }).catch((err)=> {
+            (err instanceof errors.DatabaseError).should.be.true();
+            err.message.should.eql('Invalid database host.');
+            err.stack.should.match(/ENOTFOUND/);
         });
     });
 });
