@@ -47,18 +47,31 @@ describe('Database', function () {
         });
     });
 
-    it('ensure database errors are catched', function () {
-        return database.createDatabaseIfNotExist({
+    it('ensure test connection works', function () {
+        const connection2 = database.connect({
             client: 'mysql',
             connection: {
                 host: 'unknown'
             }
-        }).then(()=> {
+        });
+
+        return database.ensureConnectionWorks(connection2).then(()=> {
             '1'.should.eql(1, 'Test should fail.');
         }).catch((err)=> {
             (err instanceof errors.DatabaseError).should.be.true();
             err.message.should.eql('Invalid database host.');
             err.stack.should.match(/ENOTFOUND/);
         });
+    });
+
+    it('ensure test connection works', function () {
+        const connection2 = database.connect({
+            client: 'sqlite3',
+            connection: {
+                filename: databaseFile
+            }
+        });
+
+        return database.ensureConnectionWorks(connection2);
     });
 });
