@@ -1,16 +1,17 @@
 #!/usr/bin/env node
 
-var program = require('commander');
-var utils = require('../lib/utils');
+let program = require('commander');
+let utils = require('../lib/utils');
 
-var logging = require('../logging');
-var knexMigrator;
+let logging = require('../logging');
+let knexMigrator;
 
 utils.getKnexMigrator({path: process.cwd()})
     .then(function (KnexMigrator) {
         program
             .option('--mgpath <path>')
             .option('--force')
+            .option('--version')
             .parse(process.argv);
 
         try {
@@ -20,7 +21,7 @@ utils.getKnexMigrator({path: process.cwd()})
             process.exit(1);
         }
 
-        return knexMigrator.rollback({force: program.force})
+        return knexMigrator.rollback({force: program.force, version: program.version})
             .then(function () {
                 logging.info('Rollback was successful.');
             });
