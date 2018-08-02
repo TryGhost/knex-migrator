@@ -22,6 +22,11 @@ describe('Utils', function () {
                 greaterVersion: '1.0',
                 smallerVersion: '2.0'
             }).should.eql(false);
+
+            utils.isGreaterThanVersion({
+                greaterVersion: '1.11',
+                smallerVersion: '1.4'
+            }).should.eql(true);
         });
 
         it('version has this notation: 11', function () {
