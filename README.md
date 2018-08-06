@@ -102,6 +102,8 @@ knex-migrator reset [resets your database]
 knex-migrator reset --force [resets your database and ignores the migration lock]
 
 knex-migrator rollback
+knex-migrator rollback --force
+knex-migrator rollback --force --v 1.20.0
 ```
 
 ### JS
