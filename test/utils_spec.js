@@ -3,7 +3,7 @@ const should = require('should');
 const fs = require('fs');
 const sinon = require('sinon');
 const path = require('path');
-const sandbox = sinon.sandbox.create();
+const sandbox = sinon.createSandbox();
 
 describe('Utils', function () {
     describe('isGreaterThanVersion', function () {

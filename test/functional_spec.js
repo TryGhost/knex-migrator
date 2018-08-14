@@ -9,7 +9,7 @@ const _ = require('lodash'),
     errors = require('../lib/errors'),
     testUtils = require('./utils');
 
-let sandbox = sinon.sandbox.create(),
+const sandbox = sinon.createSandbox(),
     _private = {};
 
 _private.init = function init(knexMigrator, initMethod) {

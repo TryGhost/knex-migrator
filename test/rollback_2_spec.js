@@ -6,7 +6,7 @@ const _ = require('lodash'),
     KnexMigrator = require('../lib'),
     testUtils = require('./utils');
 
-let sandbox = sinon.sandbox.create();
+const sandbox = sinon.createSandbox();
 
 describe('knex-migrator rollback (force)', function () {
     this.timeout(1000 * 10);
