@@ -4,8 +4,8 @@ const _ = require('lodash'),
     should = require('should'),
     rimraf = require('rimraf'),
     fs = require('fs'),
-    KnexMigrator = require('../lib'),
-    testUtils = require('./utils');
+    KnexMigrator = require('../../lib'),
+    testUtils = require('../utils');
 
 const sandbox = sinon.createSandbox();
 
@@ -13,9 +13,9 @@ describe('knex-migrator rollback (to specific version)', function () {
     this.timeout(1000 * 10);
 
     let knexMigrator,
-        migrationPath = path.join(__dirname, 'assets', 'migrations_6'),
-        migratorConfigPath = __dirname + '/assets/MigratorConfig.js',
-        versionsFolder = __dirname + '/assets/migrations_6/versions',
+        migrationPath = path.join(__dirname, '..', 'assets', 'migrations_6'),
+        migratorConfigPath = path.join(__dirname, '..', 'assets', 'MigratorConfig.js'),
+        versionsFolder = path.join(__dirname, '..', 'assets', 'migrations_6', 'versions'),
         migrations = [],
         connection;
 
@@ -31,7 +31,7 @@ describe('knex-migrator rollback (to specific version)', function () {
         });
 
         knexMigrator = new KnexMigrator({
-            knexMigratorFilePath: __dirname + '/assets'
+            knexMigratorFilePath: path.join(__dirname, '..', 'assets')
         });
     });
 

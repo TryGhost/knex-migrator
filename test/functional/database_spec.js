@@ -1,5 +1,5 @@
-const database = require('../lib/database'),
-    errors = require('../lib/errors'),
+const database = require('../../lib/database'),
+    errors = require('../../lib/errors'),
     fs = require('fs');
 
 describe('Database', function () {

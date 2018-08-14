@@ -1,9 +1,9 @@
 const _ = require('lodash'),
     path = require('path'),
     fs = require('fs'),
-    config = require('../config'),
-    KnexMigrator = require('../lib'),
-    testUtils = require('./utils');
+    config = require('../../config'),
+    KnexMigrator = require('../../lib'),
+    testUtils = require('../utils');
 
 let migratorConfigPath,
     migrationPath;
@@ -16,8 +16,8 @@ describe('Implicit Commits', function () {
     describe('knex-migrator init', function () {
         describe('fail #1', function () {
             before(function () {
-                migratorConfigPath = path.join(__dirname, 'assets', 'migrations_1', 'MigratorConfig.js');
-                migrationPath = path.join(__dirname, 'assets', 'migrations_1');
+                migratorConfigPath = path.join(__dirname, '..', 'assets', 'migrations_1', 'MigratorConfig.js');
+                migrationPath = path.join(__dirname, '..', 'assets', 'migrations_1');
 
                 testUtils.writeMigratorConfig({
                     migratorConfigPath: migratorConfigPath,
@@ -62,8 +62,8 @@ describe('Implicit Commits', function () {
 
         describe('fail #2', function () {
             before(function () {
-                migratorConfigPath = path.join(__dirname, 'assets', 'migrations_2', 'MigratorConfig.js');
-                migrationPath = path.join(__dirname, 'assets', 'migrations_2');
+                migratorConfigPath = path.join(__dirname, '..', 'assets', 'migrations_2', 'MigratorConfig.js');
+                migrationPath = path.join(__dirname, '..', 'assets', 'migrations_2');
 
                 testUtils.writeMigratorConfig({
                     migratorConfigPath: migratorConfigPath,
@@ -111,8 +111,8 @@ describe('Implicit Commits', function () {
 
         describe('success #1', function () {
             before(function () {
-                migratorConfigPath = path.join(__dirname, 'assets', 'migrations_3', 'MigratorConfig.js');
-                migrationPath = path.join(__dirname, 'assets', 'migrations_3');
+                migratorConfigPath = path.join(__dirname, '..', 'assets', 'migrations_3', 'MigratorConfig.js');
+                migrationPath = path.join(__dirname, '..', 'assets', 'migrations_3');
 
                 testUtils.writeMigratorConfig({
                     migratorConfigPath: migratorConfigPath,
@@ -155,8 +155,8 @@ describe('Implicit Commits', function () {
     describe('knex-migrator migrate', function () {
         describe('fail #1', function () {
             before(function () {
-                migratorConfigPath = path.join(__dirname, 'assets', 'migrations_4', 'MigratorConfig.js');
-                migrationPath = path.join(__dirname, 'assets', 'migrations_4');
+                migratorConfigPath = path.join(__dirname, '..', 'assets', 'migrations_4', 'MigratorConfig.js');
+                migrationPath = path.join(__dirname, '..', 'assets', 'migrations_4');
 
                 testUtils.writeMigratorConfig({
                     migratorConfigPath: migratorConfigPath,
@@ -232,8 +232,8 @@ describe('Implicit Commits', function () {
 
         describe('success #1', function () {
             before(function () {
-                migratorConfigPath = path.join(__dirname, 'assets', 'migrations_5', 'MigratorConfig.js');
-                migrationPath = path.join(__dirname, 'assets', 'migrations_5');
+                migratorConfigPath = path.join(__dirname, '..', 'assets', 'migrations_5', 'MigratorConfig.js');
+                migrationPath = path.join(__dirname, '..', 'assets', 'migrations_5');
 
                 testUtils.writeMigratorConfig({
                     migratorConfigPath: migratorConfigPath,
