@@ -1,21 +1,22 @@
 const _ = require('lodash'),
     path = require('path'),
     sinon = require('sinon'),
+    should = require('should'),
     fs = require('fs'),
-    KnexMigrator = require('../lib'),
-    testUtils = require('./utils');
+    KnexMigrator = require('../../lib'),
+    testUtils = require('../utils');
 
 const sandbox = sinon.createSandbox();
 
-describe('knex-migrator rollback (default)', function () {
+describe('knex-migrator rollback (force)', function () {
     this.timeout(1000 * 10);
 
     let knexMigrator,
-        migrationPath = path.join(__dirname, 'assets', 'migrations_6'),
-        migratorConfigPath = __dirname + '/assets/MigratorConfig.js',
-        versionsFolder = __dirname + '/assets/migrations_6/versions',
-        migration121 = __dirname + '/assets/migrations_6/versions/1.21',
-        migration121File = __dirname + '/assets/migrations_6/versions/1.21/1-test.js',
+        migrationPath = path.join(__dirname, '..', 'assets', 'migrations_6'),
+        migratorConfigPath = path.join(__dirname, '..', 'assets', 'MigratorConfig.js'),
+        versionsFolder = path.join(__dirname, '..', 'assets', 'migrations_6', 'versions'),
+        migration121 = path.join(__dirname, '..', 'assets', 'migrations_6', 'versions', '1.21'),
+        migration121File = path.join(__dirname, '..', 'assets', 'migrations_6', 'versions', '1.21', '1-test.js'),
         connection;
 
     before(function () {
@@ -38,7 +39,7 @@ describe('knex-migrator rollback (default)', function () {
         });
 
         knexMigrator = new KnexMigrator({
-            knexMigratorFilePath: __dirname + '/assets'
+            knexMigratorFilePath: path.join(__dirname, '..', 'assets')
         });
     });
 
@@ -99,22 +100,19 @@ describe('knex-migrator rollback (default)', function () {
         });
 
         fs.writeFileSync(migration121File, jsFile);
-        knexMigrator.currentVersion = '1.21';
-        return knexMigrator.migrate();
+
+        // we have to force, because we are still on 1.20
+        return knexMigrator.migrate({force: true});
     });
 
+    // It rolls back all versions on the current version (in the migration table)
     it('knex-migrator rollback', function () {
         return knexMigrator.rollback({force: true});
     });
 
+    // Shows only a warning that 1.21 is available
     it('knex-migrator health', function () {
-        return knexMigrator.isDatabaseOK()
-            .then(function () {
-                'Database should not be okay'.should.eql(false);
-            })
-            .catch(function (err) {
-                err.message.should.eql('Migrations are missing. Please run `knex-migrator migrate`.');
-            });
+        return knexMigrator.isDatabaseOK();
     });
 
     it('db check', function () {
@@ -122,15 +120,5 @@ describe('knex-migrator rollback (default)', function () {
             .then(function (migrations) {
                 migrations.length.should.eql(2);
             });
-    });
-
-    it('knex-migrator rollback', function () {
-        return knexMigrator.rollback({force: true})
-            .then(function () {
-                'No rollback expected.'.should.eql(false);
-            })
-            .catch(function (err) {
-                err.message.should.eql('No migrations available to rollback.');
-            })
     });
 });
