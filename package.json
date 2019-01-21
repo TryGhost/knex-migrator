@@ -73,7 +73,7 @@
     "sinon": "7.2.3"
   },
   "optionalDependencies": {
-    "mysql": "2.16.0",
-    "sqlite3": "4.0.6"
+    "mysql": "^2.16.0",
+    "sqlite3": "^4.0.6"
   }
 }
