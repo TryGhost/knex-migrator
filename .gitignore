@@ -49,3 +49,5 @@ config.*.json
 
 # OSX
 .DS_Store
+
+.eslintcache
