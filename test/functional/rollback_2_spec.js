@@ -6,8 +6,6 @@ const _ = require('lodash'),
     KnexMigrator = require('../../lib'),
     testUtils = require('../utils');
 
-const sandbox = sinon.createSandbox();
-
 describe('knex-migrator rollback (force)', function () {
     this.timeout(1000 * 10);
 
@@ -78,12 +76,12 @@ describe('knex-migrator rollback (force)', function () {
     });
 
     beforeEach(function () {
-        sandbox.spy(knexMigrator, 'beforeEach');
-        sandbox.spy(knexMigrator, 'afterEach');
+        sinon.spy(knexMigrator, 'beforeEach');
+        sinon.spy(knexMigrator, 'afterEach');
     });
 
     afterEach(function () {
-        sandbox.restore();
+        sinon.restore();
     });
 
     it('knex-migrator init', function () {

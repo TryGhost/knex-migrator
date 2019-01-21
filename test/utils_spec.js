@@ -3,7 +3,6 @@ const should = require('should');
 const fs = require('fs');
 const sinon = require('sinon');
 const path = require('path');
-const sandbox = sinon.createSandbox();
 
 describe('Utils', function () {
     describe('isGreaterThanVersion', function () {
@@ -114,23 +113,23 @@ describe('Utils', function () {
 
     describe('readFolders', function () {
         beforeEach(function () {
-            sandbox.restore();
+            sinon.restore();
         });
 
         it('ensure order', function () {
-            sandbox.stub(fs, 'readdirSync').returns(['1.0', '2.0', '2.3', '2.13']);
+            sinon.stub(fs, 'readdirSync').returns(['1.0', '2.0', '2.3', '2.13']);
             let folders = utils.readVersionFolders(path.join(__dirname, 'assets', 'migrations', 'versions'));
             folders.should.eql(['1.0', '2.0', '2.3', '2.13']);
         });
 
         it('ensure order', function () {
-            sandbox.stub(fs, 'readdirSync').returns(['1.1.2', '1.1.0', '0.1']);
+            sinon.stub(fs, 'readdirSync').returns(['1.1.2', '1.1.0', '0.1']);
             let folders = utils.readVersionFolders(path.join(__dirname, 'assets', 'migrations', 'versions'));
             folders.should.eql(['0.1', '1.1.0', '1.1.2']);
         });
 
         it('ensure order', function () {
-            sandbox.stub(fs, 'readdirSync').returns([
+            sinon.stub(fs, 'readdirSync').returns([
                 '1.13',
                 '1.18',
                 '1.19',

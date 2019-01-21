@@ -8,8 +8,7 @@ const _ = require('lodash'),
     errors = require('../../lib/errors'),
     testUtils = require('../utils');
 
-const sandbox = sinon.createSandbox(),
-    _private = {};
+const _private = {};
 
 _private.init = function init(knexMigrator, initMethod) {
     if (initMethod === 'default') {
@@ -165,12 +164,12 @@ _.each(['default', 'migrateInit'], function (initMethod) {
         });
 
         beforeEach(function () {
-            sandbox.spy(knexMigrator, 'beforeEach');
-            sandbox.spy(knexMigrator, 'afterEach');
+            sinon.spy(knexMigrator, 'beforeEach');
+            sinon.spy(knexMigrator, 'afterEach');
         });
 
         afterEach(function () {
-            sandbox.restore();
+            sinon.restore();
         });
 
         it('is database ok? --> no, because the db was never initialised', function () {

@@ -2,11 +2,10 @@ const sinon = require('sinon');
 const should = require('should');
 const KnexMigrator = require('../../lib');
 const utils = require('../../lib/utils');
-const sandbox = sinon.createSandbox();
 
 describe('Unit: _rollback', function () {
     afterEach(function () {
-        sandbox.restore();
+        sinon.restore();
     });
 
     it('manual rollback', function () {
@@ -18,26 +17,26 @@ describe('Unit: _rollback', function () {
             }
         });
 
-        knexMigrator.connection = sandbox.stub().returns({
-            where: sandbox.stub().returns({
-                delete: sandbox.stub()
+        knexMigrator.connection = sinon.stub().returns({
+            where: sinon.stub().returns({
+                delete: sinon.stub()
             })
         });
 
         const tasks = [
             {
-                up: sandbox.stub(),
-                down: sandbox.stub().resolves(),
+                up: sinon.stub(),
+                down: sinon.stub().resolves(),
                 name: '1-something'
             },
             {
-                up: sandbox.stub(),
-                down: sandbox.stub().resolves(),
+                up: sinon.stub(),
+                down: sinon.stub().resolves(),
                 name: '2-something'
             }
         ];
 
-        sandbox.stub(utils, 'readTasks').returns(tasks);
+        sinon.stub(utils, 'readTasks').returns(tasks);
 
         return knexMigrator._rollback({
             version: '1.10'
@@ -56,26 +55,26 @@ describe('Unit: _rollback', function () {
             }
         });
 
-        knexMigrator.connection = sandbox.stub().returns({
-            where: sandbox.stub().returns({
-                delete: sandbox.stub()
+        knexMigrator.connection = sinon.stub().returns({
+            where: sinon.stub().returns({
+                delete: sinon.stub()
             })
         });
 
         const tasks = [
             {
-                up: sandbox.stub(),
-                down: sandbox.stub().resolves(),
+                up: sinon.stub(),
+                down: sinon.stub().resolves(),
                 name: '1-something'
             },
             {
-                up: sandbox.stub(),
-                down: sandbox.stub().resolves(),
+                up: sinon.stub(),
+                down: sinon.stub().resolves(),
                 name: '2-something'
             }
         ];
 
-        sandbox.stub(utils, 'readTasks').returns(tasks);
+        sinon.stub(utils, 'readTasks').returns(tasks);
 
         return knexMigrator._rollback({
             version: '1.10',
@@ -95,29 +94,29 @@ describe('Unit: _rollback', function () {
             }
         });
 
-        knexMigrator.connection = sandbox.stub().returns({
-            where: sandbox.stub().returns({
-                delete: sandbox.stub()
+        knexMigrator.connection = sinon.stub().returns({
+            where: sinon.stub().returns({
+                delete: sinon.stub()
             })
         });
 
         const tasks = [
             {
-                up: sandbox.stub(),
-                down: sandbox.stub().resolves(),
+                up: sinon.stub(),
+                down: sinon.stub().resolves(),
                 name: '1-something',
                 config: {
                     transaction: true
                 }
             },
             {
-                up: sandbox.stub(),
-                down: sandbox.stub().resolves(),
+                up: sinon.stub(),
+                down: sinon.stub().resolves(),
                 name: '2-something'
             }
         ];
 
-        sandbox.stub(utils, 'readTasks').returns(tasks);
+        sinon.stub(utils, 'readTasks').returns(tasks);
 
         return knexMigrator._rollback({
             version: '1.10',
@@ -137,36 +136,36 @@ describe('Unit: _rollback', function () {
             }
         });
 
-        knexMigrator.connection = sandbox.stub().returns({
-            where: sandbox.stub().returns({
-                delete: sandbox.stub()
+        knexMigrator.connection = sinon.stub().returns({
+            where: sinon.stub().returns({
+                delete: sinon.stub()
             })
         });
 
         const tasks = [
             {
-                up: sandbox.stub(),
-                down: sandbox.stub().resolves(),
+                up: sinon.stub(),
+                down: sinon.stub().resolves(),
                 name: '1-something'
             },
             {
-                up: sandbox.stub(),
-                down: sandbox.stub().resolves(),
+                up: sinon.stub(),
+                down: sinon.stub().resolves(),
                 name: '2-something'
             },
             {
-                up: sandbox.stub(),
-                down: sandbox.stub().resolves(),
+                up: sinon.stub(),
+                down: sinon.stub().resolves(),
                 name: '3-something'
             },
             {
-                up: sandbox.stub(),
-                down: sandbox.stub().resolves(),
+                up: sinon.stub(),
+                down: sinon.stub().resolves(),
                 name: '4-something'
             }
         ];
 
-        sandbox.stub(utils, 'readTasks').returns(tasks);
+        sinon.stub(utils, 'readTasks').returns(tasks);
 
         return knexMigrator._rollback({
             version: '1.10',

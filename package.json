@@ -27,8 +27,8 @@
   "main": "lib",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint bin lib",
-    "test": "yarn lint && LEVEL=fatal _mocha --require test/utils.js --report lcovonly -- test/**/*_spec.js",
+    "lint": "eslint lib --ext .js --cache",
+    "test": "yarn lint && LEVEL=fatal _mocha --require test/utils.js --report --exit lcovonly -- test/**/*_spec.js",
     "test:unit": "yarn lint && LEVEL=fatal _mocha --require test/utils.js --report lcovonly -- test/unit/*_spec.js",
     "posttest": "yarn lint",
     "coverage": "nyc --reporter=lcov _mocha --require test/utils.js -- test/*_spec.js",
@@ -47,16 +47,16 @@
     "node": ">=6"
   },
   "dependencies": {
-    "bluebird": "^3.4.6",
-    "commander": "2.15.1",
+    "bluebird": "3.5.3",
+    "commander": "2.19.0",
     "compare-ver": "^2.0.2",
-    "debug": "^2.2.0",
-    "ghost-ignition": "2.9.2",
-    "knex": "https://github.com/kirrg001/knex/tarball/d979ee6fa9b979e3be6f867dff015fdbc1f574ba",
-    "lodash": "^4.16.4",
-    "moment": "^2.19.3",
+    "debug": "4.1.1",
+    "ghost-ignition": "2.9.6",
+    "knex": "0.16.3",
+    "lodash": "4.17.11",
+    "moment": "2.23.0",
     "nconf": "^0.10.0",
-    "resolve": "1.7.1"
+    "resolve": "1.9.0"
   },
   "files": [
     "bin",
@@ -64,15 +64,16 @@
     "logging.js"
   ],
   "devDependencies": {
-    "eslint": "4.19.1",
-    "mocha": "3.1.2",
-    "nyc": "11.7.1",
-    "rimraf": "2.6.2",
-    "should": "11.1.1",
-    "sinon": "6.1.5"
+    "eslint": "5.12.1",
+    "eslint-plugin-ghost": "0.1.0",
+    "mocha": "5.2.0",
+    "nyc": "13.1.0",
+    "rimraf": "2.6.3",
+    "should": "13.2.3",
+    "sinon": "7.2.3"
   },
   "optionalDependencies": {
-    "mysql": "^2.11.1",
-    "sqlite3": "^4.0.0"
+    "mysql": "2.16.0",
+    "sqlite3": "4.0.6"
   }
 }
