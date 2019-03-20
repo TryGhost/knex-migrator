@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.2.6"></a>
+# [3.2.6](https://github.com/TryGhost/Ghost-CLI/compare/3.2.5...v3.2.6) (2019-03-20)
+
+### Bug fixes
+
+- 🐛 Fixed `knex-migrator migrate --init` 
+
+<a name="3.2.1"></a>
+# [3.2.1](https://github.com/TryGhost/Ghost-CLI/compare/3.2.0...v3.2.1) (2019-03-20)
+
+### Bug fixes
+
+- 🐛 Fixed option collision with commander (`--version` vs `--v`) 
+
+<a name="3.2.0"></a>
+# [3.2.0](https://github.com/TryGhost/Ghost-CLI/compare/3.1.8...v3.2.0) (2019-03-20)
+
+### Features
+
+✨ Added ability to rollback to a specific version 
+
+
 <a name="3.1.6"></a>
 # [3.1.6](https://github.com/TryGhost/Ghost-CLI/compare/3.1.5...v3.1.6) (2018-04-30)
 
