@@ -286,7 +286,8 @@ _.each(['default', 'migrateInit'], function (initMethod) {
         });
 
         it('migrate to 1.1 and 1.2', function () {
-            return knexMigrator.migrate()
+            // covers case that init completion is not executed (!)
+            return knexMigrator.migrate({init: true})
                 .then(function () {
                     return connection('users');
                 })
@@ -315,7 +316,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
 
                     // will throw 2 times an error
                     knexMigrator.beforeEach.called.should.eql(true);
-                    knexMigrator.beforeEach.callCount.should.eql(2);
+                    knexMigrator.beforeEach.callCount.should.eql(4);
                     knexMigrator.afterEach.called.should.eql(true);
                     knexMigrator.afterEach.callCount.should.eql(2);
                 });
