@@ -52,8 +52,8 @@ describe('Functional flow: Edge Cases', function () {
     });
 
     beforeEach(function () {
-        sinon.spy(knexMigrator, 'beforeEach');
-        sinon.spy(knexMigrator, 'afterEach');
+        sinon.spy(knexMigrator, '_beforeEach');
+        sinon.spy(knexMigrator, '_afterEach');
     });
 
     afterEach(function () {

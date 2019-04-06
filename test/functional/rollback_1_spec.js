@@ -75,8 +75,8 @@ describe('knex-migrator rollback (default)', function () {
     });
 
     beforeEach(function () {
-        sinon.spy(knexMigrator, 'beforeEach');
-        sinon.spy(knexMigrator, 'afterEach');
+        sinon.spy(knexMigrator, '_beforeEach');
+        sinon.spy(knexMigrator, '_afterEach');
     });
 
     afterEach(function () {

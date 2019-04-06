@@ -164,8 +164,8 @@ _.each(['default', 'migrateInit'], function (initMethod) {
         });
 
         beforeEach(function () {
-            sinon.spy(knexMigrator, 'beforeEach');
-            sinon.spy(knexMigrator, 'afterEach');
+            sinon.spy(knexMigrator, '_beforeEach');
+            sinon.spy(knexMigrator, '_afterEach');
         });
 
         afterEach(function () {
@@ -216,10 +216,10 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     values[2].name.should.eql('1-another.js');
                     values[2].version.should.eql('1.0');
 
-                    knexMigrator.beforeEach.called.should.eql(true);
-                    knexMigrator.beforeEach.callCount.should.eql(2);
+                    knexMigrator._beforeEach.called.should.eql(true);
+                    knexMigrator._beforeEach.callCount.should.eql(2);
 
-                    knexMigrator.afterEach.called.should.eql(true);
+                    knexMigrator._afterEach.called.should.eql(true);
                 })
         });
 
@@ -242,9 +242,9 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     values.length.should.eql(3);
 
                     // will throw 2 times an error
-                    knexMigrator.beforeEach.called.should.eql(true);
-                    knexMigrator.beforeEach.callCount.should.eql(2);
-                    knexMigrator.afterEach.called.should.eql(false);
+                    knexMigrator._beforeEach.called.should.eql(true);
+                    knexMigrator._beforeEach.callCount.should.eql(2);
+                    knexMigrator._afterEach.called.should.eql(false);
                 });
         });
 
@@ -315,10 +315,10 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     values[4].version.should.eql('1.2');
 
                     // will throw 2 times an error
-                    knexMigrator.beforeEach.called.should.eql(true);
-                    knexMigrator.beforeEach.callCount.should.eql(4);
-                    knexMigrator.afterEach.called.should.eql(true);
-                    knexMigrator.afterEach.callCount.should.eql(2);
+                    knexMigrator._beforeEach.called.should.eql(true);
+                    knexMigrator._beforeEach.callCount.should.eql(4);
+                    knexMigrator._afterEach.called.should.eql(true);
+                    knexMigrator._afterEach.callCount.should.eql(2);
                 });
         });
 
@@ -355,10 +355,10 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     values[4].version.should.eql('1.2');
 
                     // 1.2 was already executed
-                    knexMigrator.beforeEach.called.should.eql(false);
-                    knexMigrator.beforeEach.callCount.should.eql(0);
-                    knexMigrator.afterEach.called.should.eql(false);
-                    knexMigrator.afterEach.callCount.should.eql(0);
+                    knexMigrator._beforeEach.called.should.eql(false);
+                    knexMigrator._beforeEach.callCount.should.eql(0);
+                    knexMigrator._afterEach.called.should.eql(false);
+                    knexMigrator._afterEach.callCount.should.eql(0);
                 });
         });
 
@@ -405,10 +405,10 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     values[5].version.should.eql('1.3');
 
                     // will throw 2 times an error
-                    knexMigrator.beforeEach.called.should.eql(true);
-                    knexMigrator.beforeEach.callCount.should.eql(1);
-                    knexMigrator.afterEach.called.should.eql(true);
-                    knexMigrator.afterEach.callCount.should.eql(1);
+                    knexMigrator._beforeEach.called.should.eql(true);
+                    knexMigrator._beforeEach.callCount.should.eql(1);
+                    knexMigrator._afterEach.called.should.eql(true);
+                    knexMigrator._afterEach.callCount.should.eql(1);
                 });
         });
 
@@ -477,10 +477,10 @@ _.each(['default', 'migrateInit'], function (initMethod) {
 
                                 // 2-error is missing!
 
-                                knexMigrator.beforeEach.called.should.eql(true);
-                                knexMigrator.beforeEach.callCount.should.eql(2);
-                                knexMigrator.afterEach.called.should.eql(true);
-                                knexMigrator.afterEach.callCount.should.eql(1);
+                                knexMigrator._beforeEach.called.should.eql(true);
+                                knexMigrator._beforeEach.callCount.should.eql(2);
+                                knexMigrator._afterEach.called.should.eql(true);
+                                knexMigrator._afterEach.callCount.should.eql(1);
                             });
                     });
             });
@@ -541,10 +541,10 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                                 values[5].name.should.eql('1-delete-user.js');
                                 values[5].version.should.eql('1.3');
 
-                                knexMigrator.beforeEach.called.should.eql(false);
-                                knexMigrator.beforeEach.callCount.should.eql(0);
-                                knexMigrator.afterEach.called.should.eql(false);
-                                knexMigrator.afterEach.callCount.should.eql(0);
+                                knexMigrator._beforeEach.called.should.eql(false);
+                                knexMigrator._beforeEach.callCount.should.eql(0);
+                                knexMigrator._afterEach.called.should.eql(false);
+                                knexMigrator._afterEach.callCount.should.eql(0);
                             });
                     });
             });
@@ -600,8 +600,8 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                                 values[5].name.should.eql('1-delete-user.js');
                                 values[5].version.should.eql('1.3');
 
-                                knexMigrator.beforeEach.called.should.eql(false);
-                                knexMigrator.afterEach.called.should.eql(false);
+                                knexMigrator._beforeEach.called.should.eql(false);
+                                knexMigrator._afterEach.called.should.eql(false);
                             });
                     });
             });
@@ -660,10 +660,10 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                         values[7].name.should.eql('2-error.js');
                         values[7].version.should.eql('1.4');
 
-                        knexMigrator.beforeEach.called.should.eql(true);
-                        knexMigrator.beforeEach.callCount.should.eql(2);
-                        knexMigrator.afterEach.called.should.eql(true);
-                        knexMigrator.afterEach.callCount.should.eql(2);
+                        knexMigrator._beforeEach.called.should.eql(true);
+                        knexMigrator._beforeEach.callCount.should.eql(2);
+                        knexMigrator._afterEach.called.should.eql(true);
+                        knexMigrator._afterEach.callCount.should.eql(2);
                     });
             });
         });
