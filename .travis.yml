@@ -1,15 +1,22 @@
+dist: xenial
 language: node_js
 node_js:
-  - "6"
-  - "8"
-  - "10"
-sudo: false
+      - 6
+      - 8
+      - 10
+  
 cache:
   directories:
     - node_modules
+
+branches:
+  except:
+  - "/^renovate\\/.+$/"
+
 env:
   matrix:
     - DB=sqlite3 NODE_ENV=testing
     - DB=mysql NODE_ENV=testing-mysql
+
 before_install:
   - if [ $DB == "mysql" ]; then mysql -e 'create database km_testing'; fi
