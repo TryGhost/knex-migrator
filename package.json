@@ -67,10 +67,10 @@
     "eslint": "5.16.0",
     "eslint-plugin-ghost": "0.2.0",
     "mocha": "6.1.2",
-    "nyc": "13.1.0",
+    "nyc": "13.3.0",
     "rimraf": "2.6.3",
     "should": "13.2.3",
-    "sinon": "7.2.7"
+    "sinon": "7.3.1"
   },
   "optionalDependencies": {
     "mysql": "^2.16.0",
