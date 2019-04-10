@@ -5,7 +5,7 @@
      "group:linters",
      ":maintainLockFilesWeekly",
      ":prHourlyLimitNone",
-     ":automergeMinor"
+     ":automergePatch"
   ],
   "travis": { "enabled": true },
   "node": {
