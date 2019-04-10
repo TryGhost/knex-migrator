@@ -64,7 +64,7 @@
     "logging.js"
   ],
   "devDependencies": {
-    "eslint": "5.15.3",
+    "eslint": "5.16.0",
     "eslint-plugin-ghost": "0.2.0",
     "mocha": "5.2.0",
     "nyc": "13.1.0",
