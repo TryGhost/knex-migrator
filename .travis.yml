@@ -7,13 +7,10 @@ node_js:
 services:
   - mysql
   
-cache:
-  directories:
-    - node_modules
+cache: yarn
 
-branches:
-  except:
-  - "/^renovate\\/.+$/"
+# Don't run builds for renovate PRs, only renovate pushes
+if: NOT branch =~ /^renovate\\/.+$/ AND type != pull_request
 
 env:
   matrix:
