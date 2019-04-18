@@ -9,8 +9,8 @@ services:
   
 cache: yarn
 
-# Don't run builds for renovate PRs, only renovate pushes
-if: NOT branch =~ /^renovate\\/.+$/ AND type != pull_request
+# Don't run builds for renovate PRs
+if: NOT head_branch =~ ^renovate
 
 env:
   matrix:
