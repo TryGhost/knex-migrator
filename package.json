@@ -70,7 +70,7 @@
     "nyc": "13.3.0",
     "rimraf": "2.6.3",
     "should": "13.2.3",
-    "sinon": "7.3.1"
+    "sinon": "7.3.2"
   },
   "optionalDependencies": {
     "mysql": "^2.16.0",
