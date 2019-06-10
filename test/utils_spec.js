@@ -5,6 +5,16 @@ const sinon = require('sinon');
 const path = require('path');
 
 describe('Utils', function () {
+    describe('getKnexMigrator', function () {
+        it('resolves with path to installation of knex-migrator', function (done) {
+            utils.getKnexMigrator({path: process.cwd()})
+                .then((constructor) => {
+                    constructor.name.should.eql('KnexMigrator');
+                    done();
+                });
+        });
+    });
+
     describe('isGreaterThanVersion', function () {
         it('version has this notation: 1.1', function () {
             utils.isGreaterThanVersion({
