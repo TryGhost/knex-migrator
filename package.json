@@ -61,6 +61,7 @@
   "files": [
     "bin",
     "lib",
+    "migrations",
     "logging.js"
   ],
   "devDependencies": {
