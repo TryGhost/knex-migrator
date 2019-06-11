@@ -33,7 +33,7 @@
     "posttest": "yarn lint",
     "coverage": "nyc --reporter=lcov _mocha --require test/utils.js -- test/*_spec.js",
     "preship": "yarn test",
-    "ship": "STATUS=$(git status --porcelain); echo $STATUS; if [ -z \"$STATUS\" ]; then yarn publish && git push upstream master --follow-tags; fi"
+    "ship": "STATUS=$(git status --porcelain); echo $STATUS; if [ -z \"$STATUS\" ]; then yarn publish && git push ${GHOST_UPSTREAM:-upstream} master --follow-tags; fi"
   },
   "bin": {
     "knex-migrator": "./bin/knex-migrator",
