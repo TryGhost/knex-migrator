@@ -691,18 +691,18 @@ escape-string-regexp@1.0.5, escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
 
-eslint-plugin-ember@^6.2.0:
+eslint-plugin-ember@^6.7.0:
   version "6.7.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-ember/-/eslint-plugin-ember-6.7.1.tgz#be11e3b9b8f38227b81d90b11792a395322a9b4f"
   dependencies:
     ember-rfc176-data "^0.3.9"
     snake-case "^2.1.0"
 
-eslint-plugin-ghost@0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-ghost/-/eslint-plugin-ghost-0.2.0.tgz#3f7a8bf28ca239b7f869633c925dbd3d5811bc43"
+eslint-plugin-ghost@0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-ghost/-/eslint-plugin-ghost-0.4.0.tgz#40076b79e0446f51daecfebd85bf400986aead7a"
   dependencies:
-    eslint-plugin-ember "^6.2.0"
+    eslint-plugin-ember "^6.7.0"
     eslint-plugin-sort-imports-es6-autofix "0.4.0"
 
 eslint-plugin-sort-imports-es6-autofix@0.4.0:
