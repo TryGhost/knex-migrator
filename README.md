@@ -17,7 +17,7 @@ A database migration tool for [knex.js](https://github.com/tgriesser/knex), whic
 - [x] Migration lock
 - [x] Full debug & pretty log support
 - [x] Custom migration folder structure
-- [x] Stable (Used in [Ghost](https://github.com/TryGhost/Ghost) for many years in thousends of blogs in production mode)
+- [x] Stable (Used in [Ghost](https://github.com/TryGhost/Ghost) for many years in thousands of blogs in production mode)
 
 # Install
 
