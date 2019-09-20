@@ -83,7 +83,7 @@ describe('Functional flow: Edge Cases', function () {
             })
             .then(function (response) {
                 response.length.should.eql(1);
-                return knexMigrator.init()
+                return knexMigrator.init();
             })
             .then(() => {
                 return connection('migrations');

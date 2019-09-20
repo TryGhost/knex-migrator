@@ -55,9 +55,9 @@ describe('Database', function () {
             }
         });
 
-        return database.ensureConnectionWorks(connection2).then(()=> {
+        return database.ensureConnectionWorks(connection2).then(() => {
             '1'.should.eql(1, 'Test should fail.');
-        }).catch((err)=> {
+        }).catch((err) => {
             (err instanceof errors.DatabaseError).should.be.true();
             err.message.should.eql('Invalid database host.');
             err.stack.should.match(/ENOTFOUND/);

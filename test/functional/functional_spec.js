@@ -175,7 +175,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
         it('is database ok? --> no, because the db was never initialised', function () {
             return knexMigrator.isDatabaseOK()
                 .then(function () {
-                    throw new Error('Database should be NOT ok!')
+                    throw new Error('Database should be NOT ok!');
                 })
                 .catch(function (err) {
                     should.exist(err);
@@ -220,7 +220,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     knexMigrator._beforeEach.callCount.should.eql(2);
 
                     knexMigrator._afterEach.called.should.eql(true);
-                })
+                });
         });
 
         it('is database ok? --> yes, because user has initialised the database previously', function () {
@@ -295,7 +295,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     values.length.should.eql(1);
                     values[0].name.should.eql('Kind');
 
-                    return connection('migrations')
+                    return connection('migrations');
                 })
                 .then(function (values) {
                     values.length.should.eql(5);
@@ -335,7 +335,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     values.length.should.eql(1);
                     values[0].name.should.eql('Kind');
 
-                    return connection('migrations')
+                    return connection('migrations');
                 })
                 .then(function (values) {
                     values.length.should.eql(5);
@@ -382,7 +382,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                 })
                 .then(function (values) {
                     values.length.should.eql(0);
-                    return connection('migrations')
+                    return connection('migrations');
                 })
                 .then(function (values) {
                     values.length.should.eql(6);
@@ -425,7 +425,6 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                 });
             });
 
-
             it('migrate to 1.4, but error happens in one of the scripts --> expect rollback', function () {
                 fs.mkdirSync(migrationsv14);
 
@@ -453,7 +452,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                         return connection('users')
                             .then(function (values) {
                                 values.length.should.eql(0);
-                                return connection('migrations')
+                                return connection('migrations');
                             })
                             .then(function (values) {
                                 values.length.should.eql(6);
@@ -492,7 +491,6 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                 fs.rmdirSync(migrationsv14);
                 fs.mkdirSync(migrationsv14);
 
-
                 let jsFile1 = testUtils.generateMigrationScript({
                     up: 'SELECT * FROM users;'
                 });
@@ -519,7 +517,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                         return connection('users')
                             .then(function (values) {
                                 values.length.should.eql(0);
-                                return connection('migrations')
+                                return connection('migrations');
                             })
                             .then(function (values) {
                                 values.length.should.eql(6);
@@ -578,7 +576,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                         return connection('users')
                             .then(function (values) {
                                 values.length.should.eql(0);
-                                return connection('migrations')
+                                return connection('migrations');
                             })
                             .then(function (values) {
                                 values.length.should.eql(6);
@@ -632,7 +630,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     })
                     .then(function (values) {
                         values.length.should.eql(0);
-                        return connection('migrations')
+                        return connection('migrations');
                     })
                     .then(function (values) {
                         values.length.should.eql(8);
@@ -729,7 +727,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     })
                     .then(function (values) {
                         values.length.should.eql(0);
-                        return connection('migrations')
+                        return connection('migrations');
                     })
                     .then(function (values) {
                         values.length.should.eql(8);
@@ -767,7 +765,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     })
                     .then(function (values) {
                         values.length.should.eql(0);
-                        return connection('migrations')
+                        return connection('migrations');
                     })
                     .then(function (values) {
                         values.length.should.eql(9);

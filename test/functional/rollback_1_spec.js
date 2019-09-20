@@ -129,6 +129,6 @@ describe('knex-migrator rollback (default)', function () {
             })
             .catch(function (err) {
                 err.message.should.eql('No migrations available to rollback.');
-            })
+            });
     });
 });
