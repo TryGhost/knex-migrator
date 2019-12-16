@@ -1089,9 +1089,9 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
-ghost-ignition@^3.0.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/ghost-ignition/-/ghost-ignition-3.1.0.tgz#4a0d7f0a15e54fbc0e16d398da62ff68737e4e23"
+ghost-ignition@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/ghost-ignition/-/ghost-ignition-4.0.0.tgz#cf0dab07842c23f7e3aea38053a20b18db1eab53"
   dependencies:
     bunyan "1.8.12"
     bunyan-loggly "^1.3.1"
