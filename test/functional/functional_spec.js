@@ -512,7 +512,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     })
                     .catch(function (err) {
                         should.exist(err);
-                        err.message.should.eql('Cannot find module \'lalalalala\'');
+                        err.message.should.startWith('Cannot find module \'lalalalala\'');
 
                         return connection('users')
                             .then(function (values) {
