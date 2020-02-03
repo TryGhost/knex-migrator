@@ -8,9 +8,9 @@
   dependencies:
     "@babel/highlight" "^7.8.3"
 
-"@babel/generator@^7.4.0", "@babel/generator@^7.8.3":
-  version "7.8.3"
-  resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.8.3.tgz#0e22c005b0a94c1c74eafe19ef78ce53a4d45c03"
+"@babel/generator@^7.4.0", "@babel/generator@^7.8.4":
+  version "7.8.4"
+  resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.8.4.tgz#35bbc74486956fe4251829f9f6c48330e8d0985e"
   dependencies:
     "@babel/types" "^7.8.3"
     jsesc "^2.5.1"
@@ -45,9 +45,9 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@babel/parser@^7.4.3", "@babel/parser@^7.8.3":
-  version "7.8.3"
-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.8.3.tgz#790874091d2001c9be6ec426c2eed47bc7679081"
+"@babel/parser@^7.4.3", "@babel/parser@^7.8.3", "@babel/parser@^7.8.4":
+  version "7.8.4"
+  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.8.4.tgz#d1dbe64691d60358a974295fa53da074dd2ce8e8"
 
 "@babel/polyfill@^7.4.3":
   version "7.8.3"
@@ -65,14 +65,14 @@
     "@babel/types" "^7.8.3"
 
 "@babel/traverse@^7.4.3":
-  version "7.8.3"
-  resolved "https://registry.yarnpkg.com/@babel/traverse/-/traverse-7.8.3.tgz#a826215b011c9b4f73f3a893afbc05151358bf9a"
+  version "7.8.4"
+  resolved "https://registry.yarnpkg.com/@babel/traverse/-/traverse-7.8.4.tgz#f0845822365f9d5b0e312ed3959d3f827f869e3c"
   dependencies:
     "@babel/code-frame" "^7.8.3"
-    "@babel/generator" "^7.8.3"
+    "@babel/generator" "^7.8.4"
     "@babel/helper-function-name" "^7.8.3"
     "@babel/helper-split-export-declaration" "^7.8.3"
-    "@babel/parser" "^7.8.3"
+    "@babel/parser" "^7.8.4"
     "@babel/types" "^7.8.3"
     debug "^4.1.0"
     globals "^11.1.0"
