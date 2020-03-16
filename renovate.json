@@ -1,11 +1,10 @@
 {
   "extends": [
-    "config:base",
-    "group:jsTestMonMajor",
-    "group:linters",
-    ":maintainLockFilesWeekly",
-    "schedule:earlyMondays",
-    ":automergePatch"
+    "@tryghost:base",
+    "@tryghost:groupTestLint",
+    "@tryghost:groupCSS",
+    "@tryghost:groupBuildTools",
+    "@tryghost:automergeSilentTestLintNonMajor"
   ],
   "travis": { "enabled": true },
   "node": {
