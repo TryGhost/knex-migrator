@@ -187,7 +187,7 @@ describe('Implicit Commits', function () {
                     .then(function (values) {
                         // from init
                         values.length.should.eql(1);
-                        values[0].hasOwnProperty('country').should.eql(false);
+                        Object.prototype.hasOwnProperty.call(values[0], 'country').should.eql(false);
 
                         return knexMigrator.migrate({force: true});
                     })
@@ -222,9 +222,9 @@ describe('Implicit Commits', function () {
                         values.length.should.eql(1);
 
                         if (config.get('database:client') === 'mysql') {
-                            values[0].hasOwnProperty('country').should.eql(false);
+                            Object.prototype.hasOwnProperty.call(values[0], 'country').should.eql(false);
                         } else {
-                            values[0].hasOwnProperty('country').should.eql(true);
+                            Object.prototype.hasOwnProperty.call(values[0], 'country').should.eql(true);
                         }
                     });
             });
@@ -267,7 +267,7 @@ describe('Implicit Commits', function () {
                     .then(function (values) {
                         // from init
                         values.length.should.eql(3);
-                        values[0].hasOwnProperty('country').should.eql(true);
+                        Object.prototype.hasOwnProperty.call(values[0], 'country').should.eql(true);
 
                         return connection('dogs');
                     })
