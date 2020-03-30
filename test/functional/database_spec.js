@@ -60,7 +60,6 @@ describe('Database', function () {
         }).catch((err) => {
             (err instanceof errors.DatabaseError).should.be.true();
             err.message.should.eql('Invalid database host.');
-            err.stack.should.match(/ENOTFOUND/);
         });
     });
 
