@@ -47,16 +47,16 @@
     "node": "^10.13.0 || ^12.10.0"
   },
   "dependencies": {
-    "bluebird": "^3.5.3",
-    "commander": "^2.19.0",
-    "compare-ver": "^2.0.2",
-    "debug": "^4.1.1",
+    "bluebird": "3.7.2",
+    "commander": "2.19.0",
+    "compare-ver": "2.0.2",
+    "debug": "4.1.1",
     "ghost-ignition": "4.1.0",
-    "knex": "^0.20.13",
-    "lodash": "^4.17.11",
-    "moment": "^2.23.0",
-    "nconf": "^0.10.0",
-    "resolve": "^1.9.0"
+    "knex": "0.20.14",
+    "lodash": "4.17.15",
+    "moment": "2.24.0",
+    "nconf": "0.10.0",
+    "resolve": "1.15.1"
   },
   "files": [
     "bin",
@@ -74,7 +74,7 @@
     "sinon": "9.0.2"
   },
   "optionalDependencies": {
-    "mysql": "^2.16.0",
-    "sqlite3": "^4.0.6"
+    "mysql": "2.18.1",
+    "sqlite3": "4.1.1"
   }
 }
