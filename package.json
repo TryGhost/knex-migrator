@@ -54,7 +54,7 @@
     "ghost-ignition": "4.1.0",
     "knex": "0.21.1",
     "lodash": "4.17.15",
-    "moment": "2.24.0",
+    "moment": "2.27.0",
     "nconf": "0.10.0",
     "resolve": "1.17.0"
   },
