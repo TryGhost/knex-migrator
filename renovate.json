@@ -4,6 +4,6 @@
     "@tryghost:groupTestLint",
     "@tryghost:groupCSS",
     "@tryghost:groupBuildTools",
-    "@tryghost:automergeSilentTestLintNonMajor"
+    "@tryghost:automergeTestLint"
   ]
 }
