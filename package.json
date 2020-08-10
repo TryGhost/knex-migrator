@@ -52,7 +52,7 @@
     "compare-ver": "2.0.2",
     "debug": "4.1.1",
     "ghost-ignition": "4.2.2",
-    "knex": "0.21.3",
+    "knex": "0.21.4",
     "lodash": "4.17.19",
     "moment": "2.24.0",
     "nconf": "0.10.0",
