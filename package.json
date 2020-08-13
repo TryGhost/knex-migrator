@@ -53,7 +53,7 @@
     "debug": "4.1.1",
     "ghost-ignition": "4.2.2",
     "knex": "0.21.4",
-    "lodash": "4.17.19",
+    "lodash": "4.17.20",
     "moment": "2.24.0",
     "nconf": "0.10.0",
     "resolve": "1.17.0"
