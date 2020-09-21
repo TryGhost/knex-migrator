@@ -50,7 +50,7 @@
     "bluebird": "3.7.2",
     "commander": "5.1.0",
     "compare-ver": "2.0.2",
-    "debug": "4.1.1",
+    "debug": "4.2.0",
     "ghost-ignition": "4.2.2",
     "knex": "0.21.5",
     "lodash": "4.17.20",
