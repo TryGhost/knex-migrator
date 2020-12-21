@@ -36,7 +36,7 @@ Add me to your globals:
 
 - Replicas are unsupported, because Knex.js [doesn't support them](https://github.com/tgriesser/knex/issues/2253).
 - Sqlite does **not** support read locks by default. Read [here](https://github.com/TryGhost/knex-migrator/issues/87) why.
-- [Comparision](https://github.com/TryGhost/knex-migrator/issues/119) with other available migration tools.
+- [Comparison](https://github.com/TryGhost/knex-migrator/issues/119) with other available migration tools.
 - Don't mix DDL/DML statements in a migration script. In MySQL DDL statements use implicit commits. 
 - It's highly recommended to write both the `up` and the `down` function to ensure a full rollback.
 - If your process dies while migrations are running, knex-migrator won't be able to release the migration lock.
