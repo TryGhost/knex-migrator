@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "bluebird": "3.7.2",
-    "commander": "5.1.0",
+    "commander": "6.2.1",
     "compare-ver": "2.0.2",
     "debug": "4.3.1",
     "ghost-ignition": "4.3.0",
