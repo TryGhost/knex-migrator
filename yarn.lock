@@ -547,10 +547,10 @@ bunyan-loggly@1.4.2:
     json-stringify-safe "^5.0.1"
     node-loggly-bulk "^2.2.4"
 
-bunyan@1.8.14:
-  version "1.8.14"
-  resolved "https://registry.yarnpkg.com/bunyan/-/bunyan-1.8.14.tgz#3d8c1afea7de158a5238c7cb8a66ab6b38dd45b4"
-  integrity sha512-LlahJUxXzZLuw/hetUQJmRgZ1LF6+cr5TPpRj6jf327AsiIq2jhYEH4oqUUkVKTor+9w2BT3oxVwhzE5lw9tcg==
+bunyan@1.8.15:
+  version "1.8.15"
+  resolved "https://registry.yarnpkg.com/bunyan/-/bunyan-1.8.15.tgz#8ce34ca908a17d0776576ca1b2f6cbd916e93b46"
+  integrity sha512-0tECWShh6wUysgucJcBAoYegf3JJoZWibxdqhTm7OHPeT42qdjkZ29QCMcKwbgU1kiH+auSIasNRXMLWXafXig==
   optionalDependencies:
     dtrace-provider "~0.8"
     moment "^2.19.3"
@@ -851,13 +851,6 @@ debug@4.1.1, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1:
   integrity sha512-pYAIzeRo8J6KPEaJ0VWOh5Pzkbw/RetuzehGM7QRRX5he4fPHx2rdKMB256ehJCkX+XRQm16eZLqLNS8RSZXZw==
   dependencies:
     ms "^2.1.1"
-
-debug@4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-4.2.0.tgz#7f150f93920e94c58f5574c2fd01a3110effe7f1"
-  integrity sha512-IX2ncY78vDTjZMFUdmsvIRFY2Cf4FnD0wRs+nQwJU8Lu99/tPFdb0VybiiMTPe3I6rQmwsqQqRBvxU+bZ/I8sg==
-  dependencies:
-    ms "2.1.2"
 
 debug@4.3.1:
   version "4.3.1"
@@ -1564,15 +1557,15 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
-ghost-ignition@4.2.4:
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/ghost-ignition/-/ghost-ignition-4.2.4.tgz#df0e3817174d4f8a938243ade50ac6f1a9e0c2bb"
-  integrity sha512-Y03+dM27Lc3yRhQY1PSbL3f9NWZLFZ31tW36h+QkwM4BJ/uo88keh8AZ+pVIHLOYfTU2wLt5Io2+hVJj5tkelw==
+ghost-ignition@4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/ghost-ignition/-/ghost-ignition-4.3.0.tgz#2e63f188c9170590864930c7af2ebab0b51f9185"
+  integrity sha512-JpLPGWv+QJjailBrGyW72DXVCRckEpIMRJTI4pvfrt5ljnOiWlWrQADTdpO7D78ba1dW/pG5F2v8f7F/sKpv8Q==
   dependencies:
-    bunyan "1.8.14"
+    bunyan "1.8.15"
     bunyan-loggly "1.4.2"
     caller "1.0.1"
-    debug "4.2.0"
+    debug "4.3.1"
     find-root "1.1.0"
     fs-extra "9.0.1"
     gelf-stream "1.1.1"
@@ -1581,7 +1574,7 @@ ghost-ignition@4.2.4:
     moment "2.27.0"
     nconf "0.10.0"
     prettyjson "1.2.1"
-    uuid "8.3.1"
+    uuid "8.3.2"
 
 glob-parent@^5.0.0, glob-parent@~5.1.0:
   version "5.1.1"
@@ -3917,10 +3910,10 @@ util-deprecate@~1.0.1:
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=
 
-uuid@8.3.1:
-  version "8.3.1"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.1.tgz#2ba2e6ca000da60fce5a196954ab241131e05a31"
-  integrity sha512-FOmRr+FmWEIG8uhZv6C2bTgEVXsHk08kE7mPlrBbEe+c3r9pjceVPgupIfNIhc4yx55H69OXANrUaSuu9eInKg==
+uuid@8.3.2:
+  version "8.3.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
+  integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
 uuid@^3.3.2, uuid@^3.3.3:
   version "3.4.0"
