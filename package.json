@@ -51,7 +51,7 @@
     "commander": "5.1.0",
     "compare-ver": "2.0.2",
     "debug": "4.3.1",
-    "ghost-ignition": "4.4.2",
+    "ghost-ignition": "4.4.3",
     "knex": "0.21.6",
     "lodash": "4.17.20",
     "moment": "2.24.0",
