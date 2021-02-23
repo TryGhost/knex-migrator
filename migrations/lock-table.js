@@ -15,7 +15,7 @@ module.exports.up = function (connection) {
             }
 
             return connection.schema.createTable('migrations_lock', function (table) {
-                table.string('lock_key', 191).nullable(false).unique();
+                table.string('lock_key', 191).nullable(false).primary();
                 table.boolean('locked').default(0);
                 table.dateTime('acquired_at').nullable();
                 table.dateTime('released_at').nullable();
