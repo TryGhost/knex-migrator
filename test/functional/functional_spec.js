@@ -798,5 +798,23 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     });
             });
         });
+
+        it('change current version', function () {
+            knexMigrator.currentVersion = '1.4';
+            if (config.get('database:client') === 'sqlite3') {
+                return connection.raw(`PRAGMA index_list('migrations_lock');`).then((indexes) => {
+                    indexes.filter(index => index.origin === 'pk').length.should.eql(1);
+                });
+            } else {
+                return connection.raw(`
+                SELECT CONSTRAINT_NAME
+                FROM information_schema.TABLE_CONSTRAINTS
+                WHERE TABLE_NAME=:tableName
+                AND CONSTRAINT_TYPE='PRIMARY KEY'`, {tableName: 'migrations_lock'})
+                    .then(([rawConstraints]) => {
+                        rawConstraints.length.should.eql(1);
+                    });
+            }
+        });
     });
 });
