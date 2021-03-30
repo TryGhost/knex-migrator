@@ -75,6 +75,6 @@
   },
   "optionalDependencies": {
     "mysql": "2.18.1",
-    "sqlite3": "4.2.0"
+    "sqlite3": "5.0.2"
   }
 }
