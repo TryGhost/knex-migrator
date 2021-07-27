@@ -733,27 +733,35 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                         values.length.should.eql(8);
                         values[0].name.should.eql('1-create-tables.js');
                         values[0].version.should.eql('init');
+                        should.exist(values[0].created_at);
 
                         values[1].name.should.eql('2-seed.js');
                         values[1].version.should.eql('init');
+                        should.exist(values[1].created_at);
 
                         values[2].name.should.eql('1-another.js');
                         values[2].version.should.eql('1.0');
+                        should.exist(values[2].created_at);
 
                         values[3].name.should.eql('1-modify-user.js');
                         values[3].version.should.eql('1.1');
+                        should.exist(values[3].created_at);
 
                         values[4].name.should.eql('1-modify-user-again.js');
                         values[4].version.should.eql('1.2');
+                        should.exist(values[4].created_at);
 
                         values[5].name.should.eql('1-delete-user.js');
                         values[5].version.should.eql('1.3');
+                        should.exist(values[5].created_at);
 
                         values[6].name.should.eql('1-no-error.js');
                         values[6].version.should.eql('1.4');
+                        should.exist(values[6].created_at);
 
                         values[7].name.should.eql('2-error.js');
                         values[7].version.should.eql('1.4');
+                        should.exist(values[7].created_at);
                     });
             });
 

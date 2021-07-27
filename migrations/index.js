@@ -2,6 +2,7 @@ const lockTable = require('./lock-table');
 const fieldLength = require('./field-length');
 const useIndex = require('./use-index');
 const addPKToLockTable = require('./add-primary-key-to-lock-table');
+const addCreateAtToMigrationsTable = require('./add-created-at-to-migrations-table');
 
 /**
  * @description Helper to run database migrations for the database tables, which knex-migrator is using.
@@ -13,5 +14,6 @@ module.exports.run = function (connection) {
         .then(() => lockTable.up(connection))
         .then(() => fieldLength.up(connection))
         .then(() => useIndex.up(connection))
-        .then(() => addPKToLockTable.up(connection));
+        .then(() => addPKToLockTable.up(connection))
+        .then(() => addCreateAtToMigrationsTable.up(connection));
 };
