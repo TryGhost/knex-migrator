@@ -6,14 +6,14 @@ A database migration tool for [knex.js](https://github.com/tgriesser/knex), whic
 
 - [x] JS API
 - [x] CLI Tool
-- [x] Differentiation between database initialisation and migration (Support for a database schema, [like we use in Ghost](https://github.com/TryGhost/Ghost/blob/1.16.2/core/server/data/schema/schema.js))
+- [x] Differentiation between database initialization and migration (Support for a database schema, [like we use in Ghost](https://github.com/TryGhost/Ghost/blob/1.16.2/core/server/data/schema/schema.js))
 - [x] Support for database creation
 - [x] Hooks
 - [x] Rollback to latest version
 - [x] Auto-Rollback on error
 - [x] Database health check
 - [x] Supports transactions
-- [x] Full atomic, support for separate DML/DDL scripts (no autocommit) 
+- [x] Full atomic, support for separate DML/DDL scripts (no autocommit)
 - [x] Migration lock
 - [x] Full debug & pretty log support
 - [x] Custom migration folder structure
@@ -37,7 +37,7 @@ Add me to your globals:
 - Replicas are unsupported, because Knex.js [doesn't support them](https://github.com/tgriesser/knex/issues/2253).
 - Sqlite does **not** support read locks by default. Read [here](https://github.com/TryGhost/knex-migrator/issues/87) why.
 - [Comparison](https://github.com/TryGhost/knex-migrator/issues/119) with other available migration tools.
-- Don't mix DDL/DML statements in a migration script. In MySQL DDL statements use implicit commits. 
+- Don't mix DDL/DML statements in a migration script. In MySQL DDL statements use implicit commits.
 - It's highly recommended to write both the `up` and the `down` function to ensure a full rollback.
 - If your process dies while migrations are running, knex-migrator won't be able to release the migration lock.
   To release to lock you can run `knex-migrator rollback`. **But** it's recommended to check your database first to see in which state it is.
@@ -73,7 +73,7 @@ Please take a look at [this real example](https://github.com/TryGhost/Ghost/blob
 
 ```
 project/
-    migrations/        
+    migrations/
         hooks/
             init/
                 index.js
@@ -88,9 +88,9 @@ project/
         versions/
             1.0/
                 1-add-events-table.js
-                2-normalise-settings.js                
+                2-normalise-settings.js
             2.0/
-                1-add-timestamps-columns.js                
+                1-add-timestamps-columns.js
             2.1/
                 1-remove-empty-strings.js
                 2-add-webhooks-table.js
@@ -199,7 +199,7 @@ Commands:
 
 #### knex-migrator init
 
-- Initialises your database based on your init scripts
+- Initializes your database based on your init scripts
 - Creates the database if it was not created yet
 
 ##### Options
@@ -223,10 +223,10 @@ Commands:
 ##### Options
 
 ```bash
-# The bersion you would like to migrate to
+# The version you would like to migrate to
 --v
 
-# Combo Feature to check whether the database was already initialised
+# Combo Feature to check whether the database was already initialized
 --init
 
 # Force the execution no matter which current version you are on
@@ -312,13 +312,13 @@ knexMigrator.reset
 knexMigrator.isDatabaseOK()
   .then(function() {
      // database is OK
-     // initialisation & migrations are not missing
+     // initialization & migrations are not missing
   })
   .catch(function(err) {
       if (err.code === 'DB_NOT_INITIALISED') {
           return knexMigrator.init();
       }
-      
+
       if (err.code === 'DB_NEEDS_MIGRATION') {
         return knexMigrator.migrate();
       }
