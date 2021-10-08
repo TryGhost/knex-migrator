@@ -48,6 +48,8 @@ describe('Database', function () {
     });
 
     it('ensure test connection works', function () {
+        // TODO(daniel): figure out why this is needed
+        this.timeout(10 * 1000);
         const connection2 = database.connect({
             client: 'mysql',
             connection: {
