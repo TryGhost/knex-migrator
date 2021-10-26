@@ -44,7 +44,7 @@
     "knex-migrator-rollback": "./bin/knex-migrator-rollback"
   },
   "engines": {
-    "node": "^12.10.0 || ^14.14.0"
+    "node": "^12.10.0 || ^14.14.0 || ^16.0.0"
   },
   "dependencies": {
     "bluebird": "3.7.2",
