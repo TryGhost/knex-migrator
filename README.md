@@ -52,7 +52,7 @@ Please add a file named `MigratorConfig.js`. Knex-migrator will load the config 
 ```
 module.exports = {
     database: {
-        client:         String          (Required) ['mysql', 'sqlite3']
+        client:         String          (Required) ['mysql', 'mysql2', 'sqlite3']
         connection: {
             host:       String,         (Required) [e.g. '127.0.0.1']
             user:       String,         (Required)
