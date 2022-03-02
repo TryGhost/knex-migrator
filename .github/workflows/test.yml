@@ -15,7 +15,9 @@ jobs:
         env:
           - DB: sqlite3
             NODE_ENV: testing
-          - DB: mysql
+          - DB: mysql5
+            NODE_ENV: testing-mysql
+          - DB: mysql8
             NODE_ENV: testing-mysql
     env:
       DB: ${{ matrix.env.DB }}
@@ -30,12 +32,19 @@ jobs:
 
       - name: Shutdown MySQL
         run: sudo service mysql stop
-        if: matrix.env.DB == 'mysql'
+        if: matrix.env.DB == 'mysql5' || matrix.env.DB == 'mysql8'
 
-      - uses: mirromutth/mysql-action@v1.1
-        if: matrix.env.DB == 'mysql'
+      - uses: daniellockyer/mysql-action@main
+        if: matrix.env.DB == 'mysql5'
         with:
           mysql version: '5.7'
+          mysql database: 'km_testing'
+          mysql root password: 'root'
+
+      - uses: daniellockyer/mysql-action@main
+        if: matrix.env.DB == 'mysql8'
+        with:
+          mysql version: '8.0'
           mysql database: 'km_testing'
           mysql root password: 'root'
 
