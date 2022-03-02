@@ -100,7 +100,7 @@ describe('Implicit Commits', function () {
                     })
                     .catch(function (err) {
                         // table not found
-                        if (config.get('database:client') === 'mysql') {
+                        if (['mysql', 'mysql2'].includes(config.get('database:client'))) {
                             err.errno.should.eql(1146);
                         } else {
                             err.errno.should.eql(1);
@@ -195,7 +195,7 @@ describe('Implicit Commits', function () {
                         throw new Error('Expect error from migrate.');
                     })
                     .catch(function (err) {
-                        if (config.get('database:client') === 'mysql') {
+                        if (['mysql', 'mysql2'].includes(config.get('database:client'))) {
                             err.message.should.eql('Ooops');
                         } else {
                             // DROP COLUMN does not exist in sqlite
@@ -209,7 +209,7 @@ describe('Implicit Commits', function () {
                     })
                     .catch(function (err) {
                         // table not found
-                        if (config.get('database:client') === 'mysql') {
+                        if (['mysql', 'mysql2'].includes(config.get('database:client'))) {
                             err.errno.should.eql(1146);
                         } else {
                             err.errno.should.eql(1);
@@ -221,7 +221,7 @@ describe('Implicit Commits', function () {
                         // from init
                         values.length.should.eql(1);
 
-                        if (config.get('database:client') === 'mysql') {
+                        if (['mysql', 'mysql2'].includes(config.get('database:client'))) {
                             Object.prototype.hasOwnProperty.call(values[0], 'country').should.eql(false);
                         } else {
                             Object.prototype.hasOwnProperty.call(values[0], 'country').should.eql(true);
