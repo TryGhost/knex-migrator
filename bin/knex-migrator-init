@@ -3,7 +3,7 @@
 var program = require('commander');
 var utils = require('../lib/utils');
 
-var logging = require('../logging');
+var logging = require('@tryghost/logging');
 var knexMigrator;
 
 utils.getKnexMigrator({path: process.cwd()})

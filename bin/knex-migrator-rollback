@@ -3,7 +3,7 @@
 const program = require('commander');
 const utils = require('../lib/utils');
 
-const logging = require('../logging');
+const logging = require('@tryghost/logging');
 let knexMigrator;
 
 utils.getKnexMigrator({path: process.cwd()})
