@@ -1,12 +1,11 @@
 const debug = require('debug')('knex-migrator:lock-table');
+const DatabaseInfo = require('@tryghost/database-info');
 
 /**
  * Checks if primary key index exists in a table over the given columns.
  */
 function hasPrimaryKeySQLite(tableName, knex) {
-    const client = knex.client.config.client;
-
-    if (client !== 'sqlite3') {
+    if (!DatabaseInfo.isSQLite(knex)) {
         throw new Error('Must use hasPrimaryKeySQLite on an SQLite3 database');
     }
 
@@ -21,8 +20,7 @@ function hasPrimaryKeySQLite(tableName, knex) {
  * Adds an primary key index to a table over the given columns.
  */
 function addPrimaryKey(tableName, columns, knex) {
-    const isSQLite = knex.client.config.client === 'sqlite3';
-    if (isSQLite) {
+    if (DatabaseInfo.isSQLite(knex)) {
         return hasPrimaryKeySQLite(tableName, knex)
             .then((primaryKeyExists) => {
                 if (primaryKeyExists) {
