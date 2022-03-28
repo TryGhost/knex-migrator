@@ -8,6 +8,8 @@ const _ = require('lodash'),
     errors = require('../../lib/errors'),
     testUtils = require('../utils');
 
+const DatabaseInfo = require('@tryghost/database-info');
+
 const _private = {};
 
 _private.init = function init(knexMigrator, initMethod) {
@@ -182,7 +184,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
 
                     (err instanceof errors.DatabaseIsNotOkError).should.eql(true);
 
-                    if (config.get('database:client') === 'sqlite3') {
+                    if (DatabaseInfo.isSQLiteConfig(config.get('database'))) {
                         err.code.should.eql('MIGRATION_TABLE_IS_MISSING');
                     } else {
                         err.code.should.eql('DB_NOT_INITIALISED');
@@ -801,7 +803,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
 
         it('change current version', function () {
             knexMigrator.currentVersion = '1.4';
-            if (config.get('database:client') === 'sqlite3') {
+            if (DatabaseInfo.isSQLiteConfig(config.get('database'))) {
                 return connection.raw(`PRAGMA index_list('migrations_lock');`).then((indexes) => {
                     indexes.filter(index => index.origin === 'pk').length.should.eql(1);
                 });
