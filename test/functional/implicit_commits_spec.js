@@ -195,12 +195,7 @@ describe('Implicit Commits', function () {
                         throw new Error('Expect error from migrate.');
                     })
                     .catch(function (err) {
-                        if (['mysql', 'mysql2'].includes(config.get('database:client'))) {
-                            err.message.should.eql('Ooops');
-                        } else {
-                            // DROP COLUMN does not exist in sqlite
-                            err.code.should.eql('SQLITE_ERROR');
-                        }
+                        err.message.should.eql('Ooops');
 
                         return connection('dogs');
                     })
@@ -221,11 +216,7 @@ describe('Implicit Commits', function () {
                         // from init
                         values.length.should.eql(1);
 
-                        if (['mysql', 'mysql2'].includes(config.get('database:client'))) {
-                            Object.prototype.hasOwnProperty.call(values[0], 'country').should.eql(false);
-                        } else {
-                            Object.prototype.hasOwnProperty.call(values[0], 'country').should.eql(true);
-                        }
+                        Object.prototype.hasOwnProperty.call(values[0], 'country').should.eql(false);
                     });
             });
         });
