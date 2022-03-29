@@ -57,6 +57,7 @@
     "knex": "0.21.21",
     "lodash": "4.17.21",
     "moment": "2.24.0",
+    "mysql2": "2.3.3",
     "nconf": "0.11.3",
     "resolve": "1.22.0"
   },
@@ -76,7 +77,6 @@
     "sinon": "9.2.4"
   },
   "optionalDependencies": {
-    "mysql2": "2.3.3",
     "sqlite3": "5.0.2"
   }
 }
