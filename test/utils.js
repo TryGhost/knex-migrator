@@ -5,7 +5,7 @@ if (!process.env.NODE_ENV) {
 
 const knex = require('knex');
 const fs = require('fs');
-const config = require('../config');
+const config = require('./config');
 
 exports.connect = function () {
     return knex(config.get('database'));

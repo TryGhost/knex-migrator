@@ -1,7 +1,7 @@
 const _ = require('lodash'),
     path = require('path'),
     fs = require('fs'),
-    config = require('../../config'),
+    config = require('../config'),
     KnexMigrator = require('../../lib'),
     testUtils = require('../utils');
 
