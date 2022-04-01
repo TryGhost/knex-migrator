@@ -46,6 +46,7 @@ test.db
 
 # config
 config.*.json
+!test/**/config.*.json
 
 # OSX
 .DS_Store

@@ -4,7 +4,7 @@ const _ = require('lodash'),
     should = require('should'),
     fs = require('fs'),
     KnexMigrator = require('../../lib'),
-    config = require('../../config'),
+    config = require('../config'),
     errors = require('../../lib/errors'),
     testUtils = require('../utils');
 
