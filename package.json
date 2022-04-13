@@ -54,7 +54,7 @@
     "compare-ver": "2.0.2",
     "debug": "4.3.4",
     "ghost-ignition": "4.6.3",
-    "knex": "1.0.6",
+    "knex": "1.0.7",
     "lodash": "4.17.21",
     "moment": "2.24.0",
     "mysql2": "2.3.3",
