@@ -77,6 +77,6 @@
     "sinon": "9.2.4"
   },
   "optionalDependencies": {
-    "sqlite3": "5.0.7"
+    "sqlite3": "5.0.8"
   }
 }
