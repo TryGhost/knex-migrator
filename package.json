@@ -47,7 +47,7 @@
     "node": "^12.22.1 || ^14.17.0 || ^16.13.0"
   },
   "dependencies": {
-    "@tryghost/database-info": "0.3.5",
+    "@tryghost/database-info": "0.3.7",
     "@tryghost/logging": "2.1.8",
     "bluebird": "3.7.2",
     "commander": "5.1.0",
