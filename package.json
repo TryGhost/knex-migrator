@@ -28,7 +28,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint --ext .js --cache lib/** test/**",
-    "test": "LEVEL=fatal _mocha --require test/utils.js --report --exit lcovonly -- test/**/*_spec.js",
+    "test": "LEVEL=fatal _mocha --require test/utils.js --report lcovonly --exit -- test/**/*_spec.js",
     "test:unit": "yarn lint && LEVEL=fatal _mocha --require test/utils.js --report lcovonly -- test/unit/*_spec.js",
     "posttest": "yarn lint",
     "coverage": "nyc --reporter=lcov _mocha --require test/utils.js -- test/*_spec.js",
@@ -53,7 +53,6 @@
     "commander": "5.1.0",
     "compare-ver": "2.0.2",
     "debug": "4.3.4",
-    "ghost-ignition": "4.6.3",
     "knex": "2.1.0",
     "lodash": "4.17.21",
     "moment": "2.24.0",
