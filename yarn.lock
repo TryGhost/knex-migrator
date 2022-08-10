@@ -374,10 +374,10 @@
     "@tryghost/debug" "^0.1.17"
     split2 "4.1.0"
 
-"@tryghost/errors@1.2.14", "@tryghost/errors@^1.2.14":
-  version "1.2.14"
-  resolved "https://registry.yarnpkg.com/@tryghost/errors/-/errors-1.2.14.tgz#af5e0ea1450b6fac7bde94585177943f85f0e41f"
-  integrity sha512-ycXhblMBlbwXo+PfmVJZtT26/B1wu6Ae/8SBjXlzHAp6qlkho/Z5hZPKMRo0frfBt6CDGyX/abKTeVQzSkTPYA==
+"@tryghost/errors@1.2.15", "@tryghost/errors@^1.2.14":
+  version "1.2.15"
+  resolved "https://registry.yarnpkg.com/@tryghost/errors/-/errors-1.2.15.tgz#0f9e63f3c8d1024fe53fd5e6eb600657f366a46f"
+  integrity sha512-3T0KA5qpxM3JU2ZI3s5w2qUztA2CG3h+G86zKxbZc9ZnOP+nzsJ2fn9nkkqVwFUvxOr76mjWMgVETdH6yXiu1g==
   dependencies:
     lodash "^4.17.21"
     utils-copy-error "^1.0.1"

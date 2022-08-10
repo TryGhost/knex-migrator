@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@tryghost/database-info": "0.3.8",
-    "@tryghost/errors": "1.2.14",
+    "@tryghost/errors": "1.2.15",
     "@tryghost/logging": "2.2.3",
     "bluebird": "3.7.2",
     "commander": "5.1.0",
