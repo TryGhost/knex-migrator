@@ -111,7 +111,7 @@ describe('knex-migrator rollback (default)', function () {
                 'Database should not be okay'.should.eql(false);
             })
             .catch(function (err) {
-                err.message.should.eql('Migrations are missing. Please run `knex-migrator migrate`.');
+                err.message.should.eql('Migrations are missing. Please run `yarn knex-migrator migrate`.');
             });
     });
 

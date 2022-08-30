@@ -72,7 +72,7 @@ describe('knex-migrator rollback (on init, auto-rollback)', function () {
                 'Should fail'.should.eql(false);
             })
             .catch(function (err) {
-                err.message.should.eql('Please run knex-migrator init');
+                err.message.should.eql('Please run `yarn knex-migrator init`');
             });
     });
 
