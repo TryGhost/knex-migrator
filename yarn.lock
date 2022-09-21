@@ -709,14 +709,14 @@
     "@tryghost/debug" "^0.1.18"
     split2 "4.1.0"
 
-"@tryghost/errors@1.2.16", "@tryghost/errors@^1.2.16":
-  version "1.2.16"
-  resolved "https://registry.yarnpkg.com/@tryghost/errors/-/errors-1.2.16.tgz#01b66cf3fca91a0be94d65d3c5036640e52ccc32"
-  integrity sha512-9ND78qP1ZcVFSrcOP0MRW5NpDwBmuK+RlP9LSXsdRpuqspGmSXxa6OWrWKuW9I1ZzQujFAqsm3XuDP5NaOAZEQ==
+"@tryghost/errors@1.2.17", "@tryghost/errors@^1.2.16":
+  version "1.2.17"
+  resolved "https://registry.yarnpkg.com/@tryghost/errors/-/errors-1.2.17.tgz#f6383952342afa2168c8e8b977cfbe09116ce390"
+  integrity sha512-YHs+laS0j8MpZlREgU459SJA4RHaulqki9mg1VgYGgircqGE+ny7H0vBu8m1nDk1Nyu69K7MWMYH0fWPr7ajEA==
   dependencies:
     "@stdlib/utils" "^0.0.12"
     lodash "^4.17.21"
-    uuid "^8.3.2"
+    uuid "^9.0.0"
 
 "@tryghost/http-stream@^0.1.12":
   version "0.1.12"
@@ -4332,6 +4332,11 @@ uuid@^8.3.2:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
+
+uuid@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-9.0.0.tgz#592f550650024a38ceb0c562f2f6aa435761efb5"
+  integrity sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==
 
 v8-compile-cache@^2.0.3:
   version "2.3.0"
