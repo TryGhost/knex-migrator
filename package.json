@@ -51,7 +51,7 @@
     "@tryghost/errors": "1.2.20",
     "@tryghost/logging": "2.3.6",
     "bluebird": "3.7.2",
-    "commander": "5.1.0",
+    "commander": "9.5.0",
     "compare-ver": "2.0.2",
     "debug": "4.3.4",
     "knex": "2.4.0",
