@@ -190,15 +190,15 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
-"@elastic/elasticsearch@8.5.0":
-  version "8.5.0"
-  resolved "https://registry.yarnpkg.com/@elastic/elasticsearch/-/elasticsearch-8.5.0.tgz#407aee0950a082ee76735a567f2571cf4301d4ea"
-  integrity sha512-iOgr/3zQi84WmPhAplnK2W13R89VXD2oc6WhlQmH3bARQwmI+De23ZJKBEn7bvuG/AHMAqasPXX7uJIiJa2MqQ==
+"@elastic/elasticsearch@8.6.0":
+  version "8.6.0"
+  resolved "https://registry.yarnpkg.com/@elastic/elasticsearch/-/elasticsearch-8.6.0.tgz#c474f49808deee64b5bc5b8f938bf78f4468cb94"
+  integrity sha512-mN5EbbgSp1rfRmQ/5Hv7jqAK8xhGJxCg7G84xje8hSefE59P+HPPCv/+DgesCUSJdZpwXIo0DwOWHfHvktxxLw==
   dependencies:
-    "@elastic/transport" "^8.2.0"
+    "@elastic/transport" "^8.3.1"
     tslib "^2.4.0"
 
-"@elastic/transport@^8.2.0":
+"@elastic/transport@^8.3.1":
   version "8.3.1"
   resolved "https://registry.yarnpkg.com/@elastic/transport/-/transport-8.3.1.tgz#e7569d7df35b03108ea7aa886113800245faa17f"
   integrity sha512-jv/Yp2VLvv5tSMEOF8iGrtL2YsYHbpf4s+nDsItxUTLFTzuJGpnsB/xBlfsoT2kAYEnWHiSJuqrbRcpXEI/SEQ==
@@ -701,12 +701,12 @@
     "@tryghost/root-utils" "^0.3.19"
     debug "^4.3.1"
 
-"@tryghost/elasticsearch@^3.0.8":
-  version "3.0.8"
-  resolved "https://registry.yarnpkg.com/@tryghost/elasticsearch/-/elasticsearch-3.0.8.tgz#cc39d7781140403c66b760233b87793a6cecb29a"
-  integrity sha512-CDLDsvwLMHVOorS19m2bUwSbHagDZR00Rc8x4yKhtpihetOXXdFbwRu/0eYjenTDZfd+94JeQAyoEwK9RsrHPg==
+"@tryghost/elasticsearch@^3.0.9":
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/@tryghost/elasticsearch/-/elasticsearch-3.0.9.tgz#e13db1f4b73c202389d4bd14ee5f20d8f5c6f6c1"
+  integrity sha512-b5qtQ7t976Y47G7yJShr5Rw/OPYdo1aQLzhb26VJXPQbF3ApadkuiFZP27YtApLm10MZzeTM/X+RLR0DSdvdtQ==
   dependencies:
-    "@elastic/elasticsearch" "8.5.0"
+    "@elastic/elasticsearch" "8.6.0"
     "@tryghost/debug" "^0.1.21"
     split2 "4.1.0"
 
@@ -719,22 +719,22 @@
     lodash "^4.17.21"
     uuid "^9.0.0"
 
-"@tryghost/http-stream@^0.1.16":
-  version "0.1.16"
-  resolved "https://registry.yarnpkg.com/@tryghost/http-stream/-/http-stream-0.1.16.tgz#4200cc785d39862f08b75d31b497d7f7af3a328e"
-  integrity sha512-/W60TawqGK2IN1tMCNH3V4SLMpMHeUMEyG7PQfZXpK2VZUXkD4Puyz/45C79J71uftSUlIDN7XtruBKxZRvB+w==
+"@tryghost/http-stream@^0.1.17":
+  version "0.1.17"
+  resolved "https://registry.yarnpkg.com/@tryghost/http-stream/-/http-stream-0.1.17.tgz#3241ff2e1a403c052a3096855fc89f4d21c90d97"
+  integrity sha512-tcl8aRO47avrjoMneIKTlEakqsTHA8pFn1WNVH5nYC4cbgvkv0jOv4UgZ4NpwI2dbaRscfrgfsuq5KV5ZuvSiw==
   dependencies:
     "@tryghost/errors" "^1.2.20"
-    "@tryghost/request" "^0.1.34"
+    "@tryghost/request" "^0.1.35"
 
-"@tryghost/logging@2.3.6":
-  version "2.3.6"
-  resolved "https://registry.yarnpkg.com/@tryghost/logging/-/logging-2.3.6.tgz#7faab8f43bf934e2276c16d8e9bec638e930a355"
-  integrity sha512-PkxFwwlOgvn6hkkANYj6E/NZa8bJ82CbeNdSYd87FjgMNSuLXUcQuQSRbs/89ZF20NO1P4PUQTSs6cPoZHP54Q==
+"@tryghost/logging@2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@tryghost/logging/-/logging-2.4.0.tgz#b6620ba3029b5d481d317a04eb5c578b0b13ae08"
+  integrity sha512-Q3y3gPHOGgijViCkuu2ARr4G++jnGDeafWD9JdPZO8CK6K3N20Dun3M7ujX3OY+u5UXhQTsMQw+nC5pjPRBRGg==
   dependencies:
     "@tryghost/bunyan-rotating-filestream" "^0.0.7"
-    "@tryghost/elasticsearch" "^3.0.8"
-    "@tryghost/http-stream" "^0.1.16"
+    "@tryghost/elasticsearch" "^3.0.9"
+    "@tryghost/http-stream" "^0.1.17"
     "@tryghost/pretty-stream" "^0.1.15"
     "@tryghost/root-utils" "^0.3.19"
     bunyan "^1.8.15"
@@ -753,10 +753,10 @@
     moment "^2.29.1"
     prettyjson "^1.2.5"
 
-"@tryghost/request@^0.1.34":
-  version "0.1.34"
-  resolved "https://registry.yarnpkg.com/@tryghost/request/-/request-0.1.34.tgz#0fdd1e8cf5745244446507319346ffcf5dfc243d"
-  integrity sha512-DLAXDBqTHqEgUbeXEJ3/u+iqZXJp1gdLKuH5Ti9B6WVVVcMGUZeU7/JQS5NuSeJ0mwB8a83F2DIFMkEmFAebQw==
+"@tryghost/request@^0.1.35":
+  version "0.1.35"
+  resolved "https://registry.yarnpkg.com/@tryghost/request/-/request-0.1.35.tgz#37d2091ef7e0b163d88ad36e00f141169f62f272"
+  integrity sha512-5++pw+E4CxdX1VdaM/xOuIv7WVHEr+Lr55zXCM9ijt4rKcQNVvSd8SQgE+mGVsWHiJnk5ZX2NnDNWpZTjzoZlg==
   dependencies:
     "@tryghost/errors" "^1.2.20"
     "@tryghost/validator" "^0.2.0"
