@@ -1598,11 +1598,6 @@ escape-string-regexp@1.0.5, escape-string-regexp@^1.0.5:
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
   integrity sha512-vbRorB5FUQWvla16U8R/qgaFIya2qGzwDrNmCZuYKrbdSUMG6I1ZCGQRefkRVhuOkIGVne7BQ35DSfo1qvJqFg==
 
-eslint-config-prettier@^8.5.0:
-  version "8.6.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.6.0.tgz#dec1d29ab728f4fa63061774e1672ac4e363d207"
-  integrity sha512-bAF0eLpLVqP5oEVUFKpMA+NnRFICwn9X8B5jrR9FcqnYBuPbqWEjTEspPWMj5ye6czoSLDweCzSo3Ko7gGrZaA==
-
 eslint-plugin-ember@^6.2.0:
   version "6.10.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-ember/-/eslint-plugin-ember-6.10.1.tgz#ca7a5cc28b91a247c31b1686421a66281467f238"
@@ -3111,13 +3106,12 @@ mv@~2:
     ncp "~2.0.0"
     rimraf "~2.4.0"
 
-mysql2@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/mysql2/-/mysql2-3.0.0.tgz#aa454d15404c721499e9eee89b62c8b3f5e51b45"
-  integrity sha512-/bWuj8j7bZOPyMPy5qra/44bIlYqE+o/qc80SIvKuvxYl/gSJpgqHVkvQziZvfy9o6i9l7mMQaVUNYXfnUtCOQ==
+mysql2@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/mysql2/-/mysql2-3.0.1.tgz#436db56e96d5b7fed350192387f54881658b8b44"
+  integrity sha512-Wrh5KuE0OOlm6wRwRhE2q+C8LjwwfT3sFKVauyTwMwPbOd2i0SzxMqTZPqs90ZNAEWjot5GFywje84qVn3ITYw==
   dependencies:
     denque "^2.1.0"
-    eslint-config-prettier "^8.5.0"
     generate-function "^2.3.1"
     iconv-lite "^0.6.3"
     long "^5.2.1"
