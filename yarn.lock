@@ -688,10 +688,10 @@
   dependencies:
     long-timeout "^0.1.1"
 
-"@tryghost/database-info@0.3.14":
-  version "0.3.14"
-  resolved "https://registry.yarnpkg.com/@tryghost/database-info/-/database-info-0.3.14.tgz#e9af86a68e3b782b9e31197ddc485774758f21d1"
-  integrity sha512-Y9JcXD9baxF+ZC4i1R2mtilMYurA3EV1q+IPpPvOF69/vR6jTxJ9xZKez+m5MVKBkppAHS55E4O1nFih1nRvvg==
+"@tryghost/database-info@0.3.15":
+  version "0.3.15"
+  resolved "https://registry.yarnpkg.com/@tryghost/database-info/-/database-info-0.3.15.tgz#add73e5acdae02fa0f9f9cb087c1dee39fdc7989"
+  integrity sha512-ZprwcnMiLW8UsRMK6JybUhcqp0nm0dvHfMgzeD8luDjU6MyTuhp7SVj7nywOtPOnoM9zYFeVsH6bx87s/aGuHg==
 
 "@tryghost/debug@^0.1.21":
   version "0.1.21"
@@ -710,19 +710,10 @@
     "@tryghost/debug" "^0.1.21"
     split2 "4.1.0"
 
-"@tryghost/errors@1.2.21":
+"@tryghost/errors@1.2.21", "@tryghost/errors@^1.2.20":
   version "1.2.21"
   resolved "https://registry.yarnpkg.com/@tryghost/errors/-/errors-1.2.21.tgz#27c57ccd27324dfc4ab1dc34f8618939fc494324"
   integrity sha512-TzV8wxDDFw2ZTI+zsFi0xggpKpc2ABqSzDp+t6dngcLuDs9erBdK5JJTV3wYBOBrJbbK6LzQlAsmH66vgO5HLQ==
-  dependencies:
-    "@stdlib/utils" "^0.0.12"
-    lodash "^4.17.21"
-    uuid "^9.0.0"
-
-"@tryghost/errors@^1.2.20":
-  version "1.2.20"
-  resolved "https://registry.yarnpkg.com/@tryghost/errors/-/errors-1.2.20.tgz#bd5c96bb815f7b49cacee1bd0ce235c3a5f25e82"
-  integrity sha512-9QGLj3jrslEo4BEByMn/vT65d4fUHSz22p0R5ixiYVtHsuXjdKJm0oDBt8wtKXxdgE/h3CCFI709TW6hLyk+7w==
   dependencies:
     "@stdlib/utils" "^0.0.12"
     lodash "^4.17.21"
