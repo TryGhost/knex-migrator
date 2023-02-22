@@ -710,19 +710,10 @@
     "@tryghost/debug" "^0.1.21"
     split2 "4.1.0"
 
-"@tryghost/errors@1.2.21":
+"@tryghost/errors@1.2.21", "@tryghost/errors@^1.2.20":
   version "1.2.21"
   resolved "https://registry.yarnpkg.com/@tryghost/errors/-/errors-1.2.21.tgz#27c57ccd27324dfc4ab1dc34f8618939fc494324"
   integrity sha512-TzV8wxDDFw2ZTI+zsFi0xggpKpc2ABqSzDp+t6dngcLuDs9erBdK5JJTV3wYBOBrJbbK6LzQlAsmH66vgO5HLQ==
-  dependencies:
-    "@stdlib/utils" "^0.0.12"
-    lodash "^4.17.21"
-    uuid "^9.0.0"
-
-"@tryghost/errors@^1.2.20":
-  version "1.2.20"
-  resolved "https://registry.yarnpkg.com/@tryghost/errors/-/errors-1.2.20.tgz#bd5c96bb815f7b49cacee1bd0ce235c3a5f25e82"
-  integrity sha512-9QGLj3jrslEo4BEByMn/vT65d4fUHSz22p0R5ixiYVtHsuXjdKJm0oDBt8wtKXxdgE/h3CCFI709TW6hLyk+7w==
   dependencies:
     "@stdlib/utils" "^0.0.12"
     lodash "^4.17.21"
@@ -3115,10 +3106,10 @@ mv@~2:
     ncp "~2.0.0"
     rimraf "~2.4.0"
 
-mysql2@3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/mysql2/-/mysql2-3.0.1.tgz#436db56e96d5b7fed350192387f54881658b8b44"
-  integrity sha512-Wrh5KuE0OOlm6wRwRhE2q+C8LjwwfT3sFKVauyTwMwPbOd2i0SzxMqTZPqs90ZNAEWjot5GFywje84qVn3ITYw==
+mysql2@3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/mysql2/-/mysql2-3.1.2.tgz#024a8bf7c84a300a8ed5c8e39b20ba57e47a2e24"
+  integrity sha512-NXz6sUvHSEOKz1jv3koSga7eb2dHrwD/mnPmqbbZzMRvjQcSpb0Eh0ectWyYt1U60CLlEbjoA3XYjjbbReRF5Q==
   dependencies:
     denque "^2.1.0"
     generate-function "^2.3.1"
