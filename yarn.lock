@@ -711,10 +711,10 @@
     "@tryghost/debug" "^0.1.23"
     split2 "4.1.0"
 
-"@tryghost/errors@1.2.22", "@tryghost/errors@^1.2.22":
-  version "1.2.22"
-  resolved "https://registry.yarnpkg.com/@tryghost/errors/-/errors-1.2.22.tgz#951aee3632e8e819f90c04b86e2c443f7ef3855a"
-  integrity sha512-/DsrjIUvXEP2G4/vBUGPifp7D5EBqlE2N955ZGuM1iDLy6wqyA+IKy41huMuTZsZRMSUKeRL37L1OR6axMV3zw==
+"@tryghost/errors@1.2.23", "@tryghost/errors@^1.2.22":
+  version "1.2.23"
+  resolved "https://registry.yarnpkg.com/@tryghost/errors/-/errors-1.2.23.tgz#d39232c237377f6ea235d20616de91d32e4d3f65"
+  integrity sha512-qst9/++FDK+CZOC1EYbFo0rsvuZ25tkO2lFdjlIsCemIOPEo9SL4XLMpmDbBxslJoPF+Yp0gTpdjlbShYnyauA==
   dependencies:
     "@stdlib/utils" "^0.0.12"
     lodash "^4.17.21"
