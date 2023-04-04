@@ -689,10 +689,10 @@
   dependencies:
     long-timeout "^0.1.1"
 
-"@tryghost/database-info@0.3.15":
-  version "0.3.15"
-  resolved "https://registry.yarnpkg.com/@tryghost/database-info/-/database-info-0.3.15.tgz#add73e5acdae02fa0f9f9cb087c1dee39fdc7989"
-  integrity sha512-ZprwcnMiLW8UsRMK6JybUhcqp0nm0dvHfMgzeD8luDjU6MyTuhp7SVj7nywOtPOnoM9zYFeVsH6bx87s/aGuHg==
+"@tryghost/database-info@0.3.17":
+  version "0.3.17"
+  resolved "https://registry.yarnpkg.com/@tryghost/database-info/-/database-info-0.3.17.tgz#e7344d9f9675dfc572a71eeace97ea0527a4a7c5"
+  integrity sha512-9wFXQVsOlLlq+6lMx2P165mCjIT/4qjDqoeAt6ct5Uag6Yjy5TRqrtqMJ09Lo3XjIUCs5vERPZPTxtCNJQCGwQ==
 
 "@tryghost/debug@^0.1.24":
   version "0.1.24"
