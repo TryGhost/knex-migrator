@@ -694,24 +694,24 @@
   resolved "https://registry.yarnpkg.com/@tryghost/database-info/-/database-info-0.3.15.tgz#add73e5acdae02fa0f9f9cb087c1dee39fdc7989"
   integrity sha512-ZprwcnMiLW8UsRMK6JybUhcqp0nm0dvHfMgzeD8luDjU6MyTuhp7SVj7nywOtPOnoM9zYFeVsH6bx87s/aGuHg==
 
-"@tryghost/debug@^0.1.23":
-  version "0.1.23"
-  resolved "https://registry.yarnpkg.com/@tryghost/debug/-/debug-0.1.23.tgz#12894e647572e8e1ea2d5576729363bc1da0bd2e"
-  integrity sha512-nKh72ZJRjoRmbvsx/Ho+hqVM0xPKcysOLo5gZ3VIqJOeo/gfUn8cMJKAEuIBsxfkOBufQyHuBm4yO+1aK/zghQ==
+"@tryghost/debug@^0.1.24":
+  version "0.1.24"
+  resolved "https://registry.yarnpkg.com/@tryghost/debug/-/debug-0.1.24.tgz#90ea467ab7bca847b89df642b0cbdfc5a8f15df6"
+  integrity sha512-jL3QH6/FAKGw3ZRw57fzknaHdiStomJl5oF+2smQdXZz30xcV9Sj841CD6pUprQ3Vsjub8FjupOFL6IQsuqLrg==
   dependencies:
-    "@tryghost/root-utils" "^0.3.21"
+    "@tryghost/root-utils" "^0.3.22"
     debug "^4.3.1"
 
-"@tryghost/elasticsearch@^3.0.11":
-  version "3.0.11"
-  resolved "https://registry.yarnpkg.com/@tryghost/elasticsearch/-/elasticsearch-3.0.11.tgz#a42bc3ffd758efb6efb4a4de3b02a85081b0aa15"
-  integrity sha512-6wcQCLhnvMFfuKwYWD4W9o00m6gb0D4CVFA6E7ThRE0r+2TkpzMj2C0rXG1pAgqwyO3UXlzHjeTcM3tF5AIOFw==
+"@tryghost/elasticsearch@^3.0.12":
+  version "3.0.12"
+  resolved "https://registry.yarnpkg.com/@tryghost/elasticsearch/-/elasticsearch-3.0.12.tgz#ea0b07976dcb1013d4d2960aa4178e61e9c7c051"
+  integrity sha512-EJqXN1J6/W8NtgubwyOsAi+SPYxc/+BQJS5yO3Yyic2A+nHw5JGOl4k2juutpQGM/hPbgBmQ6LIYtPoFsbAEtA==
   dependencies:
     "@elastic/elasticsearch" "8.6.0"
-    "@tryghost/debug" "^0.1.23"
-    split2 "4.1.0"
+    "@tryghost/debug" "^0.1.24"
+    split2 "4.2.0"
 
-"@tryghost/errors@1.2.23", "@tryghost/errors@^1.2.22":
+"@tryghost/errors@1.2.23", "@tryghost/errors@^1.2.23":
   version "1.2.23"
   resolved "https://registry.yarnpkg.com/@tryghost/errors/-/errors-1.2.23.tgz#d39232c237377f6ea235d20616de91d32e4d3f65"
   integrity sha512-qst9/++FDK+CZOC1EYbFo0rsvuZ25tkO2lFdjlIsCemIOPEo9SL4XLMpmDbBxslJoPF+Yp0gTpdjlbShYnyauA==
@@ -720,24 +720,24 @@
     lodash "^4.17.21"
     uuid "^9.0.0"
 
-"@tryghost/http-stream@^0.1.19":
-  version "0.1.19"
-  resolved "https://registry.yarnpkg.com/@tryghost/http-stream/-/http-stream-0.1.19.tgz#5b33248c8d8d8101bb995a326ca464fee77469f9"
-  integrity sha512-tkiHnkGBG8Ii6A+T8hjgKyDKz9X2Iih8Apv58xOee7p4tuhQO1FkxXsRdkj9gqE+ymH/OoIwsjSEiINrgquvDA==
+"@tryghost/http-stream@^0.1.20":
+  version "0.1.20"
+  resolved "https://registry.yarnpkg.com/@tryghost/http-stream/-/http-stream-0.1.20.tgz#e38d5a185654b8f8611ebc5d28a17e655546abcd"
+  integrity sha512-roo/5fbOzyZQAJdooaiN6pNy5FhqCZQE1OuaOj0oIM+TujqtjrpWPqP1KJW87ceokkVURSWxsBayHBPj9SINjw==
   dependencies:
-    "@tryghost/errors" "^1.2.22"
-    "@tryghost/request" "^0.1.37"
+    "@tryghost/errors" "^1.2.23"
+    "@tryghost/request" "^0.1.38"
 
-"@tryghost/logging@2.4.2":
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/@tryghost/logging/-/logging-2.4.2.tgz#e9ae66de2143810625a7b6580e2901d6535cccbf"
-  integrity sha512-GUesBW6aH3lkTNk54Uww0FJ9FseUD3dLl0hJr9q0LuIqBWDIXyDvCHC6UVXwG8A7rePCTIpKUloE/Km4fTHfZg==
+"@tryghost/logging@2.4.3":
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/@tryghost/logging/-/logging-2.4.3.tgz#47b4329404cfbc5d2dbfd007a51fab561e7a0d30"
+  integrity sha512-nZQaZzbhLD/pxdHQn+FH/eGajjIvOLLhMmqXyZKzYwv51mHH3OQHN0xOGokEXxrkcVvfJSh5VfggmzxGqL85MA==
   dependencies:
     "@tryghost/bunyan-rotating-filestream" "^0.0.7"
-    "@tryghost/elasticsearch" "^3.0.11"
-    "@tryghost/http-stream" "^0.1.19"
-    "@tryghost/pretty-stream" "^0.1.17"
-    "@tryghost/root-utils" "^0.3.21"
+    "@tryghost/elasticsearch" "^3.0.12"
+    "@tryghost/http-stream" "^0.1.20"
+    "@tryghost/pretty-stream" "^0.1.18"
+    "@tryghost/root-utils" "^0.3.22"
     bunyan "^1.8.15"
     bunyan-loggly "^1.4.2"
     fs-extra "^10.0.0"
@@ -745,58 +745,58 @@
     json-stringify-safe "^5.0.1"
     lodash "^4.17.21"
 
-"@tryghost/pretty-stream@^0.1.17":
-  version "0.1.17"
-  resolved "https://registry.yarnpkg.com/@tryghost/pretty-stream/-/pretty-stream-0.1.17.tgz#8ed3edd7d59c1caab1d4b5dbe28d2d8356a91679"
-  integrity sha512-CLgEASOyPzryms/dFiaRUuVSlGhvAriIbn0ZigmcGMR3DCm/yT8Gmq4G/U2S/pfH0eEgdOdWyriYDGMfn5R5Ng==
+"@tryghost/pretty-stream@^0.1.18":
+  version "0.1.18"
+  resolved "https://registry.yarnpkg.com/@tryghost/pretty-stream/-/pretty-stream-0.1.18.tgz#9afa16c030e526385ef11cf2b941eeb97ae47d89"
+  integrity sha512-oho+xzbnaAFFv/2tH17r6XbzLhPKJhlt/V788BlzYoYUTLa8Tr0gf78hFkepd+/ft/KKiYwRWl4fwDQnB1niww==
   dependencies:
     lodash "^4.17.21"
     moment "^2.29.1"
     prettyjson "^1.2.5"
 
-"@tryghost/request@^0.1.37":
-  version "0.1.37"
-  resolved "https://registry.yarnpkg.com/@tryghost/request/-/request-0.1.37.tgz#c1fa04cc51b36aa25ada0db94a8e0f2666dcc12a"
-  integrity sha512-EtNir45HtTbFapb7vbsk/lxSh8jwwn8F2EbdHLuIQPBVQV+8GQR4tlP6GGWUgLBw06emb+Up6mtgHcSUTNEH4A==
+"@tryghost/request@^0.1.38":
+  version "0.1.38"
+  resolved "https://registry.yarnpkg.com/@tryghost/request/-/request-0.1.38.tgz#f28cff3209116a952ed48d9e4e924b30f2cd0afd"
+  integrity sha512-wmseHDbXsjsD2Bc5sSw+7TzS8y1p5bnfwX5dBBZqevHbgdGLQJO2DIbJqnTtRG34iNJAKLg03V6nf7ROmvIDdQ==
   dependencies:
-    "@tryghost/errors" "^1.2.22"
-    "@tryghost/validator" "^0.2.2"
-    "@tryghost/version" "^0.1.21"
+    "@tryghost/errors" "^1.2.23"
+    "@tryghost/validator" "^0.2.3"
+    "@tryghost/version" "^0.1.22"
     got "9.6.0"
     lodash "^4.17.21"
 
-"@tryghost/root-utils@^0.3.21":
-  version "0.3.21"
-  resolved "https://registry.yarnpkg.com/@tryghost/root-utils/-/root-utils-0.3.21.tgz#11691e10f3b83f5a3b0ff1ce290ca4d85cb3709c"
-  integrity sha512-JnNKipYhmlMKgD07HO+1doCiqY/TQxi+7QJE6mA69r6aZ8NgGQkJP6QDlg5D/g9K7xYzP0E6dFD7sBXVemWLlQ==
+"@tryghost/root-utils@^0.3.22":
+  version "0.3.22"
+  resolved "https://registry.yarnpkg.com/@tryghost/root-utils/-/root-utils-0.3.22.tgz#23793e467afb41b27f4e289a3618d71bd90bc575"
+  integrity sha512-vA9zdwlS3nPISTptr94/9psgxcISZ0tB8SoT4HxtPif2wjYgfvSDPJCBaVh1TKXhFZAxcwQSedQElK2XoIs83g==
   dependencies:
     caller "^1.0.1"
     find-root "^1.1.0"
 
-"@tryghost/tpl@^0.1.23":
-  version "0.1.23"
-  resolved "https://registry.yarnpkg.com/@tryghost/tpl/-/tpl-0.1.23.tgz#fc9af14d2947c89c8547e7880700e0e4aa5b6917"
-  integrity sha512-UhM4p/7+LgCXm5zHFifQrWtemdqzKPXph/i6I/nJ2z4V5x3buzGzX86BmrejUu/A7tT3XYSWi5A12tLeqqc3DQ==
+"@tryghost/tpl@^0.1.24":
+  version "0.1.24"
+  resolved "https://registry.yarnpkg.com/@tryghost/tpl/-/tpl-0.1.24.tgz#fcf585be02531baf651f2f7605466a3df744d0bc"
+  integrity sha512-8DkKSCUuoGmagQ+LeiICt7mTC12HJdBIBhgK/zmOE/QKdl95G0y1mZuyc7dRaUyoXAwTj5EF+MR8gWOtuLdAEw==
   dependencies:
     lodash.template "^4.5.0"
 
-"@tryghost/validator@^0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@tryghost/validator/-/validator-0.2.2.tgz#99d120b092cb8dd3945f4adca44b13d670480a03"
-  integrity sha512-VXQjF6GAorWk4aC2HnoMGKRp4LzsJVcGXycjn4y2Tc0o4qiv+42E1lBL+WwhNpX1fv9j5iWR3dMD9BuQ3QpXdw==
+"@tryghost/validator@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@tryghost/validator/-/validator-0.2.3.tgz#a76ab3c3fea73d999d15771a8347700fda897cb8"
+  integrity sha512-vIAPlJBfmTLeJNUyIQiyiMzuRq2nGOEM0w0k/Dy0Hz04j3RgOcPjZAuHdWLZhDSdoEdXw+/rmZJCg4TTO+dpzw==
   dependencies:
-    "@tryghost/errors" "^1.2.22"
-    "@tryghost/tpl" "^0.1.23"
+    "@tryghost/errors" "^1.2.23"
+    "@tryghost/tpl" "^0.1.24"
     lodash "^4.17.21"
     moment-timezone "^0.5.23"
     validator "7.2.0"
 
-"@tryghost/version@^0.1.21":
-  version "0.1.21"
-  resolved "https://registry.yarnpkg.com/@tryghost/version/-/version-0.1.21.tgz#d2a9fb959a1173075a45cdaf03c1020f47bb4932"
-  integrity sha512-vd6E6N6RkFlCy/FavFBd8stwUKF74Rhm8AumpO1kR2IRnS5S2HqgT4znXJ/jBT0FlfGUSQtO8peeFHhDgOd/zQ==
+"@tryghost/version@^0.1.22":
+  version "0.1.22"
+  resolved "https://registry.yarnpkg.com/@tryghost/version/-/version-0.1.22.tgz#e2a9f6eec4f9f8945094d3bd7c0757438f4e0622"
+  integrity sha512-LpOglcRlwE9auw+OIIN32DWMc2Xr4I57SzIxfXm+AEZWz/lSrBN/3UCb1CyLAWptdEoKKszX7VVa7gZO66A5wg==
   dependencies:
-    "@tryghost/root-utils" "^0.3.21"
+    "@tryghost/root-utils" "^0.3.22"
     semver "^7.3.5"
 
 abbrev@1:
@@ -4045,10 +4045,10 @@ spawn-wrap@^2.0.0:
     signal-exit "^3.0.2"
     which "^2.0.1"
 
-split2@4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/split2/-/split2-4.1.0.tgz#101907a24370f85bb782f08adaabe4e281ecf809"
-  integrity sha512-VBiJxFkxiXRlUIeyMQi8s4hgvKCSjtknJv/LVYbrgALPwf5zSKmEwV9Lst25AkvMDnvxODugjdl6KZgwKM1WYQ==
+split2@4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/split2/-/split2-4.2.0.tgz#c9c5920904d148bab0b9f67145f245a86aadbfa4"
+  integrity sha512-UcjcJOWknrNkF6PLX83qcHM6KHgVKNkV62Y8a5uYDVv9ydGQVwAHMKqHdJje1VTWpljG0WYpCDhrCdAOYH4TWg==
 
 sprintf-js@~1.0.2:
   version "1.0.3"
