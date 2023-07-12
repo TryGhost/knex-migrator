@@ -435,7 +435,6 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                 });
 
                 let jsFile2 = '' +
-                    'var Promise = require("bluebird");' +
                     'module.exports.up = function scriptWillThrowError(options) {' +
                     'return Promise.reject(new Error("unexpected error"));' +
                     '};';
