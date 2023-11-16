@@ -1277,10 +1277,10 @@
   dependencies:
     long-timeout "^0.1.1"
 
-"@tryghost/database-info@0.3.17":
-  version "0.3.17"
-  resolved "https://registry.yarnpkg.com/@tryghost/database-info/-/database-info-0.3.17.tgz#e7344d9f9675dfc572a71eeace97ea0527a4a7c5"
-  integrity sha512-9wFXQVsOlLlq+6lMx2P165mCjIT/4qjDqoeAt6ct5Uag6Yjy5TRqrtqMJ09Lo3XjIUCs5vERPZPTxtCNJQCGwQ==
+"@tryghost/database-info@0.3.21":
+  version "0.3.21"
+  resolved "https://registry.yarnpkg.com/@tryghost/database-info/-/database-info-0.3.21.tgz#19343a7b193c744dce6e7d1d3bcb5fbcf5f1064f"
+  integrity sha512-7VKjozKwJAQLkNoz68wZ1pmBI0E8zv1wDak16CiMMy/EKA0Akw+WxOhoOfeB5BurMZTrSWfSdsm+umGniaR24w==
 
 "@tryghost/debug@^0.1.26":
   version "0.1.26"
