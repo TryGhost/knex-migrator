@@ -47,9 +47,9 @@
     "node": "^14.18.0 || ^16.13.0 || ^18.12.1"
   },
   "dependencies": {
-    "@tryghost/database-info": "0.3.17",
-    "@tryghost/errors": "1.2.25",
-    "@tryghost/logging": "2.4.5",
+    "@tryghost/database-info": "0.3.21",
+    "@tryghost/errors": "1.2.27",
+    "@tryghost/logging": "2.4.9",
     "@tryghost/promise": "0.3.4",
     "commander": "5.1.0",
     "compare-ver": "2.0.2",
@@ -58,8 +58,8 @@
     "lodash": "4.17.21",
     "moment": "2.24.0",
     "mysql2": "3.2.0",
-    "nconf": "0.12.0",
-    "resolve": "1.22.3"
+    "nconf": "0.12.1",
+    "resolve": "1.22.8"
   },
   "files": [
     "bin",
