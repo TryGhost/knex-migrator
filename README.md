@@ -126,7 +126,6 @@ module.exports.config = {
 
 ### Examples
 ```
-const Promise = require('bluebird');
 
 module.exports.up = function(options) {
   const connection = options.connection;
@@ -146,7 +145,6 @@ module.exports.down = function(options) {
 ```
 
 ```
-const Promise = require('bluebird');
 
 module.exports.config = {
   transaction: true

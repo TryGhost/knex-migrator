@@ -50,7 +50,7 @@
     "@tryghost/database-info": "0.3.21",
     "@tryghost/errors": "1.2.27",
     "@tryghost/logging": "2.4.9",
-    "bluebird": "3.7.2",
+    "@tryghost/promise": "0.3.4",
     "commander": "5.1.0",
     "compare-ver": "2.0.2",
     "debug": "4.3.4",
