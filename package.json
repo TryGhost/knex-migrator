@@ -51,7 +51,7 @@
     "@tryghost/errors": "1.2.27",
     "@tryghost/logging": "2.4.9",
     "@tryghost/promise": "0.3.4",
-    "commander": "5.1.0",
+    "commander": "11.1.0",
     "compare-ver": "2.0.2",
     "debug": "4.3.4",
     "knex": "2.4.2",
