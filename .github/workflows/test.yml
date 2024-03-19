@@ -23,7 +23,7 @@ jobs:
       database__connection__password: root
     name: Node ${{ matrix.node }} - ${{ matrix.env.DB }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
