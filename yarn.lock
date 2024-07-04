@@ -1229,10 +1229,10 @@
     moment "^2.29.1"
     prettyjson "^1.2.5"
 
-"@tryghost/promise@0.3.8":
-  version "0.3.8"
-  resolved "https://registry.yarnpkg.com/@tryghost/promise/-/promise-0.3.8.tgz#3134a044e187f6d61393267c680c6cc75235aa96"
-  integrity sha512-ppcnLBWczpbo4sQcGWtjEA82kdZMv4NFF2MvZRi1MBP4lSOSgh9A636eUxlB1/FpIG+D5ixq84xlY4QJMqW2kA==
+"@tryghost/promise@0.3.12":
+  version "0.3.12"
+  resolved "https://registry.yarnpkg.com/@tryghost/promise/-/promise-0.3.12.tgz#90aff21f256767f1d1c06f358f5cf4012552cb34"
+  integrity sha512-0nktnEMM0sSKHYUb+QeVhQau1ziKWmgaqdffhomIItw5UQEnArEvwVCPH0qh+L7xGsrphf6SHSiMibNCtJIvvA==
 
 "@tryghost/request@^1.0.8":
   version "1.0.8"
