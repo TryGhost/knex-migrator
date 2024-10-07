@@ -54,7 +54,7 @@
     "commander": "5.1.0",
     "compare-ver": "2.0.2",
     "debug": "4.3.7",
-    "knex": "2.4.2",
+    "knex": "2.5.1",
     "lodash": "4.17.21",
     "moment": "2.24.0",
     "mysql2": "3.11.3",
