@@ -32,7 +32,7 @@ jobs:
         run: sudo service mysql stop
         if: matrix.env.DB == 'mysql8'
 
-      - uses: daniellockyer/mysql-action@main
+      - uses: tryghost/mysql-action@main
         if: matrix.env.DB == 'mysql8'
         with:
           mysql version: '8.0'
