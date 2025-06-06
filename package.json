@@ -65,7 +65,7 @@
     "bin",
     "lib",
     "migrations",
-    "logging.js"
+    "loggingrc.js"
   ],
   "devDependencies": {
     "eslint": "6.8.0",
