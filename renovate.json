@@ -1,8 +1,0 @@
-{
-  "extends": [
-    "@tryghost:quietJS",
-    "@tryghost:groupTestLint",
-    "@tryghost:groupCSS",
-    "@tryghost:groupBuildTools"
-  ]
-}
