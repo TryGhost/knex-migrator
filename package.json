@@ -53,7 +53,7 @@
     "@tryghost/promise": "0.3.8",
     "commander": "5.1.0",
     "compare-ver": "2.0.2",
-    "debug": "4.3.7",
+    "debug": "4.4.1",
     "knex": "2.4.2",
     "lodash": "4.17.21",
     "moment": "2.24.0",
