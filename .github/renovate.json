@@ -1,5 +1,5 @@
 {
   "extends": [
-    "github>tryghost/renovate-config:quiet"
+    "github>tryghost/renovate-config"
   ]
 }
