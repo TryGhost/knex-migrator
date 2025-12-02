@@ -28,12 +28,12 @@ exports.generateMigrationScript = function (options) {
         down = options.down;
 
     let script = 'module.exports.up = function something(options) {' +
-        'return options.connection.raw(\'' + up + '\');' +
+        'return options.connection.raw(`' + up + '`);' +
         '};';
 
     if (options.down) {
         script += 'module.exports.down = function something(options) {' +
-            'return options.connection.raw(\'' + down + '\');' +
+            'return options.connection.raw(`' + down + '`);' +
             '};';
     }
 

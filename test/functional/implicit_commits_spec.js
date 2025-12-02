@@ -100,8 +100,11 @@ describe('Implicit Commits', function () {
                     })
                     .catch(function (err) {
                         // table not found
+                        // errno 1146 = mysql, errno 1 = sqlite3, code SQLITE_ERROR = better-sqlite3
                         if (['mysql', 'mysql2'].includes(config.get('database:client'))) {
                             err.errno.should.eql(1146);
+                        } else if (err.code === 'SQLITE_ERROR') {
+                            err.code.should.eql('SQLITE_ERROR');
                         } else {
                             err.errno.should.eql(1);
                         }
@@ -204,8 +207,11 @@ describe('Implicit Commits', function () {
                     })
                     .catch(function (err) {
                         // table not found
+                        // errno 1146 = mysql, errno 1 = sqlite3, code SQLITE_ERROR = better-sqlite3
                         if (['mysql', 'mysql2'].includes(config.get('database:client'))) {
                             err.errno.should.eql(1146);
+                        } else if (err.code === 'SQLITE_ERROR') {
+                            err.code.should.eql('SQLITE_ERROR');
                         } else {
                             err.errno.should.eql(1);
                         }

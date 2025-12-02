@@ -259,13 +259,13 @@ _.each(['default', 'migrateInit'], function (initMethod) {
             fs.mkdirSync(migrationsv12);
 
             let jsFile = testUtils.generateMigrationScript({
-                up: 'UPDATE users set name="Hausmann";',
-                down: 'UPDATE users set name="LULULU";'
+                up: `UPDATE users set name='Hausmann';`,
+                down: `UPDATE users set name='LULULU';`
             });
 
             let jsFile1 = testUtils.generateMigrationScript({
-                up: 'UPDATE users set name="Kind";',
-                down: 'UPDATE users set name="Hausmann";'
+                up: `UPDATE users set name='Kind';`,
+                down: `UPDATE users set name='Hausmann';`
             });
 
             fs.writeFileSync(migrationsv11File, jsFile);
@@ -372,8 +372,8 @@ _.each(['default', 'migrateInit'], function (initMethod) {
             fs.mkdirSync(migrationsv13);
 
             let jsFile = testUtils.generateMigrationScript({
-                up: 'DELETE FROM users where name="Kind";',
-                down: 'INSERT INTO users (name) VALUES ("Kind");'
+                up: `DELETE FROM users where name='Kind';`,
+                down: `INSERT INTO users (name) VALUES ('Kind');`
             });
 
             fs.writeFileSync(migrationsv13File, jsFile);
