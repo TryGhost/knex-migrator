@@ -15,6 +15,8 @@ jobs:
         env:
           - DB: sqlite3
             NODE_ENV: testing
+          - DB: better-sqlite3
+            NODE_ENV: testing-better-sqlite3
           - DB: mysql8
             NODE_ENV: testing-mysql
     env:
