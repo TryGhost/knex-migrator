@@ -29,8 +29,16 @@ jobs:
         env:
           - DB: sqlite3
             NODE_ENV: testing
+          - DB: better-sqlite3
+            NODE_ENV: testing-better-sqlite3
           - DB: mysql8
             NODE_ENV: testing-mysql
+        exclude:
+          # better-sqlite3 requires Node 20.x or later
+          - node: '18.12.1'
+            env:
+              DB: better-sqlite3
+              NODE_ENV: testing-better-sqlite3
     env:
       DB: ${{ matrix.env.DB }}
       NODE_ENV: ${{ matrix.env.NODE_ENV }}

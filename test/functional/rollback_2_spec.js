@@ -93,8 +93,8 @@ describe('knex-migrator rollback (force)', function () {
         fs.mkdirSync(migration121);
 
         let jsFile = testUtils.generateMigrationScript({
-            up: 'UPDATE users set name="Kind";',
-            down: 'UPDATE users set name="Hausmann";'
+            up: `UPDATE users set name='Kind';`,
+            down: `UPDATE users set name='Hausmann';`
         });
 
         fs.writeFileSync(migration121File, jsFile);
