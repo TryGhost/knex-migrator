@@ -25,7 +25,7 @@ jobs:
           --health-retries=12
     strategy:
       matrix:
-        node: [ '18.12.1', '20.11.1', '22.13.1', '24.14.0' ]
+        node: [ '18.12.1', '20.11.1', '22.13.1', '24.14.1' ]
         env:
           - DB: sqlite3
             NODE_ENV: testing
