@@ -4304,10 +4304,10 @@ mv@~2:
     ncp "~2.0.0"
     rimraf "~2.4.0"
 
-mysql2@3.21.0:
-  version "3.21.0"
-  resolved "https://registry.yarnpkg.com/mysql2/-/mysql2-3.21.0.tgz#f553764fe362d97fd10a4b591ec0e2ce0ecefc85"
-  integrity sha512-CYNKIuhnalXHTa4gonZ+KhzLESKllvo1qQIDYUVuatpN4NgMk+lsA3WwHYno5AS4PACUiD2qEmiVD9pr3bXWOw==
+mysql2@3.21.1:
+  version "3.21.1"
+  resolved "https://registry.yarnpkg.com/mysql2/-/mysql2-3.21.1.tgz#a056a11d4c8c665c57a7acd227f35448a84ef026"
+  integrity sha512-vywGTUeqMwPQHJCWTWmmdIpcLfhU0UWIhOYbSWehqL+0Y/NTPGViM0wDtIgLuzqm5RqSygXKLJnxFGhQkhM1wg==
   dependencies:
     aws-ssl-profiles "^1.1.2"
     denque "^2.1.0"
