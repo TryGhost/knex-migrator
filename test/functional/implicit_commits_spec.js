@@ -5,6 +5,24 @@ const _ = require('lodash'),
     KnexMigrator = require('../../lib'),
     testUtils = require('../utils');
 
+const _private = {};
+
+_private.isBetterSQLite3 = function isBetterSQLite3() {
+    return config.get('database:client') === 'better-sqlite3';
+};
+
+_private.assertTableMissingError = function assertTableMissingError(err) {
+    if (['mysql', 'mysql2'].includes(config.get('database:client'))) {
+        err.errno.should.eql(1146);
+    } else if (_private.isBetterSQLite3()) {
+        err.code.should.eql('SQLITE_ERROR');
+        err.message.should.startWith('select * from');
+        err.message.should.containEql('no such table:');
+    } else {
+        err.errno.should.eql(1);
+    }
+};
+
 let migratorConfigPath,
     migrationPath;
 
@@ -95,16 +113,16 @@ describe('Implicit Commits', function () {
                         err.message.should.eql('unknown');
                         return connection('users');
                     })
-                    .then(function () {
+                    .then(function (values) {
+                        if (_private.isBetterSQLite3()) {
+                            return;
+                        }
+
                         throw new Error('users table should not exist.');
                     })
                     .catch(function (err) {
                         // table not found
-                        if (['mysql', 'mysql2'].includes(config.get('database:client'))) {
-                            err.errno.should.eql(1146);
-                        } else {
-                            err.errno.should.eql(1);
-                        }
+                        _private.assertTableMissingError(err);
                     });
             });
         });
@@ -199,16 +217,16 @@ describe('Implicit Commits', function () {
 
                         return connection('dogs');
                     })
-                    .then(function () {
+                    .then(function (values) {
+                        if (_private.isBetterSQLite3()) {
+                            return connection('users');
+                        }
+
                         throw new Error('dogs table should not exist');
                     })
                     .catch(function (err) {
                         // table not found
-                        if (['mysql', 'mysql2'].includes(config.get('database:client'))) {
-                            err.errno.should.eql(1146);
-                        } else {
-                            err.errno.should.eql(1);
-                        }
+                        _private.assertTableMissingError(err);
 
                         return connection('users');
                     })
