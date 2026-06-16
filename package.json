@@ -77,7 +77,7 @@
     "sinon": "22.0.0"
   },
   "optionalDependencies": {
-    "better-sqlite3": "12.10.0",
+    "better-sqlite3": "12.10.1",
     "sqlite3": "5.1.7"
   }
 }
