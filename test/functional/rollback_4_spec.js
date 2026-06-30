@@ -8,8 +8,6 @@ const _ = require('lodash'),
     testUtils = require('../utils');
 
 describe('knex-migrator rollback (to specific version)', function () {
-    this.timeout(1000 * 10);
-
     let knexMigrator,
         migrationPath = path.join(__dirname, '..', 'assets', 'migrations_6'),
         migratorConfigPath = path.join(__dirname, '..', 'assets', 'MigratorConfig.js'),
@@ -41,8 +39,10 @@ describe('knex-migrator rollback (to specific version)', function () {
         connection = testUtils.connect();
     });
 
-    after(function (done) {
-        connection && connection.destroy(done);
+    after(async function () {
+        if (connection) {
+            await connection.destroy();
+        }
 
         if (fs.existsSync(versionsFolder)) {
             rimraf.sync(versionsFolder);

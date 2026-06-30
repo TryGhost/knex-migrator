@@ -57,10 +57,9 @@ describe('Utils', function () {
     });
 
     describe('getKnexMigrator', function () {
-        it('resolves with path to installation of knex-migrator', function (done) {
-            utils.getKnexMigrator({ path: process.cwd() }).then((constructor) => {
+        it('resolves with path to installation of knex-migrator', function () {
+            return utils.getKnexMigrator({ path: process.cwd() }).then((constructor) => {
                 constructor.name.should.eql('KnexMigrator');
-                done();
             });
         });
     });

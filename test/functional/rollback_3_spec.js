@@ -6,8 +6,6 @@ const _ = require('lodash'),
     testUtils = require('../utils');
 
 describe('knex-migrator rollback (on init, auto-rollback)', function () {
-    this.timeout(1000 * 10);
-
     let knexMigrator,
         migrationPath = path.join(__dirname, '..', 'assets', 'migrations_7'),
         migratorConfigPath = path.join(__dirname, '..', 'assets', 'MigratorConfig.js'),
@@ -33,8 +31,10 @@ describe('knex-migrator rollback (on init, auto-rollback)', function () {
         connection = testUtils.connect();
     });
 
-    after(function (done) {
-        connection && connection.destroy(done);
+    after(async function () {
+        if (connection) {
+            await connection.destroy();
+        }
 
         if (fs.existsSync(migratorConfigPath)) {
             fs.unlinkSync(migratorConfigPath);
