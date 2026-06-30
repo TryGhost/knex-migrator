@@ -28,8 +28,6 @@ let migratorConfigPath, migrationPath;
 let knexMigrator, connection;
 
 describe('Implicit Commits', function () {
-    this.timeout(1000 * 10);
-
     describe('knex-migrator init', function () {
         describe('fail #1', function () {
             before(function () {

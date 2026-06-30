@@ -20,7 +20,7 @@ pnpm install --frozen-lockfile
 ## Validation Commands
 
 - `pnpm lint` runs oxlint and oxfmt checks.
-- `pnpm test` runs the full Mocha suite, then `posttest` runs lint.
+- `pnpm test` runs the full Vitest suite, then `posttest` runs lint.
 - `pnpm coverage` enforces the CI coverage floor: 80% lines, functions, and
   branches.
 - Database-specific local test modes:
@@ -51,9 +51,8 @@ runs Ghost init, health, rollback, migrate, and health through the linked
 
 ## Files And Boundaries
 
-- Do not commit generated or local output: `coverage/`, `.nyc_output/`,
-  `node_modules/`, `test.db`, logs, or local `config.*.json` files outside
-  `test/**`.
+- Do not commit generated or local output: `coverage/`, `node_modules/`,
+  `test.db`, logs, or local `config.*.json` files outside `test/**`.
 - Keep CLI entrypoints under `bin/` executable when editing them.
 - Keep `pnpm-lock.yaml` and `pnpm-workspace.yaml` aligned with
   `package.json` when dependencies or install behavior changes.

@@ -22,8 +22,6 @@ _private.init = function init(knexMigrator, initMethod) {
 
 _.each(['default', 'migrateInit'], function (initMethod) {
     describe('Functional flow: ' + initMethod, function () {
-        this.timeout(1000 * 10);
-
         let knexMigrator,
             basePath = path.join(__dirname, '..', 'assets', 'migrations'),
             migrationPath = basePath,
@@ -107,8 +105,10 @@ _.each(['default', 'migrateInit'], function (initMethod) {
             connection = testUtils.connect();
         });
 
-        after(function (done) {
-            connection && connection.destroy(done);
+        after(async function () {
+            if (connection) {
+                await connection.destroy();
+            }
 
             if (fs.existsSync(migrationsv11File)) {
                 fs.unlinkSync(migrationsv11File);

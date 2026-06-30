@@ -114,6 +114,32 @@ describe('Database', function () {
                 fs.rmSync(projectPath, { recursive: true, force: true });
             }
         });
+
+        it('falls back to bundled knex when a project-local knex module is missing', function () {
+            const projectPath = fs.mkdtempSync(
+                path.join(os.tmpdir(), 'knex-migrator-missing-project-knex-'),
+            );
+
+            try {
+                const connection = database.connect(
+                    {
+                        client: 'sqlite3',
+                        connection: {
+                            filename: ':memory:',
+                        },
+                        useNullAsDefault: true,
+                    },
+                    {
+                        knexModulePath: projectPath,
+                    },
+                );
+
+                connection.client.config.client.should.eql('sqlite3');
+                return connection.destroy();
+            } finally {
+                fs.rmSync(projectPath, { recursive: true, force: true });
+            }
+        });
     });
 
     describe('ensureConnectionWorks', function () {
@@ -169,6 +195,15 @@ describe('Database', function () {
     });
 
     describe('createDatabaseIfNotExist', function () {
+        it('does nothing for sqlite configs', function () {
+            return database.createDatabaseIfNotExist({
+                client: 'sqlite3',
+                connection: {
+                    filename: ':memory:',
+                },
+            });
+        });
+
         it('rejects unsupported database clients', function () {
             return database
                 .createDatabaseIfNotExist({

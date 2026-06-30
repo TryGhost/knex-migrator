@@ -1,7 +1,9 @@
 const sinon = require('sinon');
 
 const addPrimaryKeyToLockTable = require('../../migrations/add-primary-key-to-lock-table');
+const fieldLength = require('../../migrations/field-length');
 const lockTable = require('../../migrations/lock-table');
+const useIndex = require('../../migrations/use-index');
 
 describe('Migrations', function () {
     describe('add-primary-key-to-lock-table', function () {
@@ -21,6 +23,32 @@ describe('Migrations', function () {
 
             return addPrimaryKeyToLockTable.up(connection).then(function () {
                 table.called.should.eql(false);
+            });
+        });
+
+        it('creates sqlite primary keys when the constraint is missing', function () {
+            const primary = sinon.stub();
+            const table = sinon.stub().callsFake(function (tableName, callback) {
+                tableName.should.eql('migrations_lock');
+                callback({
+                    primary: primary,
+                });
+                return Promise.resolve();
+            });
+            const connection = {
+                client: {
+                    config: {
+                        client: 'sqlite3',
+                    },
+                },
+                raw: sinon.stub().resolves([]),
+                schema: {
+                    table: table,
+                },
+            };
+
+            return addPrimaryKeyToLockTable.up(connection).then(function () {
+                primary.calledWith('lock_key').should.eql(true);
             });
         });
 
@@ -117,6 +145,76 @@ describe('Migrations', function () {
 
             return lockTable.up(connection).then(function () {
                 connection.schema.createTable.called.should.eql(false);
+            });
+        });
+
+        it('wraps sqlite locked errors while creating the migration lock table', function () {
+            const connection = sinon.stub();
+            const lockedError = new Error('database is locked');
+            lockedError.errno = 5;
+
+            connection.schema = {
+                hasTable: sinon.stub().resolves(false),
+                createTable: sinon.stub().returns(Promise.reject(lockedError)),
+            };
+
+            return lockTable
+                .up(connection)
+                .then(function () {
+                    true.should.eql(false);
+                })
+                .catch(function (err) {
+                    err.name.should.eql('MigrationsAreLockedError');
+                });
+        });
+
+        it('rejects unexpected errors while creating the migration lock table', function () {
+            const connection = sinon.stub();
+
+            connection.schema = {
+                hasTable: sinon.stub().resolves(false),
+                createTable: sinon.stub().returns(Promise.reject(new Error('create failed'))),
+            };
+
+            return lockTable
+                .up(connection)
+                .then(function () {
+                    true.should.eql(false);
+                })
+                .catch(function (err) {
+                    err.message.should.eql('create failed');
+                });
+        });
+    });
+
+    describe('field-length', function () {
+        it('does nothing when the migrations table does not exist', function () {
+            const alterTable = sinon.stub();
+            const connection = {
+                schema: {
+                    hasTable: sinon.stub().resolves(false),
+                    alterTable: alterTable,
+                },
+            };
+
+            return fieldLength.up(connection).then(function () {
+                alterTable.called.should.eql(false);
+            });
+        });
+    });
+
+    describe('use-index', function () {
+        it('does nothing when the migrations table does not exist', function () {
+            const alterTable = sinon.stub();
+            const connection = {
+                schema: {
+                    hasTable: sinon.stub().resolves(false),
+                    alterTable: alterTable,
+                },
+            };
+
+            return useIndex.up(connection).then(function () {
+                alterTable.called.should.eql(false);
             });
         });
     });

@@ -9,8 +9,6 @@ const _ = require('lodash'),
     testUtils = require('../utils');
 
 describe('Functional flow: Edge Cases', function () {
-    this.timeout(1000 * 10);
-
     let knexMigrator,
         basePath = path.join(__dirname, '..', 'assets', 'migrations'),
         migrationPath = basePath,
@@ -37,8 +35,10 @@ describe('Functional flow: Edge Cases', function () {
         connection = testUtils.connect();
     });
 
-    after(function (done) {
-        connection && connection.destroy(done);
+    after(async function () {
+        if (connection) {
+            await connection.destroy();
+        }
 
         if (fs.existsSync(migratorConfigPath)) {
             fs.unlinkSync(migratorConfigPath);

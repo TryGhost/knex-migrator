@@ -12,16 +12,10 @@ describe('Database', function () {
             },
         };
 
-    beforeEach(function (done) {
-        this.timeout(10 * 1000);
+    beforeEach(function () {
         connection1 = database.connect(dbConfig);
 
-        connection1
-            .raw('CREATE TABLE test (a Int);')
-            .then(function () {
-                done();
-            })
-            .catch(done);
+        return connection1.raw('CREATE TABLE test (a Int);');
     });
 
     afterEach(function () {
@@ -32,26 +26,15 @@ describe('Database', function () {
         fs.unlinkSync(databaseFile);
     });
 
-    it('kill connection2 does not kill connection 1', function (done) {
+    it('kill connection2 does not kill connection 1', function () {
         const connection2 = database.connect(dbConfig);
 
-        connection1.destroy(function (err) {
-            if (err) {
-                return done(err);
-            }
-
-            connection2
-                .raw('SELECT * from test;')
-                .then(function () {
-                    done();
-                })
-                .catch(done);
+        return connection1.destroy().then(function () {
+            return connection2.raw('SELECT * from test;');
         });
     });
 
     it('ensure test connection works', function () {
-        // TODO(daniel): figure out why this is needed
-        this.timeout(10 * 1000);
         const connection2 = database.connect({
             client: 'mysql',
             connection: {
