@@ -1,5 +1,8 @@
 const should = require('should');
 const sinon = require('sinon');
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
 
 const database = require('../../lib/database');
 const errors = require('../../lib/errors');
@@ -39,6 +42,38 @@ describe('Database', function () {
             connection.client.config.useNullAsDefault.should.eql(true);
 
             return connection.destroy();
+        });
+
+        it('prefers a project-local knex module when a project path is provided', function () {
+            const projectPath = fs.mkdtempSync(path.join(os.tmpdir(), 'knex-migrator-project-knex-'));
+            const knexPath = path.join(projectPath, 'node_modules', 'knex');
+
+            fs.mkdirSync(knexPath, {recursive: true});
+            fs.writeFileSync(path.join(knexPath, 'index.js'), [
+                'module.exports = function knex(options) {',
+                '  return {',
+                '    client: {config: options},',
+                '    loadedFromProject: true',
+                '  };',
+                '};',
+                ''
+            ].join('\n'));
+
+            try {
+                const connection = database.connect({
+                    client: 'sqlite3',
+                    connection: {
+                        filename: ':memory:'
+                    }
+                }, {
+                    knexModulePath: projectPath
+                });
+
+                connection.loadedFromProject.should.eql(true);
+                connection.client.config.client.should.eql('sqlite3');
+            } finally {
+                fs.rmSync(projectPath, {recursive: true, force: true});
+            }
         });
     });
 
