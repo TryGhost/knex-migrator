@@ -1,185 +1,155 @@
 # knex-migrator
 
-A database migration tool for [knex.js](https://github.com/tgriesser/knex), which supports MySQL and SQlite3.
+`knex-migrator` is a database migration library and CLI built on [Knex](https://knexjs.org/) for projects that need ordered init scripts, versioned migrations, health checks, locking, and rollback support.
+
+It is maintained by Ghost and is used by [Ghost](https://github.com/TryGhost/Ghost) to run schema setup and migrations in production.
 
 ## Features
 
-- [x] JS API
-- [x] CLI Tool
-- [x] Differentiation between database initialization and migration (Support for a database schema, [like we use in Ghost](https://github.com/TryGhost/Ghost/blob/1.16.2/core/server/data/schema/schema.js))
-- [x] Support for database creation
-- [x] Hooks
-- [x] Rollback to latest version
-- [x] Auto-Rollback on error
-- [x] Database health check
-- [x] Supports transactions
-- [x] Full atomic, support for separate DML/DDL scripts (no autocommit)
-- [x] Migration lock
-- [x] Full debug & pretty log support
-- [x] Custom migration folder structure
-- [x] Stable (Used in [Ghost](https://github.com/TryGhost/Ghost) for many years in thousands of blogs in production mode)
+- JavaScript API and CLI commands
+- Separate database initialization and migration flows
+- Database creation for MySQL-compatible targets
+- Migration hooks for `init` and `migrate`
+- Health checks against the current schema version
+- Rollback to a previous migration version
+- Automatic rollback when a migration fails
+- Migration locking to avoid parallel runs
+- Transaction support, including separate DML and DDL scripts
+- Custom migration folder structure
+- Debug logging with `DEBUG=knex-migrator:*`
 
-# Install
+## Install
 
-`pnpm add knex-migrator`
-
-or
-
-`npm install knex-migrator --save`
-
-Add me to your globals:
-   - `npm install --global knex-migrator`
-
-# Usage
-
-## Pre-word
-
-- Replicas are unsupported, because Knex.js [doesn't support them](https://github.com/tgriesser/knex/issues/2253).
-- Sqlite does **not** support read locks by default. Read [here](https://github.com/TryGhost/knex-migrator/issues/87) why.
-- [Comparison](https://github.com/TryGhost/knex-migrator/issues/119) with other available migration tools.
-- Don't mix DDL/DML statements in a migration script. In MySQL DDL statements use implicit commits.
-- It's highly recommended to write both the `up` and the `down` function to ensure a full rollback.
-- If your process dies while migrations are running, knex-migrator won't be able to release the migration lock.
-  To release to lock you can run `knex-migrator rollback`. **But** it's recommended to check your database first to see in which state it is.
-  You can check the tables `migrations` and `migrations_lock`. The rollback will rollback any migrations which were executed based on your current version.
-
-## Configure knex-migrator
-
-The tool requires a config file in your project root.
-Please add a file named `MigratorConfig.js`. Knex-migrator will load the config file.
-
-
+```bash
+pnpm add knex-migrator
 ```
+
+`npm install knex-migrator --save` also works for npm-based projects. For global CLI usage:
+
+```bash
+npm install --global knex-migrator
+```
+
+## Requirements
+
+- Node.js `^22.13.1 || ^24.14.1`
+- A compatible Knex installation. `knex-migrator` first tries to load `knex` from the project path passed with `--mgpath` or `knexMigratorFilePath`, then falls back to its bundled Knex `2.4.2`.
+- A database client supported by this package: `mysql`, `mysql2`, `sqlite3`, or `better-sqlite3`
+
+The `mysql` client name is accepted for backwards compatibility and is mapped to `mysql2`.
+
+## Configuration
+
+Add `MigratorConfig.js` to the project root that will run migrations. CLI commands load this file from the current working directory by default, or from the directory passed with `--mgpath`.
+
+```js
 module.exports = {
     database: {
-        client:         String          (Required) ['mysql', 'mysql2', 'sqlite3']
+        client: 'sqlite3',
         connection: {
-            host:       String,         (Required) [e.g. '127.0.0.1']
-            user:       String,         (Required)
-            password:   String,         (Required)
-            charset:    String,         (Optional) [Default: 'utf8mb4']
-            database:   String          (Required)
+            filename: '/path/to/database.sqlite'
         }
     },
-    migrationPath:      String,         (Required) [e.g. '/var/www/project/migrations']
-    currentVersion:     String,         (Required) [e.g. '2.0']
-    subfolder:          String          (Optional) [Default: 'versions']
-}
+    migrationPath: '/path/to/project/migrations',
+    currentVersion: '2.0',
+    subfolder: 'versions'
+};
 ```
 
-Please take a look at [this real example](https://github.com/TryGhost/Ghost/blob/2.19.3/MigratorConfig.js).
+For MySQL:
 
-## Folder Structure
-
+```js
+module.exports = {
+    database: {
+        client: 'mysql2',
+        connection: {
+            host: '127.0.0.1',
+            user: 'root',
+            password: 'root',
+            database: 'example',
+            charset: 'utf8mb4'
+        }
+    },
+    migrationPath: '/path/to/project/migrations',
+    currentVersion: '2.0'
+};
 ```
+
+`subfolder` is optional and defaults to `versions`.
+
+## Migration Structure
+
+The default migration layout separates one-time init scripts from versioned migrations.
+
+```text
 project/
-    migrations/
-        hooks/
-            init/
-                index.js
-                before.js
-                shutdown.js
-            migrate/
-                index.js
-                after.js
-                shutdown.js
-        init/
-            1-add-tables.js
-        versions/
-            1.0/
-                1-add-events-table.js
-                2-normalise-settings.js
-            2.0/
-                1-add-timestamps-columns.js
-            2.1/
-                1-remove-empty-strings.js
-                2-add-webhooks-table.js
-                3-add-permissions.js
+  migrations/
+    hooks/
+      init/
+        index.js
+      migrate/
+        index.js
+    init/
+      1-add-tables.js
+    versions/
+      1.0/
+        1-add-events-table.js
+        2-normalise-settings.js
+      2.0/
+        1-add-timestamps-columns.js
 ```
 
-Please take a look at [this real example](https://github.com/TryGhost/Ghost/tree/2.19.3/core/server/data/migrations).
+Version folders are sorted in migration order. Each migration file can export `up`, `down`, and an optional `config` object.
+
+```js
+module.exports.config = {
+    transaction: true
+};
+
+module.exports.up = async function up(options) {
+    const connection = options.transacting || options.connection;
+
+    await connection.schema.createTable('events', function (table) {
+        table.increments('id').primary();
+        table.string('name').notNullable();
+    });
+};
+
+module.exports.down = async function down(options) {
+    const connection = options.transacting || options.connection;
+
+    await connection.schema.dropTable('events');
+};
+```
+
+Write both `up` and `down` whenever possible so failed migrations and manual rollbacks can return the database to a known state. Avoid mixing DDL and DML in one transactional migration for MySQL because DDL statements use implicit commits.
 
 ## Hooks
 
-Knex-migrator offers a couple of hooks, which makes it possible to hook into the migration process. You can create a hook per type: 'init' or 'migrate'. The folder name must be `hooks` and is not configurable. Please create an index.js file to export your functions, see [example](https://github.com/TryGhost/Ghost/blob/2.19.3/core/server/data/migrations/hooks/init/index.js).
+Hooks live under `migrations/hooks/init` or `migrations/hooks/migrate`. Export any of these functions from the hook folder's `index.js`:
 
-|hook|description|
-|---|---|
-|before|is called before anything happens|
-|beforeEach| is called before each migration script|
-|after|is called after everything happened|
-|afterEach|is called after each migration script|
-|shutdown|is called before the migrator shuts down|
+| Hook | When it runs |
+| --- | --- |
+| `before` | Before the command starts running scripts |
+| `beforeEach` | Before each migration script |
+| `afterEach` | After each migration script |
+| `after` | After all scripts finish |
+| `shutdown` | Before the migrator disconnects |
 
-
-## Migration Files
-
-### Config
-You can configure each migration script.
-
-```
-module.exports.config = {
-  transaction: Boolean
-}
-```
-
-
-### Examples
-```
-
-module.exports.up = function(options) {
-  const connection = options.connection;
-
-  ...
-
-  return Promise.resolve();
-};
-
-module.exports.down = function(options) {
-  const connection = options.connection;
-
-  ...
-
-  return Promise.resolve();
-}
-```
-
-```
-
-module.exports.config = {
-  transaction: true
-};
-
-module.exports.up = function(options) {
-  const connection = options.transacting;
-
-  ...
-
-  return Promise.resolve();
-};
-
-module.exports.down = function(options) {
-  const connection = options.transacting;
-
-  ...
-
-  return Promise.resolve();
-}
-```
+Hook functions receive the current Knex connection where applicable. `shutdown` receives `{executedFromShell}`.
 
 ## CLI
 
-### Commands
-
-#### knex-migrator help
-
+```bash
+knex-migrator --help
 ```
-$ knex-migrator help
+
+```text
 Usage: knex-migrator [options] [command]
 
 Options:
   -v, --version       output the version number
-  -h, --help          output usage information
+  -h, --help          display help for command
 
 Commands:
   init|i [config]     init db
@@ -187,157 +157,114 @@ Commands:
   reset|r             reset db
   health|h            health of db
   rollback|ro         rollbacks your db
-  help [cmd]          display help for [cmd]
+  help [command]      display help for command
 ```
 
-#### knex-migrator health
-
-- Returns the database health/state
-- Based on your current version and your migration scripts
-
-#### knex-migrator init
-
-- Initializes your database based on your init scripts
-- Creates the database if it was not created yet
-
-##### Options
+Common commands:
 
 ```bash
-# Skips a specific migration script
---skip
-
-# Runs only a specific migration script
---only
-
-# Path to MigratorConfig.js
---mgpath
+knex-migrator init --mgpath /path/to/project
+knex-migrator migrate --mgpath /path/to/project
+knex-migrator migrate --mgpath /path/to/project --v 2.0 --force
+knex-migrator migrate --mgpath /path/to/project --init
+knex-migrator rollback --mgpath /path/to/project --force --v 1.0
+knex-migrator health --mgpath /path/to/project
+knex-migrator reset --mgpath /path/to/project --force
 ```
 
-#### knex-migrator migrate
+`migrate --only <file>` can run one file within the target version when combined with `--v`. `init` supports `--only` and `--skip` for init scripts.
 
-- Migrates your database to latest version
-- Automatic rollback if an error occurs
+If a process exits while migrations are running, the migration lock may remain in place. Inspect the `migrations` and `migrations_lock` tables before forcing rollback or reset.
 
-##### Options
-
-```bash
-# The version you would like to migrate to
---v
-
-# Combo Feature to check whether the database was already initialized
---init
-
-# Force the execution no matter which current version you are on
---force
-
-# Path to MigratorConfig.js
---mgpath
-```
-
-#### knex-migrator rollback
-
-- Rolls back your database
-- By default, you can only rollback if the database is locked
-
-##### Options
-
-```bash
-# Ignores the migration lock
---force
-
-# Version you would like to rollback to
---v
-```
-
-#### knex-migrator reset
-
-- Resets your database
-- Removes the database
-
-##### Options
-
-```bash
-# Ignores the migration lock
---force
-```
-
-### Advanced
-
-`DEBUG=knex-migrator:* knex-migrator migrate`
-
-
-## JS API
-
-### Instantiation
+## JavaScript API
 
 ```js
 const KnexMigrator = require('knex-migrator');
 
-# Option 1: Pass path to MigratorConfig.js
-const knexMigrator = new KnexMigrator({
+const migrator = new KnexMigrator({
     knexMigratorFilePath: process.cwd()
 });
+```
 
-# Option 2: Pass object with config
-const knexMigrator = new KnexMigrator({
-    knexMigratorConfig: { ... }
+You can also pass config directly:
+
+```js
+const migrator = new KnexMigrator({
+    knexMigratorConfig: {
+        database: {
+            client: 'sqlite3',
+            connection: {
+                filename: '/path/to/database.sqlite'
+            }
+        },
+        migrationPath: '/path/to/project/migrations',
+        currentVersion: '2.0'
+    }
 });
-
 ```
 
-### Commands
+Available methods:
+
+- `init(options)`
+- `migrate(options)`
+- `rollback(options)`
+- `reset(options)`
+- `isDatabaseOK()`
+
+Example:
 
 ```js
-# Health
-knexMigrator.isDatabaseOK
+migrator.isDatabaseOK()
+    .then(function () {
+        // Database is initialized and migrated.
+    })
+    .catch(function (err) {
+        if (err.code === 'DB_NOT_INITIALISED') {
+            return migrator.init();
+        }
 
-# Initialise database
-knexMigrator.init
+        if (err.code === 'DB_NEEDS_MIGRATION') {
+            return migrator.migrate();
+        }
 
-# Migrate database
-knexMigrator.migrate
-
-# Rollback database
-knexMigrator.rollback
-
-# Reset database
-knexMigrator.reset
+        throw err;
+    });
 ```
 
-### Examples
+## Development
 
-```js
-knexMigrator.isDatabaseOK()
-  .then(function() {
-     // database is OK
-     // initialization & migrations are not missing
-  })
-  .catch(function(err) {
-      if (err.code === 'DB_NOT_INITIALISED') {
-          return knexMigrator.init();
-      }
+This repo uses pnpm and Corepack.
 
-      if (err.code === 'DB_NEEDS_MIGRATION') {
-        return knexMigrator.migrate();
-      }
-  });
-
+```bash
+corepack enable
+pnpm install --frozen-lockfile
+pnpm lint
+pnpm test
+pnpm coverage
 ```
 
-# Test
+Useful test variants:
 
-- `pnpm lint` runs oxlint and checks formatting
-- `pnpm test` runs tests and then lint
-- `NODE_ENV=testing-mysql pnpm test` to test with MySQL
+```bash
+NODE_ENV=testing pnpm test
+NODE_ENV=testing-better-sqlite3 pnpm test
+NODE_ENV=testing-mysql pnpm test
+```
 
-# Publish
+CI runs linting, coverage on Node `22.13.1` and `24.14.1` across sqlite3, better-sqlite3, and MySQL 8, plus a Ghost consumer smoke test. The smoke test checks out Ghost, links this package into Ghost core, then runs Ghost init, health, rollback, migrate, and health checks through the CLI.
 
-- `pnpm ship`
+To run the Ghost smoke locally, place a Ghost checkout next to this repo or set `GHOST_CORE_PATH`:
 
-# Copyright & License
+```bash
+GHOST_CORE_PATH=/path/to/Ghost pnpm smoke:ghost
+```
 
-Copyright (c) 2013-2026 Ghost Foundation - Released under the [MIT license](LICENSE).
+## Publish
 
+```bash
+pnpm ship
+```
 
+## License
 
-
+Copyright (c) 2013-2026 Ghost Foundation. Released under the [MIT license](LICENSE).
