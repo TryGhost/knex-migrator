@@ -75,6 +75,29 @@ describe('Database', function () {
                 fs.rmSync(projectPath, {recursive: true, force: true});
             }
         });
+
+        it('throws project-local knex load errors', function () {
+            const projectPath = fs.mkdtempSync(path.join(os.tmpdir(), 'knex-migrator-broken-project-knex-'));
+            const knexPath = path.join(projectPath, 'node_modules', 'knex');
+
+            fs.mkdirSync(knexPath, {recursive: true});
+            fs.writeFileSync(path.join(knexPath, 'index.js'), 'throw new Error("broken project knex");\n');
+
+            try {
+                (function () {
+                    database.connect({
+                        client: 'sqlite3',
+                        connection: {
+                            filename: ':memory:'
+                        }
+                    }, {
+                        knexModulePath: projectPath
+                    });
+                }).should.throw('broken project knex');
+            } finally {
+                fs.rmSync(projectPath, {recursive: true, force: true});
+            }
+        });
     });
 
     describe('ensureConnectionWorks', function () {

@@ -33,6 +33,21 @@ describe('Utils', function () {
                 err.message.should.eql('Please provide a file named MigratorConfig.js in your project root.');
             }
         });
+
+        it('does not hide missing dependencies from MigratorConfig.js', function () {
+            const configPath = path.join(__dirname, 'fixtures', 'broken-config');
+
+            try {
+                utils.loadConfig({
+                    knexMigratorFilePath: configPath
+                });
+                true.should.eql(false);
+            } catch (err) {
+                err.message.should.not.eql('Please provide a file named MigratorConfig.js in your project root.');
+                err.code.should.eql('MODULE_NOT_FOUND');
+                err.stack.should.match(/Cannot find module 'missing-config-dependency'/);
+            }
+        });
     });
 
     describe('getKnexMigrator', function () {

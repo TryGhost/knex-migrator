@@ -155,7 +155,7 @@ describe('KnexMigrator', function () {
             const knexMigrator = createKnexMigrator();
             knexMigrator.connection = createDeleteChain;
 
-            const err = new Error('Key column `table_name`.`field_name` is too long');
+            const err = new Error('Specified key was too long for index `table_name`.`idx_name`.`field_name`');
             err.code = 'ER_TOO_LONG_KEY';
 
             sinon.stub(utils, 'readTasks').returns([{
@@ -170,7 +170,7 @@ describe('KnexMigrator', function () {
                 true.should.eql(false);
             }).catch(function (wrappedErr) {
                 wrappedErr.should.be.instanceof(errors.MigrationScriptError);
-                wrappedErr.message.should.match(/Field length/);
+                wrappedErr.message.should.eql('Field length of `field_name` in `table_name` is too long!');
             });
         });
 
