@@ -1,7 +1,7 @@
 {
   "name": "knex-migrator",
   "version": "5.4.1",
-  "packageManager": "pnpm@11.8.0",
+  "packageManager": "pnpm@11.9.0",
   "description": "Database migrations with knex.",
   "keywords": [
     "ghost",
