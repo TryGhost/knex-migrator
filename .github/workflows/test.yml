@@ -86,12 +86,9 @@ jobs:
       - name: Install Ghost dependencies
         working-directory: Ghost
         run: pnpm install --frozen-lockfile --filter ghost...
-      - name: Link knex-migrator into Ghost
-        working-directory: knex-migrator
-        run: yarn link
       - name: Use linked knex-migrator in Ghost
         working-directory: Ghost/ghost/core
-        run: yarn link knex-migrator
+        run: pnpm link ${{ github.workspace }}/knex-migrator
       - name: Run Ghost consumer smoke
         working-directory: knex-migrator
         env:
