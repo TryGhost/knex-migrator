@@ -16,7 +16,7 @@ _private.init = function init(knexMigrator, initMethod) {
     if (initMethod === 'default') {
         return knexMigrator.init();
     } else {
-        return knexMigrator.migrate({init: true});
+        return knexMigrator.migrate({ init: true });
     }
 };
 
@@ -91,16 +91,16 @@ _.each(['default', 'migrateInit'], function (initMethod) {
             testUtils.writeMigratorConfig({
                 migratorConfigPath: migratorConfigPath,
                 migrationPath: migrationPath,
-                currentVersion: '1.0'
+                currentVersion: '1.0',
             });
 
             knexMigrator = new KnexMigrator({
-                knexMigratorFilePath: path.join(__dirname, '..', 'assets')
+                knexMigratorFilePath: path.join(__dirname, '..', 'assets'),
             });
         });
 
         before(function () {
-            return knexMigrator.reset({force: true});
+            return knexMigrator.reset({ force: true });
         });
 
         before(function () {
@@ -175,7 +175,8 @@ _.each(['default', 'migrateInit'], function (initMethod) {
         });
 
         it('is database ok? --> no, because the db was never initialised', function () {
-            return knexMigrator.isDatabaseOK()
+            return knexMigrator
+                .isDatabaseOK()
                 .then(function () {
                     throw new Error('Database should be NOT ok!');
                 })
@@ -193,7 +194,8 @@ _.each(['default', 'migrateInit'], function (initMethod) {
         });
 
         it('init', function () {
-            return _private.init(knexMigrator, initMethod)
+            return _private
+                .init(knexMigrator, initMethod)
                 .then(function () {
                     return connection('users');
                 })
@@ -230,7 +232,8 @@ _.each(['default', 'migrateInit'], function (initMethod) {
         });
 
         it('call init again', function () {
-            return _private.init(knexMigrator, initMethod)
+            return _private
+                .init(knexMigrator, initMethod)
                 .then(function () {
                     return connection('users');
                 })
@@ -259,13 +262,13 @@ _.each(['default', 'migrateInit'], function (initMethod) {
             fs.mkdirSync(migrationsv12);
 
             let jsFile = testUtils.generateMigrationScript({
-                up: 'UPDATE users set name=\'Hausmann\';',
-                down: 'UPDATE users set name=\'LULULU\';'
+                up: "UPDATE users set name='Hausmann';",
+                down: "UPDATE users set name='LULULU';",
             });
 
             let jsFile1 = testUtils.generateMigrationScript({
-                up: 'UPDATE users set name=\'Kind\';',
-                down: 'UPDATE users set name=\'Hausmann\';'
+                up: "UPDATE users set name='Kind';",
+                down: "UPDATE users set name='Hausmann';",
             });
 
             fs.writeFileSync(migrationsv11File, jsFile);
@@ -277,7 +280,8 @@ _.each(['default', 'migrateInit'], function (initMethod) {
         });
 
         it('is database ok? --> no, 1.1 and 1.2 migrations are missing', function () {
-            return knexMigrator.isDatabaseOK()
+            return knexMigrator
+                .isDatabaseOK()
                 .then(function () {
                     throw new Error('database should be not ok');
                 })
@@ -289,7 +293,8 @@ _.each(['default', 'migrateInit'], function (initMethod) {
 
         it('migrate to 1.1 and 1.2', function () {
             // covers case that init completion is not executed (!)
-            return knexMigrator.migrate({init: true})
+            return knexMigrator
+                .migrate({ init: true })
                 .then(function () {
                     return connection('users');
                 })
@@ -329,7 +334,8 @@ _.each(['default', 'migrateInit'], function (initMethod) {
         });
 
         it('migrate 1.2 (--v)', function () {
-            return knexMigrator.migrate({version: '1.2'})
+            return knexMigrator
+                .migrate({ version: '1.2' })
                 .then(function () {
                     return connection('users');
                 })
@@ -372,13 +378,14 @@ _.each(['default', 'migrateInit'], function (initMethod) {
             fs.mkdirSync(migrationsv13);
 
             let jsFile = testUtils.generateMigrationScript({
-                up: 'DELETE FROM users where name=\'Kind\';',
-                down: 'INSERT INTO users (name) VALUES ("Kind");'
+                up: "DELETE FROM users where name='Kind';",
+                down: 'INSERT INTO users (name) VALUES ("Kind");',
             });
 
             fs.writeFileSync(migrationsv13File, jsFile);
 
-            return knexMigrator.migrate()
+            return knexMigrator
+                .migrate()
                 .then(function () {
                     return connection('users');
                 })
@@ -431,10 +438,11 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                 fs.mkdirSync(migrationsv14);
 
                 let jsFile1 = testUtils.generateMigrationScript({
-                    up: 'SELECT * FROM users;'
+                    up: 'SELECT * FROM users;',
                 });
 
-                let jsFile2 = '' +
+                let jsFile2 =
+                    '' +
                     'module.exports.up = function scriptWillThrowError(options) {' +
                     'return Promise.reject(new Error("unexpected error"));' +
                     '};';
@@ -442,7 +450,8 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                 fs.writeFileSync(migrationsv14File1, jsFile1);
                 fs.writeFileSync(migrationsv14File2, jsFile2);
 
-                return knexMigrator.migrate()
+                return knexMigrator
+                    .migrate()
                     .then(function () {
                         throw new Error('This test case should fail! Please check why!');
                     })
@@ -493,11 +502,10 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                 fs.mkdirSync(migrationsv14);
 
                 let jsFile1 = testUtils.generateMigrationScript({
-                    up: 'SELECT * FROM users;'
+                    up: 'SELECT * FROM users;',
                 });
 
-                let jsFile2 = '' +
-                    'var Promise = require("lalalalala");';
+                let jsFile2 = '' + 'var Promise = require("lalalalala");';
 
                 fs.writeFileSync(migrationsv14File1, jsFile1);
                 fs.writeFileSync(migrationsv14File2, jsFile2);
@@ -513,7 +521,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     })
                     .catch(function (err) {
                         should.exist(err);
-                        err.message.should.startWith('Cannot find module \'lalalalala\'');
+                        err.message.should.startWith("Cannot find module 'lalalalala'");
 
                         return connection('users')
                             .then(function (values) {
@@ -555,18 +563,19 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                 fs.rmdirSync(migrationsv14);
                 fs.mkdirSync(migrationsv14);
 
-                let jsFile1 = '' +
+                let jsFile1 =
+                    '' +
                     'module.exports.up = function success(options) {' +
                     'return Promise.resolve();' +
                     '};';
 
-                let jsFile2 = '' +
-                    'var x = y;';
+                let jsFile2 = '' + 'var x = y;';
 
                 fs.writeFileSync(migrationsv14File1, jsFile1);
                 fs.writeFileSync(migrationsv14File2, jsFile2);
 
-                return knexMigrator.migrate()
+                return knexMigrator
+                    .migrate()
                     .then(function () {
                         throw new Error('This test case should fail! Please check why!');
                     })
@@ -612,12 +621,14 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                 fs.rmdirSync(migrationsv14);
                 fs.mkdirSync(migrationsv14);
 
-                let jsFile1 = '' +
+                let jsFile1 =
+                    '' +
                     'module.exports.up = function success(options) {' +
                     'return Promise.resolve();' +
                     '};';
 
-                let jsFile2 = '' +
+                let jsFile2 =
+                    '' +
                     'module.exports.up = function success(options) {' +
                     'return Promise.resolve();' +
                     '};';
@@ -625,7 +636,8 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                 fs.writeFileSync(migrationsv14File1, jsFile1);
                 fs.writeFileSync(migrationsv14File2, jsFile2);
 
-                return knexMigrator.migrate()
+                return knexMigrator
+                    .migrate()
                     .then(function () {
                         return connection('users');
                     })
@@ -677,9 +689,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
 
                         removedEntry = values[7];
 
-                        return connection('migrations')
-                            .where('id', values[7].id)
-                            .delete();
+                        return connection('migrations').where('id', values[7].id).delete();
                     })
                     .then(function () {
                         return connection('migrations');
@@ -715,14 +725,16 @@ _.each(['default', 'migrateInit'], function (initMethod) {
             it('migrate to 1.5, but current version is 1.4 (no force)', function () {
                 fs.mkdirSync(migrationsv15);
 
-                let jsFile1 = '' +
+                let jsFile1 =
+                    '' +
                     'module.exports.up = function success(options) {' +
                     'return Promise.resolve();' +
                     '};';
 
                 fs.writeFileSync(migrationsv15File1, jsFile1);
 
-                return knexMigrator.migrate()
+                return knexMigrator
+                    .migrate()
                     .then(function () {
                         return connection('users');
                     })
@@ -760,7 +772,8 @@ _.each(['default', 'migrateInit'], function (initMethod) {
 
             it('migrate 1.5 (--v) and force', function () {
                 // current is 1.4
-                return knexMigrator.migrate({version: '1.5', force: true})
+                return knexMigrator
+                    .migrate({ version: '1.5', force: true })
                     .then(function () {
                         return connection('users');
                     })
@@ -804,14 +817,18 @@ _.each(['default', 'migrateInit'], function (initMethod) {
             knexMigrator.currentVersion = '1.4';
             if (DatabaseInfo.isSQLiteConfig(config.get('database'))) {
                 return connection.raw(`PRAGMA index_list('migrations_lock');`).then((indexes) => {
-                    indexes.filter(index => index.origin === 'pk').length.should.eql(1);
+                    indexes.filter((index) => index.origin === 'pk').length.should.eql(1);
                 });
             } else {
-                return connection.raw(`
+                return connection
+                    .raw(
+                        `
                 SELECT CONSTRAINT_NAME
                 FROM information_schema.TABLE_CONSTRAINTS
                 WHERE TABLE_NAME=:tableName
-                AND CONSTRAINT_TYPE='PRIMARY KEY'`, {tableName: 'migrations_lock'})
+                AND CONSTRAINT_TYPE='PRIMARY KEY'`,
+                        { tableName: 'migrations_lock' },
+                    )
                     .then(([rawConstraints]) => {
                         rawConstraints.length.should.eql(1);
                     });

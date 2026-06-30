@@ -9,11 +9,10 @@ function hasPrimaryKeySQLite(tableName, knex) {
         throw new Error('Must use hasPrimaryKeySQLite on an SQLite3 database');
     }
 
-    return knex.raw(`PRAGMA index_list('${tableName}');`)
-        .then((rawConstraints) => {
-            const tablePrimaryKey = rawConstraints.find(c => c.origin === 'pk');
-            return tablePrimaryKey;
-        });
+    return knex.raw(`PRAGMA index_list('${tableName}');`).then((rawConstraints) => {
+        const tablePrimaryKey = rawConstraints.find((c) => c.origin === 'pk');
+        return tablePrimaryKey;
+    });
 }
 
 /**
@@ -21,28 +20,33 @@ function hasPrimaryKeySQLite(tableName, knex) {
  */
 function addPrimaryKey(tableName, columns, knex) {
     if (DatabaseInfo.isSQLite(knex)) {
-        return hasPrimaryKeySQLite(tableName, knex)
-            .then((primaryKeyExists) => {
-                if (primaryKeyExists) {
-                    debug(`Primary key constraint for: ${columns} already exists for table: ${tableName}`);
-                    return;
-                }
+        return hasPrimaryKeySQLite(tableName, knex).then((primaryKeyExists) => {
+            if (primaryKeyExists) {
+                debug(
+                    `Primary key constraint for: ${columns} already exists for table: ${tableName}`,
+                );
+                return;
+            }
 
-                return knex.schema.table(tableName, function (table) {
-                    table.primary(columns);
-                });
+            return knex.schema.table(tableName, function (table) {
+                table.primary(columns);
             });
+        });
     }
 
-    return knex.schema.table(tableName, function (table) {
-        table.primary(columns);
-    }).catch((err) => {
-        if (err.code === 'ER_MULTIPLE_PRI_KEY') {
-            debug(`Primary key constraint for: ${columns} already exists for table: ${tableName}`);
-            return;
-        }
-        throw err;
-    });
+    return knex.schema
+        .table(tableName, function (table) {
+            table.primary(columns);
+        })
+        .catch((err) => {
+            if (err.code === 'ER_MULTIPLE_PRI_KEY') {
+                debug(
+                    `Primary key constraint for: ${columns} already exists for table: ${tableName}`,
+                );
+                return;
+            }
+            throw err;
+        });
 }
 
 /**

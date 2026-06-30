@@ -17,23 +17,33 @@ exports.writeMigratorConfig = function writeMigratorConfig(options) {
     let migratorConfig = {
         database: config.get('database'),
         migrationPath: options.migrationPath,
-        currentVersion: options.currentVersion
+        currentVersion: options.currentVersion,
     };
 
-    fs.writeFileSync(options.migratorConfigPath, 'module.exports = ' + JSON.stringify(migratorConfig) + ';', 'utf-8');
+    fs.writeFileSync(
+        options.migratorConfigPath,
+        'module.exports = ' + JSON.stringify(migratorConfig) + ';',
+        'utf-8',
+    );
 };
 
 exports.generateMigrationScript = function (options) {
     let up = options.up,
         down = options.down;
 
-    let script = 'module.exports.up = function something(options) {' +
-        'return options.connection.raw(' + JSON.stringify(up) + ');' +
+    let script =
+        'module.exports.up = function something(options) {' +
+        'return options.connection.raw(' +
+        JSON.stringify(up) +
+        ');' +
         '};';
 
     if (options.down) {
-        script += 'module.exports.down = function something(options) {' +
-            'return options.connection.raw(' + JSON.stringify(down) + ');' +
+        script +=
+            'module.exports.down = function something(options) {' +
+            'return options.connection.raw(' +
+            JSON.stringify(down) +
+            ');' +
             '};';
     }
 

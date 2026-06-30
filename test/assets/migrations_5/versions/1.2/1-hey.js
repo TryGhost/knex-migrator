@@ -7,5 +7,5 @@ module.exports.rollback = function rollback(options) {
 };
 
 module.exports.config = {
-    ddl: true
+    ddl: true,
 };

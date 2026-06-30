@@ -21,16 +21,16 @@ describe('Functional flow: Edge Cases', function () {
         testUtils.writeMigratorConfig({
             migratorConfigPath: migratorConfigPath,
             migrationPath: migrationPath,
-            currentVersion: '1.0'
+            currentVersion: '1.0',
         });
 
         knexMigrator = new KnexMigrator({
-            knexMigratorFilePath: path.join(__dirname, '..', 'assets')
+            knexMigratorFilePath: path.join(__dirname, '..', 'assets'),
         });
     });
 
     before(function () {
-        return knexMigrator.reset({force: true});
+        return knexMigrator.reset({ force: true });
     });
 
     before(function () {
@@ -61,7 +61,8 @@ describe('Functional flow: Edge Cases', function () {
     });
 
     it('run init, but process gets destroyed', function () {
-        return knexMigrator.init()
+        return knexMigrator
+            .init()
             .then(function () {
                 return connection('migrations');
             })

@@ -14,7 +14,15 @@ describe('knex-migrator rollback (force)', function () {
         migratorConfigPath = path.join(__dirname, '..', 'assets', 'MigratorConfig.js'),
         versionsFolder = path.join(__dirname, '..', 'assets', 'migrations_6', 'versions'),
         migration121 = path.join(__dirname, '..', 'assets', 'migrations_6', 'versions', '1.21'),
-        migration121File = path.join(__dirname, '..', 'assets', 'migrations_6', 'versions', '1.21', '1-test.js'),
+        migration121File = path.join(
+            __dirname,
+            '..',
+            'assets',
+            'migrations_6',
+            'versions',
+            '1.21',
+            '1-test.js',
+        ),
         connection;
 
     before(function () {
@@ -33,11 +41,11 @@ describe('knex-migrator rollback (force)', function () {
         testUtils.writeMigratorConfig({
             migratorConfigPath: migratorConfigPath,
             migrationPath: migrationPath,
-            currentVersion: '1.20'
+            currentVersion: '1.20',
         });
 
         knexMigrator = new KnexMigrator({
-            knexMigratorFilePath: path.join(__dirname, '..', 'assets')
+            knexMigratorFilePath: path.join(__dirname, '..', 'assets'),
         });
     });
 
@@ -93,19 +101,19 @@ describe('knex-migrator rollback (force)', function () {
         fs.mkdirSync(migration121);
 
         let jsFile = testUtils.generateMigrationScript({
-            up: 'UPDATE users set name=\'Kind\';',
-            down: 'UPDATE users set name=\'Hausmann\';'
+            up: "UPDATE users set name='Kind';",
+            down: "UPDATE users set name='Hausmann';",
         });
 
         fs.writeFileSync(migration121File, jsFile);
 
         // we have to force, because we are still on 1.20
-        return knexMigrator.migrate({force: true});
+        return knexMigrator.migrate({ force: true });
     });
 
     // It rolls back all versions on the current version (in the migration table)
     it('knex-migrator rollback', function () {
-        return knexMigrator.rollback({force: true});
+        return knexMigrator.rollback({ force: true });
     });
 
     // Shows only a warning that 1.21 is available
@@ -114,9 +122,8 @@ describe('knex-migrator rollback (force)', function () {
     });
 
     it('db check', function () {
-        return connection('migrations')
-            .then(function (migrations) {
-                migrations.length.should.eql(2);
-            });
+        return connection('migrations').then(function (migrations) {
+            migrations.length.should.eql(2);
+        });
     });
 });
