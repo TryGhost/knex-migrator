@@ -10,6 +10,39 @@
         "knex"
       ],
       "allowedVersions": "2.4.2"
+    },
+    {
+      "description": "Keep CI runtime jobs pinned to Node 22.13.1; .nvmrc may still move independently.",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchPackageNames": [
+        "node"
+      ],
+      "matchCurrentValue": "22.13.1",
+      "allowedVersions": "22.13.1"
+    },
+    {
+      "description": "Keep the Ghost consumer smoke pinned to Node 22.18.0; it follows Ghost's checked-in runtime separately from .nvmrc.",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchPackageNames": [
+        "node"
+      ],
+      "matchCurrentValue": "22.18.0",
+      "allowedVersions": "22.18.0"
+    },
+    {
+      "description": "Keep the next-runtime CI lane pinned to Node 24.14.1 until we intentionally move it.",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchPackageNames": [
+        "node"
+      ],
+      "matchCurrentValue": "24.14.1",
+      "allowedVersions": "24.14.1"
     }
   ]
 }
