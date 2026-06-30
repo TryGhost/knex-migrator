@@ -51,7 +51,7 @@ function sortVersions(versions) {
 function runStep(name, args, env) {
     console.log('Running: ' + name);
 
-    const result = childProcess.spawnSync(process.execPath, [migratorBin].concat(args), {
+    const result = childProcess.spawnSync(migratorBin, args, {
         cwd: migratorCwd,
         env: env,
         encoding: 'utf8',
