@@ -10,13 +10,13 @@ describe('Migrations', function () {
             const connection = {
                 client: {
                     config: {
-                        client: 'sqlite3'
-                    }
+                        client: 'sqlite3',
+                    },
                 },
-                raw: sinon.stub().resolves([{origin: 'pk'}]),
+                raw: sinon.stub().resolves([{ origin: 'pk' }]),
                 schema: {
-                    table: table
-                }
+                    table: table,
+                },
             };
 
             return addPrimaryKeyToLockTable.up(connection).then(function () {
@@ -31,12 +31,12 @@ describe('Migrations', function () {
             const connection = {
                 client: {
                     config: {
-                        client: 'mysql2'
-                    }
+                        client: 'mysql2',
+                    },
                 },
                 schema: {
-                    table: sinon.stub().rejects(duplicatePrimaryKeyError)
-                }
+                    table: sinon.stub().rejects(duplicatePrimaryKeyError),
+                },
             };
 
             return addPrimaryKeyToLockTable.up(connection);
@@ -46,32 +46,35 @@ describe('Migrations', function () {
             const connection = {
                 client: {
                     config: {
-                        client: 'mysql2'
-                    }
+                        client: 'mysql2',
+                    },
                 },
                 schema: {
-                    table: sinon.stub().rejects(new Error('table missing'))
-                }
+                    table: sinon.stub().rejects(new Error('table missing')),
+                },
             };
 
-            return addPrimaryKeyToLockTable.up(connection).then(function () {
-                true.should.eql(false);
-            }).catch(function (err) {
-                err.message.should.eql('table missing');
-            });
+            return addPrimaryKeyToLockTable
+                .up(connection)
+                .then(function () {
+                    true.should.eql(false);
+                })
+                .catch(function (err) {
+                    err.message.should.eql('table missing');
+                });
         });
     });
 
     describe('lock-table', function () {
         it('creates the migration lock table', function () {
             const primary = sinon.stub();
-            const nullable = sinon.stub().returns({primary: primary});
+            const nullable = sinon.stub().returns({ primary: primary });
             const defaultValue = sinon.stub();
-            const string = sinon.stub().returns({nullable: nullable});
-            const boolean = sinon.stub().returns({default: defaultValue});
-            const dateTime = sinon.stub().returns({nullable: sinon.stub()});
+            const string = sinon.stub().returns({ nullable: nullable });
+            const boolean = sinon.stub().returns({ default: defaultValue });
+            const dateTime = sinon.stub().returns({ nullable: sinon.stub() });
             const insert = sinon.stub().resolves();
-            const connection = sinon.stub().returns({insert: insert});
+            const connection = sinon.stub().returns({ insert: insert });
 
             connection.schema = {
                 hasTable: sinon.stub().resolves(false),
@@ -80,10 +83,10 @@ describe('Migrations', function () {
                     callback({
                         string: string,
                         boolean: boolean,
-                        dateTime: dateTime
+                        dateTime: dateTime,
                     });
                     return Promise.resolve();
-                })
+                }),
             };
 
             return lockTable.up(connection).then(function () {
@@ -95,10 +98,12 @@ describe('Migrations', function () {
                 dateTime.calledWith('acquired_at').should.eql(true);
                 dateTime.calledWith('released_at').should.eql(true);
                 connection.calledWith('migrations_lock').should.eql(true);
-                insert.calledWith({
-                    lock_key: 'km01',
-                    locked: 0
-                }).should.eql(true);
+                insert
+                    .calledWith({
+                        lock_key: 'km01',
+                        locked: 0,
+                    })
+                    .should.eql(true);
             });
         });
 
@@ -106,8 +111,8 @@ describe('Migrations', function () {
             const connection = {
                 schema: {
                     hasTable: sinon.stub().resolves(true),
-                    createTable: sinon.stub()
-                }
+                    createTable: sinon.stub(),
+                },
             };
 
             return lockTable.up(connection).then(function () {

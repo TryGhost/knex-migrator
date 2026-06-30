@@ -7,18 +7,18 @@ const debug = require('debug')('knex-migrator:use-index');
 module.exports.up = function (connection) {
     debug('Ensure Unique Index.');
 
-    return connection.schema.hasTable('migrations')
-        .then(function (exists) {
-            if (exists) {
-                return connection.schema.alterTable('migrations', function (table) {
+    return connection.schema.hasTable('migrations').then(function (exists) {
+        if (exists) {
+            return connection.schema
+                .alterTable('migrations', function (table) {
                     table.unique(['name', 'version']);
-                }).catch(function () {
+                })
+                .catch(function () {
                     // @NOTE: ignore for now, it's not a urgent, required change
                     // e.g. index exists already (1061,1)
                     // e.g. can't index because of already existing duplicates
                     return Promise.resolve();
                 });
-            }
-        });
+        }
+    });
 };
-

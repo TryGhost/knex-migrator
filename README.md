@@ -326,8 +326,8 @@ knexMigrator.isDatabaseOK()
 
 # Test
 
-- `pnpm lint` run just eslint
-- `pnpm test` run eslint && then tests
+- `pnpm lint` runs oxlint and checks formatting
+- `pnpm test` runs tests and then lint
 - `NODE_ENV=testing-mysql pnpm test` to test with MySQL
 
 # Publish
@@ -337,7 +337,6 @@ knexMigrator.isDatabaseOK()
 # Copyright & License
 
 Copyright (c) 2013-2026 Ghost Foundation - Released under the [MIT license](LICENSE).
-
 
 
 

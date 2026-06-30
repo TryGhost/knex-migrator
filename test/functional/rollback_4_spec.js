@@ -25,11 +25,11 @@ describe('knex-migrator rollback (to specific version)', function () {
         testUtils.writeMigratorConfig({
             migratorConfigPath: migratorConfigPath,
             migrationPath: migrationPath,
-            currentVersion: '1.2'
+            currentVersion: '1.2',
         });
 
         knexMigrator = new KnexMigrator({
-            knexMigratorFilePath: path.join(__dirname, '..', 'assets')
+            knexMigratorFilePath: path.join(__dirname, '..', 'assets'),
         });
     });
 
@@ -69,7 +69,8 @@ describe('knex-migrator rollback (to specific version)', function () {
     });
 
     it('knex-migrator init', function () {
-        return knexMigrator.init()
+        return knexMigrator
+            .init()
             .then(() => {
                 return connection('migrations');
             })
@@ -82,30 +83,36 @@ describe('knex-migrator rollback (to specific version)', function () {
     });
 
     it('add', function () {
-        migrations.push({
-            folder: versionsFolder + '/1.3',
-            file: '1-test.js'
-        }, {
-            folder: versionsFolder + '/1.4',
-            file: '1-test.js'
-        }, {
-            folder: versionsFolder + '/1.6',
-            file: '1-test.js'
-        }, {
-            folder: versionsFolder + '/1.11',
-            file: '1-test.js'
-        }, {
-            folder: versionsFolder + '/1.20',
-            file: '1-test.js'
-        });
+        migrations.push(
+            {
+                folder: versionsFolder + '/1.3',
+                file: '1-test.js',
+            },
+            {
+                folder: versionsFolder + '/1.4',
+                file: '1-test.js',
+            },
+            {
+                folder: versionsFolder + '/1.6',
+                file: '1-test.js',
+            },
+            {
+                folder: versionsFolder + '/1.11',
+                file: '1-test.js',
+            },
+            {
+                folder: versionsFolder + '/1.20',
+                file: '1-test.js',
+            },
+        );
 
         fs.mkdirSync(versionsFolder);
         migrations.forEach((migration) => {
             fs.mkdirSync(migration.folder);
 
             let jsFile = testUtils.generateMigrationScript({
-                up: 'UPDATE users set name=\'Kind\';',
-                down: 'UPDATE users set name=\'Hausmann\';'
+                up: "UPDATE users set name='Kind';",
+                down: "UPDATE users set name='Hausmann';",
             });
 
             fs.writeFileSync(migration.folder + '/' + migration.file, jsFile);
@@ -117,7 +124,8 @@ describe('knex-migrator rollback (to specific version)', function () {
     });
 
     it('knex-migrator migrate', function () {
-        return knexMigrator.migrate()
+        return knexMigrator
+            .migrate()
             .then(() => {
                 return connection('migrations');
             })
@@ -131,7 +139,8 @@ describe('knex-migrator rollback (to specific version)', function () {
     });
 
     it('knex-migrator migrate', function () {
-        return knexMigrator.migrate()
+        return knexMigrator
+            .migrate()
             .then(() => {
                 return connection('migrations');
             })
@@ -145,7 +154,8 @@ describe('knex-migrator rollback (to specific version)', function () {
     });
 
     it('knex-migrator migrate', function () {
-        return knexMigrator.migrate()
+        return knexMigrator
+            .migrate()
             .then(() => {
                 return connection('migrations');
             })
@@ -159,7 +169,8 @@ describe('knex-migrator rollback (to specific version)', function () {
     });
 
     it('knex-migrator migrate', function () {
-        return knexMigrator.migrate()
+        return knexMigrator
+            .migrate()
             .then(() => {
                 return connection('migrations');
             })
@@ -169,7 +180,8 @@ describe('knex-migrator rollback (to specific version)', function () {
     });
 
     it('knex-migrator rollback', function () {
-        return knexMigrator.rollback({force: true, version: '1.11.3'})
+        return knexMigrator
+            .rollback({ force: true, version: '1.11.3' })
             .then(() => {
                 return connection('migrations');
             })
@@ -180,7 +192,8 @@ describe('knex-migrator rollback (to specific version)', function () {
     });
 
     it('knex-migrator health', function () {
-        return knexMigrator.isDatabaseOK()
+        return knexMigrator
+            .isDatabaseOK()
             .then(() => {
                 '1'.should.eql(1);
             })
@@ -193,7 +206,8 @@ describe('knex-migrator rollback (to specific version)', function () {
     });
 
     it('knex-migrator rollback', function () {
-        return knexMigrator.rollback({force: true, version: '1.2'})
+        return knexMigrator
+            .rollback({ force: true, version: '1.2' })
             .then(() => {
                 return connection('migrations');
             })

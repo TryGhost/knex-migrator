@@ -2,30 +2,38 @@
 
 const childProcess = require('child_process');
 const fs = require('fs');
-const {createRequire} = require('module');
+const { createRequire } = require('module');
 const os = require('os');
 const path = require('path');
 const compareVer = require('compare-ver');
 
 const repoRoot = path.resolve(__dirname, '..');
-const ghostPath = process.env.GHOST_CORE_PATH || process.argv[2] || path.join(repoRoot, '..', 'Ghost');
-const migratorBin = path.resolve(process.env.KNEX_MIGRATOR_BIN || path.join(repoRoot, 'bin', 'knex-migrator'));
-const migratorCwd = path.resolve(process.env.KNEX_MIGRATOR_CWD || (process.env.KNEX_MIGRATOR_BIN ? process.cwd() : repoRoot));
+const ghostPath =
+    process.env.GHOST_CORE_PATH || process.argv[2] || path.join(repoRoot, '..', 'Ghost');
+const migratorBin = path.resolve(
+    process.env.KNEX_MIGRATOR_BIN || path.join(repoRoot, 'bin', 'knex-migrator'),
+);
+const migratorCwd = path.resolve(
+    process.env.KNEX_MIGRATOR_CWD || (process.env.KNEX_MIGRATOR_BIN ? process.cwd() : repoRoot),
+);
 
 function resolveGhostCorePath(inputPath) {
     const resolvedPath = path.resolve(inputPath);
-    const candidates = [
-        resolvedPath,
-        path.join(resolvedPath, 'ghost', 'core')
-    ];
+    const candidates = [resolvedPath, path.join(resolvedPath, 'ghost', 'core')];
 
     const corePath = candidates.find((candidatePath) => {
-        return fs.existsSync(path.join(candidatePath, 'package.json'))
-            && fs.existsSync(path.join(candidatePath, 'MigratorConfig.js'));
+        return (
+            fs.existsSync(path.join(candidatePath, 'package.json')) &&
+            fs.existsSync(path.join(candidatePath, 'MigratorConfig.js'))
+        );
     });
 
     if (!corePath) {
-        fail('Ghost core package.json not found from ' + resolvedPath + '. Set GHOST_CORE_PATH to a Ghost repository or Ghost core checkout.');
+        fail(
+            'Ghost core package.json not found from ' +
+                resolvedPath +
+                '. Set GHOST_CORE_PATH to a Ghost repository or Ghost core checkout.',
+        );
     }
 
     return corePath;
@@ -55,7 +63,7 @@ function runStep(name, args, env) {
         cwd: migratorCwd,
         env: env,
         encoding: 'utf8',
-        stdio: ['ignore', 'pipe', 'pipe']
+        stdio: ['ignore', 'pipe', 'pipe'],
     });
 
     if (result.stdout) {
@@ -72,14 +80,15 @@ function runStep(name, args, env) {
 }
 
 function getGhostVersion() {
-    const result = childProcess.spawnSync(process.execPath, [
-        '-e',
-        'process.stdout.write(require("@tryghost/version").safe);'
-    ], {
-        cwd: ghostCorePath,
-        encoding: 'utf8',
-        stdio: ['ignore', 'pipe', 'pipe']
-    });
+    const result = childProcess.spawnSync(
+        process.execPath,
+        ['-e', 'process.stdout.write(require("@tryghost/version").safe);'],
+        {
+            cwd: ghostCorePath,
+            encoding: 'utf8',
+            stdio: ['ignore', 'pipe', 'pipe'],
+        },
+    );
 
     if (result.status !== 0) {
         if (result.stderr) {
@@ -94,11 +103,22 @@ function getGhostVersion() {
 
 function getGhostVersions() {
     const ghostVersion = getGhostVersion();
-    const versionsPath = path.join(ghostCorePath, 'core', 'server', 'data', 'migrations', 'versions');
+    const versionsPath = path.join(
+        ghostCorePath,
+        'core',
+        'server',
+        'data',
+        'migrations',
+        'versions',
+    );
 
-    const versions = sortVersions(fs.readdirSync(versionsPath).filter((entry) => {
-        return !entry.startsWith('.') && fs.statSync(path.join(versionsPath, entry)).isDirectory();
-    })).filter((version) => {
+    const versions = sortVersions(
+        fs.readdirSync(versionsPath).filter((entry) => {
+            return (
+                !entry.startsWith('.') && fs.statSync(path.join(versionsPath, entry)).isDirectory()
+            );
+        }),
+    ).filter((version) => {
         return compareVer.gt(version, ghostVersion) !== 1;
     });
 
@@ -112,13 +132,17 @@ function getGhostVersions() {
     return {
         ghostVersion,
         currentVersion,
-        previousVersion
+        previousVersion,
     };
 }
 
 function main() {
     if (!fs.existsSync(migratorBin)) {
-        fail('knex-migrator bin not found at ' + migratorBin + '. Set KNEX_MIGRATOR_BIN to the linked package bin.');
+        fail(
+            'knex-migrator bin not found at ' +
+                migratorBin +
+                '. Set KNEX_MIGRATOR_BIN to the linked package bin.',
+        );
     }
 
     requireFromGhost('knex');
@@ -128,12 +152,12 @@ function main() {
     const dbPath = path.join(tempPath, 'ghost-smoke.sqlite');
     const contentPath = path.join(tempPath, 'content');
 
-    fs.mkdirSync(path.join(contentPath, 'data'), {recursive: true});
+    fs.mkdirSync(path.join(contentPath, 'data'), { recursive: true });
 
     const env = Object.assign({}, process.env, {
         NODE_ENV: 'testing',
         database__connection__filename: dbPath,
-        paths__contentPath: contentPath
+        paths__contentPath: contentPath,
     });
 
     console.log('Ghost core: ' + ghostCorePath);
@@ -146,12 +170,20 @@ function main() {
     try {
         runStep('Ghost migrate --init', ['migrate', '--mgpath', ghostCorePath, '--init'], env);
         runStep('Ghost health after init', ['health', '--mgpath', ghostCorePath], env);
-        runStep('Ghost rollback to ' + versions.previousVersion, ['rollback', '--mgpath', ghostCorePath, '--force', '--v', versions.previousVersion], env);
-        runStep('Ghost migrate to ' + versions.currentVersion, ['migrate', '--mgpath', ghostCorePath, '--v', versions.currentVersion, '--force'], env);
+        runStep(
+            'Ghost rollback to ' + versions.previousVersion,
+            ['rollback', '--mgpath', ghostCorePath, '--force', '--v', versions.previousVersion],
+            env,
+        );
+        runStep(
+            'Ghost migrate to ' + versions.currentVersion,
+            ['migrate', '--mgpath', ghostCorePath, '--v', versions.currentVersion, '--force'],
+            env,
+        );
         runStep('Ghost health after rollback/migrate', ['health', '--mgpath', ghostCorePath], env);
     } finally {
         if (!process.env.KEEP_GHOST_SMOKE_DB) {
-            fs.rmSync(tempPath, {recursive: true, force: true});
+            fs.rmSync(tempPath, { recursive: true, force: true });
         } else {
             console.log('Kept smoke temp path: ' + tempPath);
         }

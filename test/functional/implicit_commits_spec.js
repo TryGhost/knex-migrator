@@ -23,8 +23,7 @@ _private.assertTableMissingError = function assertTableMissingError(err) {
     }
 };
 
-let migratorConfigPath,
-    migrationPath;
+let migratorConfigPath, migrationPath;
 
 let knexMigrator, connection;
 
@@ -34,17 +33,23 @@ describe('Implicit Commits', function () {
     describe('knex-migrator init', function () {
         describe('fail #1', function () {
             before(function () {
-                migratorConfigPath = path.join(__dirname, '..', 'assets', 'migrations_1', 'MigratorConfig.js');
+                migratorConfigPath = path.join(
+                    __dirname,
+                    '..',
+                    'assets',
+                    'migrations_1',
+                    'MigratorConfig.js',
+                );
                 migrationPath = path.join(__dirname, '..', 'assets', 'migrations_1');
 
                 testUtils.writeMigratorConfig({
                     migratorConfigPath: migratorConfigPath,
                     migrationPath: migrationPath,
-                    currentVersion: '1.0'
+                    currentVersion: '1.0',
                 });
 
                 knexMigrator = new KnexMigrator({
-                    knexMigratorFilePath: migrationPath
+                    knexMigratorFilePath: migrationPath,
                 });
 
                 connection = testUtils.connect();
@@ -59,7 +64,8 @@ describe('Implicit Commits', function () {
             });
 
             it('expect full DML rollback', function () {
-                return knexMigrator.init()
+                return knexMigrator
+                    .init()
                     .then(function () {
                         throw new Error('init should fail');
                     })
@@ -80,17 +86,23 @@ describe('Implicit Commits', function () {
 
         describe('fail #2', function () {
             before(function () {
-                migratorConfigPath = path.join(__dirname, '..', 'assets', 'migrations_2', 'MigratorConfig.js');
+                migratorConfigPath = path.join(
+                    __dirname,
+                    '..',
+                    'assets',
+                    'migrations_2',
+                    'MigratorConfig.js',
+                );
                 migrationPath = path.join(__dirname, '..', 'assets', 'migrations_2');
 
                 testUtils.writeMigratorConfig({
                     migratorConfigPath: migratorConfigPath,
                     migrationPath: migrationPath,
-                    currentVersion: '1.0'
+                    currentVersion: '1.0',
                 });
 
                 knexMigrator = new KnexMigrator({
-                    knexMigratorFilePath: migrationPath
+                    knexMigratorFilePath: migrationPath,
                 });
 
                 connection = testUtils.connect();
@@ -105,7 +117,8 @@ describe('Implicit Commits', function () {
             });
 
             it('expect full DDL/DML rollback', function () {
-                return knexMigrator.init()
+                return knexMigrator
+                    .init()
                     .then(function () {
                         throw new Error('init should fail');
                     })
@@ -129,17 +142,23 @@ describe('Implicit Commits', function () {
 
         describe('success #1', function () {
             before(function () {
-                migratorConfigPath = path.join(__dirname, '..', 'assets', 'migrations_3', 'MigratorConfig.js');
+                migratorConfigPath = path.join(
+                    __dirname,
+                    '..',
+                    'assets',
+                    'migrations_3',
+                    'MigratorConfig.js',
+                );
                 migrationPath = path.join(__dirname, '..', 'assets', 'migrations_3');
 
                 testUtils.writeMigratorConfig({
                     migratorConfigPath: migratorConfigPath,
                     migrationPath: migrationPath,
-                    currentVersion: '1.0'
+                    currentVersion: '1.0',
                 });
 
                 knexMigrator = new KnexMigrator({
-                    knexMigratorFilePath: migrationPath
+                    knexMigratorFilePath: migrationPath,
                 });
 
                 connection = testUtils.connect();
@@ -154,7 +173,8 @@ describe('Implicit Commits', function () {
             });
 
             it('expect no rollback', function () {
-                return knexMigrator.init()
+                return knexMigrator
+                    .init()
                     .then(function () {
                         return connection('users');
                     })
@@ -173,17 +193,23 @@ describe('Implicit Commits', function () {
     describe('knex-migrator migrate', function () {
         describe('fail #1', function () {
             before(function () {
-                migratorConfigPath = path.join(__dirname, '..', 'assets', 'migrations_4', 'MigratorConfig.js');
+                migratorConfigPath = path.join(
+                    __dirname,
+                    '..',
+                    'assets',
+                    'migrations_4',
+                    'MigratorConfig.js',
+                );
                 migrationPath = path.join(__dirname, '..', 'assets', 'migrations_4');
 
                 testUtils.writeMigratorConfig({
                     migratorConfigPath: migratorConfigPath,
                     migrationPath: migrationPath,
-                    currentVersion: '1.0'
+                    currentVersion: '1.0',
                 });
 
                 knexMigrator = new KnexMigrator({
-                    knexMigratorFilePath: migrationPath
+                    knexMigratorFilePath: migrationPath,
                 });
 
                 connection = testUtils.connect();
@@ -198,16 +224,19 @@ describe('Implicit Commits', function () {
             });
 
             it('expect full DDL/DML rollback', function () {
-                return knexMigrator.init({skipInitCompletion: true})
+                return knexMigrator
+                    .init({ skipInitCompletion: true })
                     .then(function () {
                         return connection('users');
                     })
                     .then(function (values) {
                         // from init
                         values.length.should.eql(1);
-                        Object.prototype.hasOwnProperty.call(values[0], 'country').should.eql(false);
+                        Object.prototype.hasOwnProperty
+                            .call(values[0], 'country')
+                            .should.eql(false);
 
-                        return knexMigrator.migrate({force: true});
+                        return knexMigrator.migrate({ force: true });
                     })
                     .then(function () {
                         throw new Error('Expect error from migrate.');
@@ -234,24 +263,32 @@ describe('Implicit Commits', function () {
                         // from init
                         values.length.should.eql(1);
 
-                        Object.prototype.hasOwnProperty.call(values[0], 'country').should.eql(false);
+                        Object.prototype.hasOwnProperty
+                            .call(values[0], 'country')
+                            .should.eql(false);
                     });
             });
         });
 
         describe('success #1', function () {
             before(function () {
-                migratorConfigPath = path.join(__dirname, '..', 'assets', 'migrations_5', 'MigratorConfig.js');
+                migratorConfigPath = path.join(
+                    __dirname,
+                    '..',
+                    'assets',
+                    'migrations_5',
+                    'MigratorConfig.js',
+                );
                 migrationPath = path.join(__dirname, '..', 'assets', 'migrations_5');
 
                 testUtils.writeMigratorConfig({
                     migratorConfigPath: migratorConfigPath,
                     migrationPath: migrationPath,
-                    currentVersion: '1.0'
+                    currentVersion: '1.0',
                 });
 
                 knexMigrator = new KnexMigrator({
-                    knexMigratorFilePath: migrationPath
+                    knexMigratorFilePath: migrationPath,
                 });
 
                 connection = testUtils.connect();
@@ -266,9 +303,10 @@ describe('Implicit Commits', function () {
             });
 
             it('expect no rollback', function () {
-                return knexMigrator.init({skipInitCompletion: true})
+                return knexMigrator
+                    .init({ skipInitCompletion: true })
                     .then(function () {
-                        return knexMigrator.migrate({force: true});
+                        return knexMigrator.migrate({ force: true });
                     })
                     .then(function () {
                         return connection('users');

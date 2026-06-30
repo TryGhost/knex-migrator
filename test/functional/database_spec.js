@@ -8,15 +8,16 @@ describe('Database', function () {
         dbConfig = {
             client: 'sqlite3',
             connection: {
-                filename: databaseFile
-            }
+                filename: databaseFile,
+            },
         };
 
     beforeEach(function (done) {
         this.timeout(10 * 1000);
         connection1 = database.connect(dbConfig);
 
-        connection1.raw('CREATE TABLE test (a Int);')
+        connection1
+            .raw('CREATE TABLE test (a Int);')
             .then(function () {
                 done();
             })
@@ -39,7 +40,8 @@ describe('Database', function () {
                 return done(err);
             }
 
-            connection2.raw('SELECT * from test;')
+            connection2
+                .raw('SELECT * from test;')
                 .then(function () {
                     done();
                 })
@@ -53,24 +55,27 @@ describe('Database', function () {
         const connection2 = database.connect({
             client: 'mysql',
             connection: {
-                host: 'unknown'
-            }
+                host: 'unknown',
+            },
         });
 
-        return database.ensureConnectionWorks(connection2).then(() => {
-            '1'.should.eql(1, 'Test should fail.');
-        }).catch((err) => {
-            (err instanceof errors.DatabaseError).should.be.true();
-            err.message.should.eql('Invalid database host.');
-        });
+        return database
+            .ensureConnectionWorks(connection2)
+            .then(() => {
+                '1'.should.eql(1, 'Test should fail.');
+            })
+            .catch((err) => {
+                (err instanceof errors.DatabaseError).should.be.true();
+                err.message.should.eql('Invalid database host.');
+            });
     });
 
     it('ensure test connection works', function () {
         const connection2 = database.connect({
             client: 'sqlite3',
             connection: {
-                filename: databaseFile
-            }
+                filename: databaseFile,
+            },
         });
 
         return database.ensureConnectionWorks(connection2);

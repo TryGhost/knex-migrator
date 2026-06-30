@@ -17,11 +17,11 @@ describe('knex-migrator rollback (on init, auto-rollback)', function () {
         testUtils.writeMigratorConfig({
             migratorConfigPath: migratorConfigPath,
             migrationPath: migrationPath,
-            currentVersion: '1.20'
+            currentVersion: '1.20',
         });
 
         knexMigrator = new KnexMigrator({
-            knexMigratorFilePath: path.join(__dirname, '..', 'assets')
+            knexMigratorFilePath: path.join(__dirname, '..', 'assets'),
         });
     });
 
@@ -57,17 +57,21 @@ describe('knex-migrator rollback (on init, auto-rollback)', function () {
     });
 
     it('knex-migrator init', function () {
-        return knexMigrator.init()
+        return knexMigrator
+            .init()
             .then(function () {
                 'Should fail'.should.eql(false);
             })
             .catch(function (err) {
-                err.help.should.eql('Error occurred while executing the following migration: 2-seed.js');
+                err.help.should.eql(
+                    'Error occurred while executing the following migration: 2-seed.js',
+                );
             });
     });
 
     it('knex-migrator health', function () {
-        return knexMigrator.isDatabaseOK()
+        return knexMigrator
+            .isDatabaseOK()
             .then(function () {
                 'Should fail'.should.eql(false);
             })
@@ -77,9 +81,8 @@ describe('knex-migrator rollback (on init, auto-rollback)', function () {
     });
 
     it('db check', function () {
-        return connection('migrations')
-            .then(function (migrations) {
-                migrations.length.should.eql(0);
-            });
+        return connection('migrations').then(function (migrations) {
+            migrations.length.should.eql(0);
+        });
     });
 });

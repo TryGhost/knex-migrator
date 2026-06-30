@@ -13,7 +13,15 @@ describe('knex-migrator rollback (default)', function () {
         migratorConfigPath = path.join(__dirname, '..', 'assets', 'MigratorConfig.js'),
         versionsFolder = path.join(__dirname, '..', 'assets', 'migrations_6', 'versions'),
         migration121 = path.join(__dirname, '..', 'assets', 'migrations_6', 'versions', '1.21'),
-        migration121File = path.join(__dirname, '..', 'assets', 'migrations_6', 'versions', '1.21', '1-test.js'),
+        migration121File = path.join(
+            __dirname,
+            '..',
+            'assets',
+            'migrations_6',
+            'versions',
+            '1.21',
+            '1-test.js',
+        ),
         connection;
 
     before(function () {
@@ -32,11 +40,11 @@ describe('knex-migrator rollback (default)', function () {
         testUtils.writeMigratorConfig({
             migratorConfigPath: migratorConfigPath,
             migrationPath: migrationPath,
-            currentVersion: '1.20'
+            currentVersion: '1.20',
         });
 
         knexMigrator = new KnexMigrator({
-            knexMigratorFilePath: path.join(__dirname, '..', 'assets')
+            knexMigratorFilePath: path.join(__dirname, '..', 'assets'),
         });
     });
 
@@ -92,8 +100,8 @@ describe('knex-migrator rollback (default)', function () {
         fs.mkdirSync(migration121);
 
         let jsFile = testUtils.generateMigrationScript({
-            up: 'UPDATE users set name=\'Kind\';',
-            down: 'UPDATE users set name=\'Hausmann\';'
+            up: "UPDATE users set name='Kind';",
+            down: "UPDATE users set name='Hausmann';",
         });
 
         fs.writeFileSync(migration121File, jsFile);
@@ -102,28 +110,31 @@ describe('knex-migrator rollback (default)', function () {
     });
 
     it('knex-migrator rollback', function () {
-        return knexMigrator.rollback({force: true});
+        return knexMigrator.rollback({ force: true });
     });
 
     it('knex-migrator health', function () {
-        return knexMigrator.isDatabaseOK()
+        return knexMigrator
+            .isDatabaseOK()
             .then(function () {
                 'Database should not be okay'.should.eql(false);
             })
             .catch(function (err) {
-                err.message.should.eql('Migrations are missing. Please run `pnpm knex-migrator migrate`.');
+                err.message.should.eql(
+                    'Migrations are missing. Please run `pnpm knex-migrator migrate`.',
+                );
             });
     });
 
     it('db check', function () {
-        return connection('migrations')
-            .then(function (migrations) {
-                migrations.length.should.eql(2);
-            });
+        return connection('migrations').then(function (migrations) {
+            migrations.length.should.eql(2);
+        });
     });
 
     it('knex-migrator rollback', function () {
-        return knexMigrator.rollback({force: true})
+        return knexMigrator
+            .rollback({ force: true })
             .then(function () {
                 'No rollback expected.'.should.eql(false);
             })
