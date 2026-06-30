@@ -10,7 +10,6 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && !startsWith(github.head_ref, 'renovate/'))
     services:
       mysql:
         image: ${{ matrix.env.DB == 'mysql8' && 'mysql:8.0' || '' }}
@@ -65,7 +64,6 @@ jobs:
   ghost-consumer-smoke:
     name: Ghost consumer smoke
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && !startsWith(github.head_ref, 'renovate/'))
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
@@ -105,10 +103,7 @@ jobs:
     needs:
       - test
       - ghost-consumer-smoke
-    if: >-
-      always() &&
-      (github.event_name == 'push' ||
-      (github.event_name == 'pull_request' && !startsWith(github.head_ref, 'renovate/')))
+    if: always()
     steps:
       - name: Check required jobs
         run: |
