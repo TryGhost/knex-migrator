@@ -74,6 +74,7 @@ jobs:
         with:
           repository: TryGhost/Ghost
           path: Ghost
+          fetch-depth: 0
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: '22.18.0'
@@ -85,10 +86,18 @@ jobs:
       - name: Install Ghost dependencies
         working-directory: Ghost
         run: pnpm install --frozen-lockfile --filter ghost...
+      - name: Link knex-migrator into Ghost
+        working-directory: knex-migrator
+        run: yarn link
+      - name: Use linked knex-migrator in Ghost
+        working-directory: Ghost/ghost/core
+        run: yarn link knex-migrator
       - name: Run Ghost consumer smoke
         working-directory: knex-migrator
         env:
-          GHOST_CORE_PATH: ${{ github.workspace }}/Ghost/ghost/core
+          GHOST_CORE_PATH: ${{ github.workspace }}/Ghost
+          KNEX_MIGRATOR_BIN: ${{ github.workspace }}/Ghost/ghost/core/node_modules/.bin/knex-migrator
+          KNEX_MIGRATOR_CWD: ${{ github.workspace }}/Ghost/ghost/core
         run: yarn smoke:ghost
 
   all-tests-pass:

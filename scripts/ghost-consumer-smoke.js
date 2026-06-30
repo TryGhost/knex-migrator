@@ -8,8 +8,30 @@ const path = require('path');
 const compareVer = require('compare-ver');
 
 const repoRoot = path.resolve(__dirname, '..');
-const ghostCorePath = path.resolve(process.env.GHOST_CORE_PATH || process.argv[2] || path.join(repoRoot, '..', 'Ghost', 'ghost', 'core'));
-const migratorBin = path.join(repoRoot, 'bin', 'knex-migrator');
+const ghostPath = process.env.GHOST_CORE_PATH || process.argv[2] || path.join(repoRoot, '..', 'Ghost');
+const migratorBin = path.resolve(process.env.KNEX_MIGRATOR_BIN || path.join(repoRoot, 'bin', 'knex-migrator'));
+const migratorCwd = path.resolve(process.env.KNEX_MIGRATOR_CWD || (process.env.KNEX_MIGRATOR_BIN ? process.cwd() : repoRoot));
+
+function resolveGhostCorePath(inputPath) {
+    const resolvedPath = path.resolve(inputPath);
+    const candidates = [
+        resolvedPath,
+        path.join(resolvedPath, 'ghost', 'core')
+    ];
+
+    const corePath = candidates.find((candidatePath) => {
+        return fs.existsSync(path.join(candidatePath, 'package.json'))
+            && fs.existsSync(path.join(candidatePath, 'MigratorConfig.js'));
+    });
+
+    if (!corePath) {
+        fail('Ghost core package.json not found from ' + resolvedPath + '. Set GHOST_CORE_PATH to a Ghost repository or Ghost core checkout.');
+    }
+
+    return corePath;
+}
+
+const ghostCorePath = resolveGhostCorePath(ghostPath);
 const ghostPackagePath = path.join(ghostCorePath, 'package.json');
 const ghostRequire = createRequire(ghostPackagePath);
 
@@ -30,7 +52,7 @@ function runStep(name, args, env) {
     console.log('Running: ' + name);
 
     const result = childProcess.spawnSync(process.execPath, [migratorBin].concat(args), {
-        cwd: repoRoot,
+        cwd: migratorCwd,
         env: env,
         encoding: 'utf8',
         stdio: ['ignore', 'pipe', 'pipe']
@@ -95,8 +117,8 @@ function getGhostVersions() {
 }
 
 function main() {
-    if (!fs.existsSync(ghostPackagePath)) {
-        fail('Ghost core package.json not found at ' + ghostPackagePath + '. Set GHOST_CORE_PATH to a Ghost core checkout.');
+    if (!fs.existsSync(migratorBin)) {
+        fail('knex-migrator bin not found at ' + migratorBin + '. Set KNEX_MIGRATOR_BIN to the linked package bin.');
     }
 
     requireFromGhost('knex');
@@ -115,6 +137,8 @@ function main() {
     });
 
     console.log('Ghost core: ' + ghostCorePath);
+    console.log('knex-migrator bin: ' + migratorBin);
+    console.log('knex-migrator cwd: ' + migratorCwd);
     console.log('Ghost version: ' + versions.ghostVersion);
     console.log('Rollback target: ' + versions.previousVersion);
     console.log('Forward target: ' + versions.currentVersion);
