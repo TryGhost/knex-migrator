@@ -21,11 +21,11 @@ A database migration tool for [knex.js](https://github.com/tgriesser/knex), whic
 
 # Install
 
-`npm install knex-migrator --save`
+`pnpm add knex-migrator`
 
 or
 
-`yarn add knex-migrator`
+`npm install knex-migrator --save`
 
 Add me to your globals:
    - `npm install --global knex-migrator`
@@ -326,18 +326,17 @@ knexMigrator.isDatabaseOK()
 
 # Test
 
-- `yarn lint` run just eslint
-- `yarn test` run eslint && then tests
-- `NODE_ENV=testing-mysql yarn test` to test with MySQL
+- `pnpm lint` run just eslint
+- `pnpm test` run eslint && then tests
+- `NODE_ENV=testing-mysql pnpm test` to test with MySQL
 
 # Publish
 
-- `yarn ship`
+- `pnpm ship`
 
 # Copyright & License
 
 Copyright (c) 2013-2026 Ghost Foundation - Released under the [MIT license](LICENSE).
-
 
 
 

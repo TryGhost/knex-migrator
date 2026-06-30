@@ -1,7 +1,7 @@
 # Logs
 logs
 *.log
-npm-debug.log*
+pnpm-debug.log*
 
 # Runtime data
 pids
@@ -30,10 +30,6 @@ build/Release
 # Dependency directories
 node_modules
 jspm_packages
-
-# NPM
-.npm
-package-lock.json
 
 # Optional REPL history
 .node_repl_history

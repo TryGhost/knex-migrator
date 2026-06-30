@@ -2,5 +2,14 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "local>TryGhost/renovate-config"
+  ],
+  "packageRules": [
+    {
+      "description": "Keep knex aligned with Ghost until Ghost updates its catalog version.",
+      "matchPackageNames": [
+        "knex"
+      ],
+      "allowedVersions": "2.4.2"
+    }
   ]
 }

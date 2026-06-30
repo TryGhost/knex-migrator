@@ -1,0 +1,7 @@
+# Preserve the repo's existing install behavior; Renovate owns update timing.
+minimumReleaseAge: 0
+
+allowBuilds:
+  better-sqlite3: true
+  dtrace-provider: false
+  sqlite3: true
