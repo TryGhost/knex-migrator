@@ -1,6 +1,7 @@
 {
   "name": "knex-migrator",
   "version": "5.4.1",
+  "packageManager": "pnpm@11.8.0",
   "description": "Database migrations with knex.",
   "keywords": [
     "ghost",
@@ -29,12 +30,12 @@
   "scripts": {
     "lint": "eslint --ext .js --cache lib/** test/**",
     "test": "LEVEL=fatal _mocha --require test/utils.js --exit -- test/**/*_spec.js",
-    "test:unit": "yarn lint && LEVEL=fatal _mocha --require test/utils.js --report lcovonly -- test/unit/*_spec.js",
+    "test:unit": "pnpm lint && LEVEL=fatal _mocha --require test/utils.js --report lcovonly -- test/unit/*_spec.js",
     "smoke:ghost": "node scripts/ghost-consumer-smoke.js",
-    "posttest": "yarn lint",
+    "posttest": "pnpm lint",
     "coverage": "nyc --check-coverage --lines 80 --functions 80 --branches 80 --reporter=text --reporter=lcov _mocha --require test/utils.js --exit -- test/**/*_spec.js",
-    "preship": "yarn test",
-    "ship": "STATUS=$(git status --porcelain); echo $STATUS; if [ -z \"$STATUS\" ]; then yarn publish && git push ${GHOST_UPSTREAM:-upstream} main --follow-tags; fi"
+    "preship": "pnpm test",
+    "ship": "STATUS=$(git status --porcelain); echo $STATUS; if [ -z \"$STATUS\" ]; then pnpm publish && git push ${GHOST_UPSTREAM:-upstream} main --follow-tags; fi"
   },
   "bin": {
     "knex-migrator": "./bin/knex-migrator",
@@ -45,7 +46,7 @@
     "knex-migrator-rollback": "./bin/knex-migrator-rollback"
   },
   "engines": {
-    "node": "^20.11.1 || ^22.13.1 || ^24.14.1"
+    "node": "^22.13.1 || ^24.14.1"
   },
   "dependencies": {
     "@tryghost/database-info": "0.3.35",
@@ -55,7 +56,7 @@
     "commander": "5.1.0",
     "compare-ver": "2.0.2",
     "debug": "4.4.3",
-    "knex": "3.3.0",
+    "knex": "2.4.2",
     "lodash": "4.18.1",
     "moment": "2.30.1",
     "mysql2": "3.22.5",
