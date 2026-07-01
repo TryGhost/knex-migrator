@@ -17,6 +17,9 @@ importers:
       '@tryghost/logging':
         specifier: 5.1.1
         version: 5.1.1
+      '@tryghost/pro-ship':
+        specifier: 1.1.4
+        version: 1.1.4
       '@tryghost/promise':
         specifier: 2.3.1
         version: 2.3.1
@@ -537,6 +540,11 @@ packages:
 
   '@tryghost/pretty-stream@2.3.1':
     resolution: {integrity: sha512-zRkWdT9OPNxwFCADMfTqo/dUCTwz0GME3qEF66ads/6NHo4fFwO+zoboNZLDeDMYOm+20T4dccTvzEe0m7M80A==}
+
+  '@tryghost/pro-ship@1.1.4':
+    resolution: {integrity: sha512-k4okNuZwxWfyumyC5+A+/96cE/bnBZmcigghWNTP6n/8QuMX4eFQoPlu3XGyUToF5vKGfl1HU5pELPbwSLDYLA==}
+    engines: {node: '>=20.20.0'}
+    hasBin: true
 
   '@tryghost/promise@2.3.1':
     resolution: {integrity: sha512-5shPVEzwkJHj8gW4EWztKRRRCApHLKd9kTKv6jqjpkWpVZ3bVOJomRRifG9MofvAAC07y4huIc8VlVk15Ess+g==}
@@ -1979,6 +1987,11 @@ snapshots:
       date-format: 4.0.14
       lodash: 4.18.1
       prettyjson: 1.2.5
+
+  '@tryghost/pro-ship@1.1.4':
+    dependencies:
+      '@tryghost/root-utils': 2.3.1
+      semver: 7.8.5
 
   '@tryghost/promise@2.3.1': {}
 

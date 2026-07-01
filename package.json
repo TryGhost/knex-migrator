@@ -37,7 +37,7 @@
     "posttest": "pnpm lint",
     "coverage": "LEVEL=fatal vitest run --coverage",
     "preship": "pnpm test",
-    "ship": "STATUS=$(git status --porcelain); echo $STATUS; if [ -z \"$STATUS\" ]; then pnpm publish && git push ${GHOST_UPSTREAM:-upstream} main --follow-tags; fi"
+    "ship": "pro-ship"
   },
   "bin": {
     "knex-migrator": "./bin/knex-migrator",
@@ -54,6 +54,7 @@
     "@tryghost/database-info": "2.3.1",
     "@tryghost/errors": "3.3.1",
     "@tryghost/logging": "5.1.1",
+    "@tryghost/pro-ship": "1.1.4",
     "@tryghost/promise": "2.3.1",
     "commander": "15.0.0",
     "compare-ver": "2.0.2",
