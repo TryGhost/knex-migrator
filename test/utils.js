@@ -3,14 +3,19 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'test') {
     process.env.NODE_ENV = 'testing';
 }
 
+// Loaded for its side-effect: registers the global `.should` assertion getter.
+// vitest-setup.mjs imports this file, so specs that don't require('should')
+// themselves (e.g. bin_spec) still get `.should`.
 require('should');
 
-const knex = require('knex');
 const fs = require('fs');
 const config = require('./config');
+const database = require('../lib/database');
 
 exports.connect = function () {
-    return knex(config.get('database'));
+    // Deep clone so the production connect helper (which aliases `sqlite3` to
+    // `better-sqlite3` and applies driver defaults) can't mutate the shared config.
+    return database.connect(JSON.parse(JSON.stringify(config.get('database'))));
 };
 
 exports.writeMigratorConfig = function writeMigratorConfig(options) {
