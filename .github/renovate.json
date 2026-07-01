@@ -16,8 +16,14 @@
       "matchManagers": [
         "github-actions"
       ],
-      "matchPackageNames": [
+      "matchDepTypes": [
+        "uses-with"
+      ],
+      "matchDepNames": [
         "node"
+      ],
+      "matchPackageNames": [
+        "actions/node-versions"
       ],
       "matchCurrentValue": "22.13.1",
       "allowedVersions": "22.13.1"
@@ -27,8 +33,14 @@
       "matchManagers": [
         "github-actions"
       ],
-      "matchPackageNames": [
+      "matchDepTypes": [
+        "uses-with"
+      ],
+      "matchDepNames": [
         "node"
+      ],
+      "matchPackageNames": [
+        "actions/node-versions"
       ],
       "matchCurrentValue": "22.18.0",
       "allowedVersions": "22.18.0"
@@ -38,8 +50,14 @@
       "matchManagers": [
         "github-actions"
       ],
-      "matchPackageNames": [
+      "matchDepTypes": [
+        "uses-with"
+      ],
+      "matchDepNames": [
         "node"
+      ],
+      "matchPackageNames": [
+        "actions/node-versions"
       ],
       "matchCurrentValue": "24.14.1",
       "allowedVersions": "24.14.1"
