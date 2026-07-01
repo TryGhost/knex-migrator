@@ -58,7 +58,7 @@ jobs:
         run: |
           name=$(jq -r .name package.json)
           version=$(jq -r .version package.json)
-          if [ -n "$(pnpm view "$name@$version" version 2>/dev/null)" ]; then
+          if [ -n "$(npm view "$name@$version" version 2>/dev/null)" ]; then
             echo "$name@$version is already published; nothing to do"
             echo "publish=false" >> "$GITHUB_OUTPUT"
           else
