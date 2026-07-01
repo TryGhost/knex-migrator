@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const program = require('commander');
+const program = require('commander').program;
 const utils = require('../lib/utils');
 
 const logging = require('@tryghost/logging');
@@ -14,14 +14,16 @@ utils.getKnexMigrator({path: process.cwd()})
             .option('--v <version>', 'The version to rollback to.')
             .parse(process.argv);
 
+        const options = program.opts();
+
         try {
-            knexMigrator = new KnexMigrator({knexMigratorFilePath: program.mgpath, executedFromShell: true});
+            knexMigrator = new KnexMigrator({knexMigratorFilePath: options.mgpath, executedFromShell: true});
         } catch (err) {
             logging.error(err);
             process.exit(1);
         }
 
-        return knexMigrator.rollback({force: program.force, version: program.v})
+        return knexMigrator.rollback({force: options.force, version: options.v})
             .then(function () {
                 logging.info('Rollback was successful.');
             });

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var program = require('commander');
+var program = require('commander').program;
 var utils = require('../lib/utils');
 
 var logging = require('@tryghost/logging');
@@ -14,16 +14,18 @@ utils.getKnexMigrator({path: process.cwd()})
             .option('--mgpath <path>')
             .parse(process.argv);
 
+        var options = program.opts();
+
         try {
-            knexMigrator = new KnexMigrator({knexMigratorFilePath: program.mgpath, executedFromShell: true});
+            knexMigrator = new KnexMigrator({knexMigratorFilePath: options.mgpath, executedFromShell: true});
         } catch (err) {
             logging.error(err);
             process.exit(1);
         }
 
         return knexMigrator.init({
-            skip: program.skip,
-            only: program.only
+            skip: options.skip,
+            only: options.only
         }).then(function () {
             logging.info('Finished database init!');
         });
