@@ -4,4 +4,3 @@ minimumReleaseAge: 0
 allowBuilds:
   better-sqlite3: true
   dtrace-provider: false
-  sqlite3: true

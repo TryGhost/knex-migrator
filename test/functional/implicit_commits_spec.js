@@ -8,18 +8,19 @@ const _ = require('lodash'),
 const _private = {};
 
 _private.isBetterSQLite3 = function isBetterSQLite3() {
-    return config.get('database:client') === 'better-sqlite3';
+    // `sqlite3` configs are aliased to the `better-sqlite3` driver at connect time,
+    // so both report the same runtime behaviour.
+    const client = config.get('database:client');
+    return client === 'better-sqlite3' || client === 'sqlite3';
 };
 
 _private.assertTableMissingError = function assertTableMissingError(err) {
     if (['mysql', 'mysql2'].includes(config.get('database:client'))) {
         err.errno.should.eql(1146);
-    } else if (_private.isBetterSQLite3()) {
+    } else {
         err.code.should.eql('SQLITE_ERROR');
         err.message.should.startWith('select * from');
         err.message.should.containEql('no such table:');
-    } else {
-        err.errno.should.eql(1);
     }
 };
 
