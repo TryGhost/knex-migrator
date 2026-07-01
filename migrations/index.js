@@ -8,10 +8,9 @@ const addPKToLockTable = require('./add-primary-key-to-lock-table');
  *
  * You can use this helper to execute more database migrations. It get's called as soon as you hit any knex-migrator command.
  */
-module.exports.run = function (connection) {
-    return Promise.resolve()
-        .then(() => lockTable.up(connection))
-        .then(() => fieldLength.up(connection))
-        .then(() => useIndex.up(connection))
-        .then(() => addPKToLockTable.up(connection));
+module.exports.run = async function run(connection) {
+    await lockTable.up(connection);
+    await fieldLength.up(connection);
+    await useIndex.up(connection);
+    await addPKToLockTable.up(connection);
 };

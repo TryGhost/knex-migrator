@@ -4,56 +4,52 @@ const DatabaseInfo = require('@tryghost/database-info');
 /**
  * Checks if primary key index exists in a table over the given columns.
  */
-function hasPrimaryKeySQLite(tableName, knex) {
+async function hasPrimaryKeySQLite(tableName, knex) {
     if (!DatabaseInfo.isSQLite(knex)) {
         throw new Error('Must use hasPrimaryKeySQLite on an SQLite3 database');
     }
 
-    return knex.raw(`PRAGMA index_list('${tableName}');`).then((rawConstraints) => {
-        const tablePrimaryKey = rawConstraints.find((c) => c.origin === 'pk');
-        return tablePrimaryKey;
-    });
+    const rawConstraints = await knex.raw(`PRAGMA index_list('${tableName}');`);
+    return rawConstraints.find((constraint) => constraint.origin === 'pk');
 }
 
 /**
  * Adds an primary key index to a table over the given columns.
  */
-function addPrimaryKey(tableName, columns, knex) {
+async function addPrimaryKey(tableName, columns, knex) {
     if (DatabaseInfo.isSQLite(knex)) {
-        return hasPrimaryKeySQLite(tableName, knex).then((primaryKeyExists) => {
-            if (primaryKeyExists) {
-                debug(
-                    `Primary key constraint for: ${columns} already exists for table: ${tableName}`,
-                );
-                return;
-            }
+        const primaryKeyExists = await hasPrimaryKeySQLite(tableName, knex);
 
-            return knex.schema.table(tableName, function (table) {
-                table.primary(columns);
-            });
+        if (primaryKeyExists) {
+            debug(`Primary key constraint for: ${columns} already exists for table: ${tableName}`);
+            return;
+        }
+
+        await knex.schema.table(tableName, function (table) {
+            table.primary(columns);
         });
+        return;
     }
 
-    return knex.schema
-        .table(tableName, function (table) {
+    try {
+        await knex.schema.table(tableName, function (table) {
             table.primary(columns);
-        })
-        .catch((err) => {
-            if (err.code === 'ER_MULTIPLE_PRI_KEY') {
-                debug(
-                    `Primary key constraint for: ${columns} already exists for table: ${tableName}`,
-                );
-                return;
-            }
-            throw err;
         });
+    } catch (err) {
+        if (err.code === 'ER_MULTIPLE_PRI_KEY') {
+            debug(`Primary key constraint for: ${columns} already exists for table: ${tableName}`);
+            return;
+        }
+
+        throw err;
+    }
 }
 
 /**
  * @description Private helper to create add a primary key to the migration lock table. The helper is called as part of `runDatabaseUpgrades`.
  * @returns {*}
  */
-module.exports.up = function (connection) {
+module.exports.up = function up(connection) {
     debug('Add primary key to the lock table.');
 
     return addPrimaryKey('migrations_lock', 'lock_key', connection);

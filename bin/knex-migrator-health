@@ -1,32 +1,35 @@
 #!/usr/bin/env node
 
-var program = require('commander').program;
-var utils = require('../lib/utils');
+const program = require('commander').program;
+const utils = require('../lib/utils');
 
-var logging = require('@tryghost/logging');
-var knexMigrator;
+const logging = require('@tryghost/logging');
 
-utils.getKnexMigrator({path: process.cwd()})
-    .then(function (KnexMigrator) {
-        program
-            .option('--mgpath <path>')
-            .parse(process.argv);
+async function main() {
+    const KnexMigrator = await utils.getKnexMigrator({path: process.cwd()});
 
-        var options = program.opts();
+    program
+        .option('--mgpath <path>')
+        .parse(process.argv);
 
-        try {
-            knexMigrator = new KnexMigrator({knexMigratorFilePath: options.mgpath, executedFromShell: true});
-        } catch (err) {
-            logging.error(err);
-            process.exit(1);
-        }
+    const options = program.opts();
+    let knexMigrator;
 
-        return knexMigrator.isDatabaseOK()
-            .then(function () {
-                logging.info('Woohoo, Database is healthy');
-            });
-    })
-    .catch(function (err) {
+    try {
+        knexMigrator = new KnexMigrator({
+            knexMigratorFilePath: options.mgpath,
+            executedFromShell: true,
+        });
+    } catch (err) {
+        logging.error(err);
+        process.exit(1);
+    }
+
+    await knexMigrator.isDatabaseOK();
+    logging.info('Woohoo, Database is healthy');
+}
+
+main().catch(function (err) {
         logging.error(err.message);
 
         if (err.help) {
