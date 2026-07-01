@@ -30,6 +30,19 @@ describe('Database', function () {
             return connection.destroy();
         });
 
+        it('aliases sqlite3 configs to better-sqlite3', function () {
+            const connection = database.connect({
+                client: 'sqlite3',
+                connection: {
+                    filename: ':memory:',
+                },
+            });
+
+            connection.client.config.client.should.eql('better-sqlite3');
+
+            return connection.destroy();
+        });
+
         it('preserves explicit sqlite useNullAsDefault', function () {
             const connection = database.connect({
                 client: 'sqlite3',
@@ -78,7 +91,7 @@ describe('Database', function () {
                 );
 
                 connection.loadedFromProject.should.eql(true);
-                connection.client.config.client.should.eql('sqlite3');
+                connection.client.config.client.should.eql('better-sqlite3');
             } finally {
                 fs.rmSync(projectPath, { recursive: true, force: true });
             }
@@ -134,7 +147,7 @@ describe('Database', function () {
                     },
                 );
 
-                connection.client.config.client.should.eql('sqlite3');
+                connection.client.config.client.should.eql('better-sqlite3');
                 return connection.destroy();
             } finally {
                 fs.rmSync(projectPath, { recursive: true, force: true });
