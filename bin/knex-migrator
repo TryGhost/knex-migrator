@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-var program = require('commander').program,
-    pkg = require('../package.json');
+const program = require('commander').program;
+const pkg = require('../package.json');
 
 program
     .version(pkg.version, '-v, --version')
