@@ -18,8 +18,8 @@ importers:
         specifier: 5.1.1
         version: 5.1.1
       '@tryghost/pro-ship':
-        specifier: 1.1.4
-        version: 1.1.4
+        specifier: 1.1.5
+        version: 1.1.5
       '@tryghost/promise':
         specifier: 2.3.1
         version: 2.3.1
@@ -541,8 +541,8 @@ packages:
   '@tryghost/pretty-stream@2.3.1':
     resolution: {integrity: sha512-zRkWdT9OPNxwFCADMfTqo/dUCTwz0GME3qEF66ads/6NHo4fFwO+zoboNZLDeDMYOm+20T4dccTvzEe0m7M80A==}
 
-  '@tryghost/pro-ship@1.1.4':
-    resolution: {integrity: sha512-k4okNuZwxWfyumyC5+A+/96cE/bnBZmcigghWNTP6n/8QuMX4eFQoPlu3XGyUToF5vKGfl1HU5pELPbwSLDYLA==}
+  '@tryghost/pro-ship@1.1.5':
+    resolution: {integrity: sha512-gwd4ynAnEHkj6bx+tfkZCYaL+WlNHQQmCkAJn7Q2H0Uq+mG74i2wwxUWr+wTuyxjLg8KviMux5uwtkEQfzi1VA==}
     engines: {node: '>=20.20.0'}
     hasBin: true
 
@@ -1988,7 +1988,7 @@ snapshots:
       lodash: 4.18.1
       prettyjson: 1.2.5
 
-  '@tryghost/pro-ship@1.1.4':
+  '@tryghost/pro-ship@1.1.5':
     dependencies:
       '@tryghost/root-utils': 2.3.1
       semver: 7.8.5
