@@ -42,6 +42,17 @@ The `mysql` client name is accepted for backwards compatibility and is mapped to
 
 Add `MigratorConfig.js` to the project root that will run migrations. CLI commands load this file from the current working directory by default, or from the directory passed with `--mgpath`.
 
+`MigratorConfig.cjs` and `MigratorConfig.mjs` are also supported and are resolved in that order after `MigratorConfig.js`. ESM configs (`.mjs`, or `.js`/`.cjs` in a `"type": "module"` package) are loaded synchronously, so they must export the config as the `default` export and must not use top-level `await`:
+
+```js
+// MigratorConfig.mjs
+export default {
+    database: { /* ... */ },
+    migrationPath: '/path/to/project/migrations',
+    currentVersion: '2.0'
+};
+```
+
 ```js
 module.exports = {
     database: {

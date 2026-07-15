@@ -82,11 +82,10 @@ jobs:
         with:
           repository: TryGhost/Ghost
           path: Ghost
-          fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
-          node-version: '22.18.0'
+          node-version: '22.23.1'
       - name: Install Corepack
         run: npm install --global corepack@0.34.6
       - name: Enable corepack
@@ -97,6 +96,9 @@ jobs:
       - name: Install Ghost dependencies
         working-directory: Ghost
         run: pnpm install --frozen-lockfile --filter ghost...
+      - name: Build Ghost Workspace dependencies
+        run: pnpm --filter ghost^... build
+        working-directory: Ghost
       - name: Use linked knex-migrator in Ghost
         working-directory: Ghost/ghost/core
         run: pnpm link ${{ github.workspace }}/knex-migrator

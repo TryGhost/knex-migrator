@@ -24,7 +24,7 @@ describe('Utils', function () {
                 .should.eql(config);
         });
 
-        it('throws a helpful error when MigratorConfig.js is missing', function () {
+        it('throws a helpful error when no config file is present', function () {
             try {
                 utils.loadConfig({
                     knexMigratorFilePath: path.join(__dirname, 'missing-config'),
@@ -33,9 +33,37 @@ describe('Utils', function () {
             } catch (err) {
                 should.not.exist(err.code);
                 err.message.should.eql(
-                    'Please provide a file named MigratorConfig.js in your project root.',
+                    'Please provide a file named MigratorConfig.js, MigratorConfig.cjs, or MigratorConfig.mjs in your project root.',
                 );
             }
+        });
+
+        it('loads a CommonJS config from MigratorConfig.cjs', function () {
+            const configPath = path.join(__dirname, 'fixtures', 'cjs-config');
+
+            utils
+                .loadConfig({
+                    knexMigratorFilePath: configPath,
+                })
+                .should.eql({
+                    database: { client: 'sqlite3' },
+                    migrationPath: 'migrations',
+                    currentVersion: '1.0',
+                });
+        });
+
+        it('loads an ESM config from MigratorConfig.mjs via its default export', function () {
+            const configPath = path.join(__dirname, 'fixtures', 'mjs-config');
+
+            utils
+                .loadConfig({
+                    knexMigratorFilePath: configPath,
+                })
+                .should.eql({
+                    database: { client: 'sqlite3' },
+                    migrationPath: 'migrations',
+                    currentVersion: '1.0',
+                });
         });
 
         it('does not hide missing dependencies from MigratorConfig.js', function () {
