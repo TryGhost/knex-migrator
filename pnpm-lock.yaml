@@ -34,7 +34,7 @@ importers:
         version: 4.4.3
       knex:
         specifier: 2.4.2
-        version: 2.4.2(better-sqlite3@12.11.1)(mysql2@3.22.6(@types/node@26.0.1))
+        version: 2.4.2(better-sqlite3@12.11.1)(mysql2@3.23.0(@types/node@26.0.1))
       lodash:
         specifier: 4.18.1
         version: 4.18.1
@@ -42,8 +42,8 @@ importers:
         specifier: 2.30.1
         version: 2.30.1
       mysql2:
-        specifier: 3.22.6
-        version: 3.22.6(@types/node@26.0.1)
+        specifier: 3.23.0
+        version: 3.23.0(@types/node@26.0.1)
       nconf:
         specifier: 0.13.0
         version: 0.13.0
@@ -1212,8 +1212,8 @@ packages:
     resolution: {integrity: sha512-at/ZndSy3xEGJ8i0ygALh8ru9qy7gWW1cmkaqBN29JmMlIvM//MEO9y1sk/avxuwnPcfhkejkLsuPxH81BrkSg==}
     engines: {node: '>=0.8.0'}
 
-  mysql2@3.22.6:
-    resolution: {integrity: sha512-fPKmeDGUzvFP7bMD5SASlJ5zIgvCC4hbanTmhbUlEmhyrY1hR4Hi3xLOWgTd3luYjLVifx6uGvMNJ2m/LlqEpg==}
+  mysql2@3.23.0:
+    resolution: {integrity: sha512-ZwyGLoG9BRlL7hKNDcIy7q18hA6WTWGEpLAerGHXj5Xahemia4msZdwjIOUIzesjK3B5z5gWLktf+2tYSLAyTA==}
     engines: {node: '>= 8.0'}
     peerDependencies:
       '@types/node': '>= 8'
@@ -2482,7 +2482,7 @@ snapshots:
     dependencies:
       '@keyv/serialize': 1.1.1
 
-  knex@2.4.2(better-sqlite3@12.11.1)(mysql2@3.22.6(@types/node@26.0.1)):
+  knex@2.4.2(better-sqlite3@12.11.1)(mysql2@3.23.0(@types/node@26.0.1)):
     dependencies:
       colorette: 2.0.19
       commander: 9.5.0
@@ -2500,7 +2500,7 @@ snapshots:
       tildify: 2.0.0
     optionalDependencies:
       better-sqlite3: 12.11.1
-      mysql2: 3.22.6(@types/node@26.0.1)
+      mysql2: 3.23.0(@types/node@26.0.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -2624,7 +2624,7 @@ snapshots:
       rimraf: 2.4.5
     optional: true
 
-  mysql2@3.22.6(@types/node@26.0.1):
+  mysql2@3.23.0(@types/node@26.0.1):
     dependencies:
       '@types/node': 26.0.1
       aws-ssl-profiles: 1.1.2
