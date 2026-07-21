@@ -88,6 +88,35 @@ module.exports = {
 
 `subfolder` is optional and defaults to `versions`.
 
+### Lock wait (MySQL)
+
+`lock` is optional and groups lock-related settings. `lock.waitSeconds`
+controls how long knex-migrator waits for an in-progress migration to finish
+before giving up when acquiring the migration lock. It only applies to
+MySQL/MariaDB, where it maps to the timeout of a session-scoped
+[`GET_LOCK`](https://dev.mysql.com/doc/refman/en/locking-functions.html)
+advisory lock; on SQLite it is ignored. It defaults to `30` seconds.
+
+```js
+module.exports = {
+    database: { /* ... */ },
+    migrationPath: '/path/to/project/migrations',
+    currentVersion: '2.0',
+    lock: {
+        waitSeconds: 30
+    }
+};
+```
+
+The advisory lock is released automatically if the migrating process dies, so a
+container killed mid-migration no longer leaves the database locked. When
+several processes start at once, the losers wait up to `lock.waitSeconds` for
+the leader to finish rather than failing immediately.
+
+Set the `KNEX_MIGRATOR_LOCK_WAIT_SECONDS` environment variable to override
+`lock.waitSeconds` at runtime (useful for tuning a single deployment without
+changing `MigratorConfig`).
+
 ## Migration Structure
 
 The default migration layout separates one-time init scripts from versioned migrations.
