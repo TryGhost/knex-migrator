@@ -490,6 +490,33 @@ describe('KnexMigrator', function () {
                 });
         });
 
+        it('threads the configured lock.waitSeconds through to locking.lock', function () {
+            const knexMigrator = new KnexMigrator({
+                knexMigratorConfig: {
+                    database: {},
+                    migrationPath: path.join(__dirname, '..', 'assets', 'migrations'),
+                    currentVersion: '1.0',
+                    lock: {
+                        waitSeconds: 45,
+                    },
+                },
+            });
+            const connection = createDestroyableConnection();
+
+            knexMigrator.lockWaitSeconds.should.eql(45);
+
+            sinon.stub(database, 'connect').returns(connection);
+            sinon.stub(database, 'ensureConnectionWorks').resolves();
+            sinon.stub(migrations, 'run').resolves();
+            sinon.stub(locking, 'lock').resolves();
+            sinon.stub(locking, 'unlock').resolves();
+            sinon.stub(knexMigrator, '_integrityCheck').resolves({});
+
+            return knexMigrator.migrate().then(function () {
+                locking.lock.calledOnceWith(connection, { waitSeconds: 45 }).should.eql(true);
+            });
+        });
+
         it('warns when the requested version is not present', function () {
             const knexMigrator = createKnexMigrator();
             const connection = createDestroyableConnection();
