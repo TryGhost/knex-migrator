@@ -605,4 +605,64 @@ describe('Database', function () {
                 });
         });
     });
+
+    describe('isMySQL', function () {
+        it('detects a mysql connection', function () {
+            const connection = database.connect({
+                client: 'mysql',
+                connection: { filename: 'unused.db' },
+            });
+
+            expect(database.isMySQL(connection)).toEqual(true);
+
+            return connection.destroy();
+        });
+
+        it('returns false for sqlite connections', function () {
+            const connection = database.connect({
+                client: 'sqlite3',
+                connection: { filename: ':memory:' },
+            });
+
+            expect(database.isMySQL(connection)).toEqual(false);
+
+            return connection.destroy();
+        });
+
+        it('returns false (does not throw) for bare stub objects', function () {
+            expect(database.isMySQL({})).toEqual(false);
+        });
+    });
+
+    describe('rawQuery', function () {
+        it('resolves the driver rows', function () {
+            const rawConnection = {
+                query: function (sql, bindings, cb) {
+                    cb(null, [{ ok: 1 }]);
+                },
+            };
+
+            return database.rawQuery(rawConnection, 'SELECT 1', []).then(function (rows) {
+                expect(rows).toEqual([{ ok: 1 }]);
+            });
+        });
+
+        it('rejects on a driver error', function () {
+            const boom = new Error('driver failed');
+            const rawConnection = {
+                query: function (sql, bindings, cb) {
+                    cb(boom);
+                },
+            };
+
+            return database
+                .rawQuery(rawConnection, 'SELECT 1')
+                .then(function () {
+                    expect.unreachable();
+                })
+                .catch(function (err) {
+                    expect(err).toBe(boom);
+                });
+        });
+    });
 });
