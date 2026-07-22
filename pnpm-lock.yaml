@@ -16,7 +16,7 @@ importers:
         version: 3.3.4
       '@tryghost/logging':
         specifier: 5.2.1
-        version: 5.2.1
+        version: 5.2.1(supports-color@7.2.0)
       '@tryghost/pro-ship':
         specifier: 1.1.7
         version: 1.1.7
@@ -31,10 +31,10 @@ importers:
         version: 2.0.2
       debug:
         specifier: 4.4.3
-        version: 4.4.3
+        version: 4.4.3(supports-color@7.2.0)
       knex:
         specifier: 2.4.2
-        version: 2.4.2(better-sqlite3@12.11.1)(mysql2@3.23.0(@types/node@26.0.1))
+        version: 2.4.2(better-sqlite3@12.11.1)(mysql2@3.23.1(@types/node@26.0.1))(supports-color@7.2.0)
       lodash:
         specifier: 4.18.1
         version: 4.18.1
@@ -42,8 +42,8 @@ importers:
         specifier: 2.30.1
         version: 2.30.1
       mysql2:
-        specifier: 3.23.0
-        version: 3.23.0(@types/node@26.0.1)
+        specifier: 3.23.1
+        version: 3.23.1(@types/node@26.0.1)
       nconf:
         specifier: 0.13.0
         version: 0.13.0
@@ -1215,8 +1215,8 @@ packages:
     resolution: {integrity: sha512-at/ZndSy3xEGJ8i0ygALh8ru9qy7gWW1cmkaqBN29JmMlIvM//MEO9y1sk/avxuwnPcfhkejkLsuPxH81BrkSg==}
     engines: {node: '>=0.8.0'}
 
-  mysql2@3.23.0:
-    resolution: {integrity: sha512-ZwyGLoG9BRlL7hKNDcIy7q18hA6WTWGEpLAerGHXj5Xahemia4msZdwjIOUIzesjK3B5z5gWLktf+2tYSLAyTA==}
+  mysql2@3.23.1:
+    resolution: {integrity: sha512-tTuRnC7qCet2IOfSNMYZ5SwXuBnfvBPAcIA28P0gtruXyZlU1LMxA6uha32kYypoFgyYklMqhLWwt4laYwXR/Q==}
     engines: {node: '>= 8.0'}
     peerDependencies:
       '@types/node': '>= 8'
@@ -1685,20 +1685,20 @@ snapshots:
 
   '@bcoe/v8-coverage@1.0.2': {}
 
-  '@elastic/elasticsearch@8.19.2':
+  '@elastic/elasticsearch@8.19.2(supports-color@7.2.0)':
     dependencies:
-      '@elastic/transport': 8.10.1
+      '@elastic/transport': 8.10.1(supports-color@7.2.0)
       apache-arrow: 21.1.0
       tslib: 2.8.1
     transitivePeerDependencies:
       - '@75lb/nature'
       - supports-color
 
-  '@elastic/transport@8.10.1':
+  '@elastic/transport@8.10.1(supports-color@7.2.0)':
     dependencies:
       '@opentelemetry/api': 1.9.1
       '@opentelemetry/core': 2.8.0(@opentelemetry/api@1.9.1)
-      debug: 4.4.3
+      debug: 4.4.3(supports-color@7.2.0)
       hpagent: 1.2.0
       ms: 2.1.3
       secure-json-parse: 3.0.2
@@ -1946,17 +1946,17 @@ snapshots:
 
   '@tryghost/database-info@2.3.4': {}
 
-  '@tryghost/debug@2.3.4':
+  '@tryghost/debug@2.3.4(supports-color@7.2.0)':
     dependencies:
       '@tryghost/root-utils': 2.3.4
-      debug: 4.4.3
+      debug: 4.4.3(supports-color@7.2.0)
     transitivePeerDependencies:
       - supports-color
 
-  '@tryghost/elasticsearch@5.4.1':
+  '@tryghost/elasticsearch@5.4.1(supports-color@7.2.0)':
     dependencies:
-      '@elastic/elasticsearch': 8.19.2
-      '@tryghost/debug': 2.3.4
+      '@elastic/elasticsearch': 8.19.2(supports-color@7.2.0)
+      '@tryghost/debug': 2.3.4(supports-color@7.2.0)
       split2: 4.2.0
     transitivePeerDependencies:
       - '@75lb/nature'
@@ -1969,10 +1969,10 @@ snapshots:
       '@tryghost/errors': 3.3.4
       '@tryghost/request': 3.3.4
 
-  '@tryghost/logging@5.2.1':
+  '@tryghost/logging@5.2.1(supports-color@7.2.0)':
     dependencies:
       '@tryghost/bunyan-rotating-filestream': 0.0.10
-      '@tryghost/elasticsearch': 5.4.1
+      '@tryghost/elasticsearch': 5.4.1(supports-color@7.2.0)
       '@tryghost/http-stream': 2.3.4
       '@tryghost/pretty-stream': 2.3.4
       '@tryghost/root-utils': 2.3.4
@@ -2271,13 +2271,17 @@ snapshots:
 
   date-format@4.0.14: {}
 
-  debug@4.3.4:
+  debug@4.3.4(supports-color@7.2.0):
     dependencies:
       ms: 2.1.2
+    optionalDependencies:
+      supports-color: 7.2.0
 
-  debug@4.4.3:
+  debug@4.4.3(supports-color@7.2.0):
     dependencies:
       ms: 2.1.3
+    optionalDependencies:
+      supports-color: 7.2.0
 
   decompress-response@10.0.0:
     dependencies:
@@ -2490,11 +2494,11 @@ snapshots:
     dependencies:
       '@keyv/serialize': 1.1.1
 
-  knex@2.4.2(better-sqlite3@12.11.1)(mysql2@3.23.0(@types/node@26.0.1)):
+  knex@2.4.2(better-sqlite3@12.11.1)(mysql2@3.23.1(@types/node@26.0.1))(supports-color@7.2.0):
     dependencies:
       colorette: 2.0.19
       commander: 9.5.0
-      debug: 4.3.4
+      debug: 4.3.4(supports-color@7.2.0)
       escalade: 3.2.0
       esm: 3.2.25
       get-package-type: 0.1.0
@@ -2508,7 +2512,7 @@ snapshots:
       tildify: 2.0.0
     optionalDependencies:
       better-sqlite3: 12.11.1
-      mysql2: 3.23.0(@types/node@26.0.1)
+      mysql2: 3.23.1(@types/node@26.0.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -2632,7 +2636,7 @@ snapshots:
       rimraf: 2.4.5
     optional: true
 
-  mysql2@3.23.0(@types/node@26.0.1):
+  mysql2@3.23.1(@types/node@26.0.1):
     dependencies:
       '@types/node': 26.0.1
       aws-ssl-profiles: 1.1.2
