@@ -56,6 +56,7 @@
     "@tryghost/logging": "5.2.1",
     "@tryghost/pro-ship": "1.1.7",
     "@tryghost/promise": "2.3.4",
+    "brace-expansion": "1.1.16",
     "commander": "15.0.0",
     "compare-ver": "2.0.2",
     "debug": "4.4.3",
