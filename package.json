@@ -82,6 +82,6 @@
     "vitest": "4.1.10"
   },
   "optionalDependencies": {
-    "better-sqlite3": "12.11.1"
+    "better-sqlite3": "13.0.0"
   }
 }
