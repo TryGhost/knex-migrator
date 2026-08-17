@@ -53,7 +53,7 @@
   "dependencies": {
     "@tryghost/database-info": "2.3.7",
     "@tryghost/errors": "3.3.7",
-    "@tryghost/logging": "5.3.2",
+    "@tryghost/logging": "5.3.3",
     "@tryghost/pro-ship": "1.1.7",
     "@tryghost/promise": "2.3.7",
     "commander": "15.0.0",
