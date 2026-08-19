@@ -18,8 +18,8 @@ importers:
         specifier: 5.3.4
         version: 5.3.4(supports-color@7.2.0)
       '@tryghost/pro-ship':
-        specifier: 1.1.7
-        version: 1.1.7
+        specifier: 1.1.8
+        version: 1.1.8
       '@tryghost/promise':
         specifier: 2.3.8
         version: 2.3.8
@@ -518,8 +518,8 @@ packages:
   '@tryghost/pretty-stream@2.3.8':
     resolution: {integrity: sha512-yd95fnXZ9ssS4nfMzzaPCnD+v2GR0c2cQonX1X9+njH3gBln+nyEUlOhQZWGArqq393YeITeC0B2ctPNBFuQRA==}
 
-  '@tryghost/pro-ship@1.1.7':
-    resolution: {integrity: sha512-pF06n43ZssCV1rjy/B6MQcempQc7Kij46/odeiJZHoP9GAOPhTLfmq0zSdQp9WE4vhHGHdwboee9Z7gSszCD9g==}
+  '@tryghost/pro-ship@1.1.8':
+    resolution: {integrity: sha512-wcra+OZXtHjwuuTh9WRvJCU+fiwOfHPTXSerJ9SHMrTr8LWfUTpmxSQex6YfWT1QtGW7sDCn7jqo2X53ggDqtQ==}
     engines: {node: '>=20.20.0'}
     hasBin: true
 
@@ -528,9 +528,6 @@ packages:
 
   '@tryghost/request@4.0.1':
     resolution: {integrity: sha512-AZdig94vsNuG6PORGe5Ygm5+tuAOQikND7znHiwMASWxP34Kt1pd8QNuKvCyGDtlD7hwanX8/Pc4IP7RCtganA==}
-
-  '@tryghost/root-utils@2.3.2':
-    resolution: {integrity: sha512-tUyMS4xJUceE62JjZIjWAXCeoVlbNHWF2dIy6xJkaYgeHw4oZ5YoKMu9Mzqa7TPHIapU+BxwdWV0HvMj9dZGlA==}
 
   '@tryghost/root-utils@2.3.8':
     resolution: {integrity: sha512-n12HsmW0mms6hlfYYSOcsJ9um6jifBvBFXJak2yPBySSmoTZpCgPezG9JlTXtPjG+4VmfvKaOE7NxlbEJyegiw==}
@@ -1870,9 +1867,9 @@ snapshots:
       lodash: 4.18.1
       prettyjson: 1.2.5
 
-  '@tryghost/pro-ship@1.1.7':
+  '@tryghost/pro-ship@1.1.8':
     dependencies:
-      '@tryghost/root-utils': 2.3.2
+      '@tryghost/root-utils': 2.3.8
       semver: 7.8.5
 
   '@tryghost/promise@2.3.8': {}
@@ -1885,11 +1882,6 @@ snapshots:
       cacheable-lookup: 7.0.0
       got: 15.1.0
       lodash: 4.18.1
-
-  '@tryghost/root-utils@2.3.2':
-    dependencies:
-      caller: 1.1.0
-      find-root: 1.1.0
 
   '@tryghost/root-utils@2.3.8':
     dependencies:

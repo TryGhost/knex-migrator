@@ -54,7 +54,7 @@
     "@tryghost/database-info": "2.3.8",
     "@tryghost/errors": "3.3.8",
     "@tryghost/logging": "5.3.4",
-    "@tryghost/pro-ship": "1.1.7",
+    "@tryghost/pro-ship": "1.1.8",
     "@tryghost/promise": "2.3.8",
     "commander": "15.0.0",
     "compare-ver": "2.0.2",
