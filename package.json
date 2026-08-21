@@ -73,13 +73,13 @@
     "loggingrc.js"
   ],
   "devDependencies": {
-    "@vitest/coverage-v8": "4.1.10",
+    "@vitest/coverage-v8": "4.1.11",
     "oxfmt": "0.63.0",
     "oxlint": "1.78.0",
     "rimraf": "6.1.3",
     "should": "13.2.3",
     "sinon": "22.1.0",
-    "vitest": "4.1.10"
+    "vitest": "4.1.11"
   },
   "optionalDependencies": {
     "better-sqlite3": "12.11.1"
