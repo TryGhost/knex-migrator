@@ -34,7 +34,7 @@ importers:
         version: 4.4.3(supports-color@7.2.0)
       knex:
         specifier: 2.4.2
-        version: 2.4.2(better-sqlite3@12.11.1)(mysql2@3.24.0(@types/node@25.9.5))(supports-color@7.2.0)
+        version: 2.4.2(better-sqlite3@12.11.1)(mysql2@3.24.1(@types/node@25.9.5))(supports-color@7.2.0)
       lodash:
         specifier: 4.18.1
         version: 4.18.1
@@ -42,8 +42,8 @@ importers:
         specifier: 2.30.1
         version: 2.30.1
       mysql2:
-        specifier: 3.24.0
-        version: 3.24.0(@types/node@25.9.5)
+        specifier: 3.24.1
+        version: 3.24.1(@types/node@25.9.5)
       nconf:
         specifier: 0.13.0
         version: 0.13.0
@@ -1142,8 +1142,8 @@ packages:
     resolution: {integrity: sha512-at/ZndSy3xEGJ8i0ygALh8ru9qy7gWW1cmkaqBN29JmMlIvM//MEO9y1sk/avxuwnPcfhkejkLsuPxH81BrkSg==}
     engines: {node: '>=0.8.0'}
 
-  mysql2@3.24.0:
-    resolution: {integrity: sha512-4aARlvTYrWPjnLvUqnHWATm7jOhjADqNc761Jt9V4QcIUoERKfoXau1PEW9VfQicq4Sl8W1CIZ6fW9jUImshew==}
+  mysql2@3.24.1:
+    resolution: {integrity: sha512-zhab6WaWL9mCp74DegK/IS9PW9ydKav6BBY7JZU8SqjQGBBmz2FlsY62mNKTofY1a0pWA2N/9IZAbb6lQpUDEg==}
     engines: {node: '>= 8.0'}
     peerDependencies:
       '@types/node': '>= 8'
@@ -2324,7 +2324,7 @@ snapshots:
     dependencies:
       '@keyv/serialize': 1.1.1
 
-  knex@2.4.2(better-sqlite3@12.11.1)(mysql2@3.24.0(@types/node@25.9.5))(supports-color@7.2.0):
+  knex@2.4.2(better-sqlite3@12.11.1)(mysql2@3.24.1(@types/node@25.9.5))(supports-color@7.2.0):
     dependencies:
       colorette: 2.0.19
       commander: 9.5.0
@@ -2342,7 +2342,7 @@ snapshots:
       tildify: 2.0.0
     optionalDependencies:
       better-sqlite3: 12.11.1
-      mysql2: 3.24.0(@types/node@25.9.5)
+      mysql2: 3.24.1(@types/node@25.9.5)
     transitivePeerDependencies:
       - supports-color
 
@@ -2466,7 +2466,7 @@ snapshots:
       rimraf: 2.4.5
     optional: true
 
-  mysql2@3.24.0(@types/node@25.9.5):
+  mysql2@3.24.1(@types/node@25.9.5):
     dependencies:
       '@types/node': 25.9.5
       aws-ssl-profiles: 1.1.2
