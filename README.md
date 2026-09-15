@@ -33,7 +33,7 @@ npm install --global knex-migrator
 ## Requirements
 
 - Node.js `^22.13.1 || ^24.14.1`
-- A compatible Knex installation. `knex-migrator` first tries to load `knex` from the project path passed with `--mgpath` or `knexMigratorFilePath`, then falls back to its bundled Knex `2.4.2`.
+- Knex `^2.4.2 || ^3.0.0`, installed alongside `knex-migrator` as a peer dependency. `knex-migrator` first tries to load `knex` from the project path passed with `--mgpath` or `knexMigratorFilePath`, then falls back to the `knex` resolvable from its own install location. Use the same Knex major for your migrations and `knex-migrator`; query builders from one major cannot be run by the other.
 - A database client supported by this package: `mysql`, `mysql2`, `sqlite3`, or `better-sqlite3`
 
 The `mysql` client name is accepted for backwards compatibility and is mapped to `mysql2`.

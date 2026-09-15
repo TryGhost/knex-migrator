@@ -41,6 +41,7 @@ jobs:
     strategy:
       matrix:
         node: [ '22.13.1', '24.14.1' ]
+        knex: [ '2', '3' ]
         env:
           - DB: better-sqlite3
             NODE_ENV: testing-better-sqlite3
@@ -49,8 +50,9 @@ jobs:
     env:
       DB: ${{ matrix.env.DB }}
       NODE_ENV: ${{ matrix.env.NODE_ENV }}
+      KNEX_VERSION: ${{ matrix.knex }}
       database__connection__password: root
-    name: Node ${{ matrix.node }} - ${{ matrix.env.DB }}
+    name: Node ${{ matrix.node }} - ${{ matrix.env.DB }} - knex ${{ matrix.knex }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
