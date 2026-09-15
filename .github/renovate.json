@@ -29,23 +29,6 @@
       "allowedVersions": "22.13.1"
     },
     {
-      "description": "Keep the Ghost consumer smoke pinned to Node 22.18.0; it follows Ghost's checked-in runtime separately from .nvmrc.",
-      "matchManagers": [
-        "github-actions"
-      ],
-      "matchDepTypes": [
-        "uses-with"
-      ],
-      "matchDepNames": [
-        "node"
-      ],
-      "matchPackageNames": [
-        "actions/node-versions"
-      ],
-      "matchCurrentValue": "22.18.0",
-      "allowedVersions": "22.18.0"
-    },
-    {
       "description": "Keep the next-runtime CI lane pinned to Node 24.14.1 until we intentionally move it.",
       "matchManagers": [
         "github-actions"
