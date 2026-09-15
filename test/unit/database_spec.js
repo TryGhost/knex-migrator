@@ -128,7 +128,7 @@ describe('Database', function () {
             }
         });
 
-        it('falls back to bundled knex when a project-local knex module is missing', function () {
+        it('falls back to the knex peer dependency when a project-local knex module is missing', function () {
             const projectPath = fs.mkdtempSync(
                 path.join(os.tmpdir(), 'knex-migrator-missing-project-knex-'),
             );
@@ -152,6 +152,12 @@ describe('Database', function () {
             } finally {
                 fs.rmSync(projectPath, { recursive: true, force: true });
             }
+        });
+
+        it('uses the knex major selected for the test run', function () {
+            const knexVersion = require('../knex-version');
+
+            require('knex/package.json').version.split('.')[0].should.eql(knexVersion);
         });
     });
 

@@ -5,9 +5,27 @@
   ],
   "packageRules": [
     {
-      "description": "Keep knex aligned with Ghost until Ghost updates its catalog version.",
+      "description": "Use caret ranges for published dependencies so they dedupe with consumers like Ghost.",
+      "matchDepTypes": [
+        "dependencies",
+        "optionalDependencies"
+      ],
+      "rangeStrategy": "bump"
+    },
+    {
+      "description": "Supported knex peer majors are widened by hand once CI covers them.",
+      "matchDepTypes": [
+        "peerDependencies"
+      ],
       "matchPackageNames": [
         "knex"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Keep the knex 2 test alias on the lowest supported knex 2 version (Ghost's current version).",
+      "matchDepNames": [
+        "knex2"
       ],
       "allowedVersions": "2.4.2"
     },
