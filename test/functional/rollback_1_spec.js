@@ -1,5 +1,4 @@
-const _ = require('lodash'),
-    path = require('path'),
+const path = require('path'),
     sinon = require('sinon'),
     fs = require('fs'),
     KnexMigrator = require('../../lib'),
@@ -74,11 +73,11 @@ describe('knex-migrator rollback (default)', function () {
         if (fs.existsSync(migratorConfigPath)) {
             fs.unlinkSync(migratorConfigPath);
 
-            _.each(require.cache, function (value, key) {
+            for (const key of Object.keys(require.cache)) {
                 if (key.match(/assets\/MigratorConfig\.js/)) {
                     delete require.cache[key];
                 }
-            });
+            }
         }
     });
 
