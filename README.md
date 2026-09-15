@@ -222,6 +222,19 @@ Available methods:
 - `reset(options)`
 - `isDatabaseOK()`
 
+TypeScript declarations ship with the package. Config, command options, migration files, and hooks are typed under the `KnexMigrator` namespace:
+
+```ts
+import KnexMigrator = require('knex-migrator');
+
+export const config: KnexMigrator.Config = { /* ... */ };
+
+const migration: KnexMigrator.Migration = {
+    config: { transaction: true },
+    async up({ transacting }) { /* ... */ },
+};
+```
+
 Example:
 
 ```js
