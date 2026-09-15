@@ -1,6 +1,5 @@
 const path = require('path'),
     sinon = require('sinon'),
-    should = require('should'),
     rimraf = require('rimraf'),
     fs = require('fs'),
     KnexMigrator = require('../../lib'),
@@ -14,7 +13,7 @@ describe('knex-migrator rollback (to specific version)', function () {
         migrations = [],
         connection;
 
-    before(function () {
+    beforeAll(function () {
         if (fs.existsSync(versionsFolder)) {
             rimraf.sync(versionsFolder);
         }
@@ -30,15 +29,15 @@ describe('knex-migrator rollback (to specific version)', function () {
         });
     });
 
-    before(function () {
+    beforeAll(function () {
         return knexMigrator.reset();
     });
 
-    before(function () {
+    beforeAll(function () {
         connection = testUtils.connect();
     });
 
-    after(async function () {
+    afterAll(async function () {
         if (connection) {
             await connection.destroy();
         }
@@ -75,9 +74,9 @@ describe('knex-migrator rollback (to specific version)', function () {
             })
             .then((values) => {
                 // 2 init scripts
-                values.length.should.eql(2);
-                values[0].currentVersion.should.eql('1.2');
-                values[1].currentVersion.should.eql('1.2');
+                expect(values.length).toEqual(2);
+                expect(values[0].currentVersion).toEqual('1.2');
+                expect(values[1].currentVersion).toEqual('1.2');
             });
     });
 
@@ -129,7 +128,7 @@ describe('knex-migrator rollback (to specific version)', function () {
                 return connection('migrations');
             })
             .then((values) => {
-                values.length.should.eql(4);
+                expect(values.length).toEqual(4);
             });
     });
 
@@ -144,7 +143,7 @@ describe('knex-migrator rollback (to specific version)', function () {
                 return connection('migrations');
             })
             .then((values) => {
-                values.length.should.eql(4);
+                expect(values.length).toEqual(4);
             });
     });
 
@@ -159,7 +158,7 @@ describe('knex-migrator rollback (to specific version)', function () {
                 return connection('migrations');
             })
             .then((values) => {
-                values.length.should.eql(5);
+                expect(values.length).toEqual(5);
             });
     });
 
@@ -174,7 +173,7 @@ describe('knex-migrator rollback (to specific version)', function () {
                 return connection('migrations');
             })
             .then((values) => {
-                values.length.should.eql(7);
+                expect(values.length).toEqual(7);
             });
     });
 
@@ -186,7 +185,7 @@ describe('knex-migrator rollback (to specific version)', function () {
             })
             .then((values) => {
                 // 2 init scripts
-                values.length.should.eql(6);
+                expect(values.length).toEqual(6);
             });
     });
 
@@ -194,13 +193,13 @@ describe('knex-migrator rollback (to specific version)', function () {
         return knexMigrator
             .isDatabaseOK()
             .then(() => {
-                '1'.should.eql(1);
+                expect.unreachable();
             })
             .catch((err) => {
-                should.exist(err);
+                expect(err).toEqual(expect.anything());
 
                 // current version is still 1.20 and you rolled back the migration scripts till 1.11
-                err.code.should.eql('DB_NEEDS_MIGRATION');
+                expect(err.code).toEqual('DB_NEEDS_MIGRATION');
             });
     });
 
@@ -212,7 +211,7 @@ describe('knex-migrator rollback (to specific version)', function () {
             })
             .then((values) => {
                 // 2 init scripts
-                values.length.should.eql(2);
+                expect(values.length).toEqual(2);
             });
     });
 });

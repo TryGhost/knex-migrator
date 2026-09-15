@@ -3,11 +3,6 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'test') {
     process.env.NODE_ENV = 'testing';
 }
 
-// Loaded for its side-effect: registers the global `.should` assertion getter.
-// vitest-setup.mjs imports this file, so specs that don't require('should')
-// themselves (e.g. bin_spec) still get `.should`.
-require('should');
-
 // Must load before anything requires knex.
 require('./knex-version');
 

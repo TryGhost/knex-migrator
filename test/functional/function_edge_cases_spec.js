@@ -1,6 +1,5 @@
 const path = require('path'),
     sinon = require('sinon'),
-    should = require('should'),
     fs = require('fs'),
     KnexMigrator = require('../../lib'),
     config = require('../config'),
@@ -14,7 +13,7 @@ describe('Functional flow: Edge Cases', function () {
         migratorConfigPath = path.join(__dirname, '..', 'assets', 'MigratorConfig.js'),
         connection;
 
-    before(function () {
+    beforeAll(function () {
         testUtils.writeMigratorConfig({
             migratorConfigPath: migratorConfigPath,
             migrationPath: migrationPath,
@@ -26,15 +25,15 @@ describe('Functional flow: Edge Cases', function () {
         });
     });
 
-    before(function () {
+    beforeAll(function () {
         return knexMigrator.reset({ force: true });
     });
 
-    before(function () {
+    beforeAll(function () {
         connection = testUtils.connect();
     });
 
-    after(async function () {
+    afterAll(async function () {
         if (connection) {
             await connection.destroy();
         }
@@ -66,7 +65,7 @@ describe('Functional flow: Edge Cases', function () {
                 return connection('migrations');
             })
             .then((response) => {
-                response.length.should.eql(3);
+                expect(response.length).toEqual(3);
 
                 return connection('migrations').where('name', '1-another.js').delete();
             })
@@ -74,7 +73,7 @@ describe('Functional flow: Edge Cases', function () {
                 return connection('migrations');
             })
             .then(function (response) {
-                response.length.should.eql(2);
+                expect(response.length).toEqual(2);
 
                 return connection('migrations').where('name', '2-seed.js').delete();
             })
@@ -82,14 +81,14 @@ describe('Functional flow: Edge Cases', function () {
                 return connection('migrations');
             })
             .then(function (response) {
-                response.length.should.eql(1);
+                expect(response.length).toEqual(1);
                 return knexMigrator.init();
             })
             .then(() => {
                 return connection('migrations');
             })
             .then(function (response) {
-                response.length.should.eql(3);
+                expect(response.length).toEqual(3);
             });
     });
 });

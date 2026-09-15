@@ -10,7 +10,7 @@ describe('knex-migrator rollback (on init, auto-rollback)', function () {
         migratorConfigPath = path.join(__dirname, '..', 'assets', 'MigratorConfig.js'),
         connection;
 
-    before(function () {
+    beforeAll(function () {
         testUtils.writeMigratorConfig({
             migratorConfigPath: migratorConfigPath,
             migrationPath: migrationPath,
@@ -22,15 +22,15 @@ describe('knex-migrator rollback (on init, auto-rollback)', function () {
         });
     });
 
-    before(function () {
+    beforeAll(function () {
         return knexMigrator.reset();
     });
 
-    before(function () {
+    beforeAll(function () {
         connection = testUtils.connect();
     });
 
-    after(async function () {
+    afterAll(async function () {
         if (connection) {
             await connection.destroy();
         }
@@ -59,10 +59,10 @@ describe('knex-migrator rollback (on init, auto-rollback)', function () {
         return knexMigrator
             .init()
             .then(function () {
-                'Should fail'.should.eql(false);
+                expect.unreachable();
             })
             .catch(function (err) {
-                err.help.should.eql(
+                expect(err.help).toEqual(
                     'Error occurred while executing the following migration: 2-seed.js',
                 );
             });
@@ -72,16 +72,16 @@ describe('knex-migrator rollback (on init, auto-rollback)', function () {
         return knexMigrator
             .isDatabaseOK()
             .then(function () {
-                'Should fail'.should.eql(false);
+                expect.unreachable();
             })
             .catch(function (err) {
-                err.message.should.eql('Please run `pnpm knex-migrator init`');
+                expect(err.message).toEqual('Please run `pnpm knex-migrator init`');
             });
     });
 
     it('db check', function () {
         return connection('migrations').then(function (migrations) {
-            migrations.length.should.eql(0);
+            expect(migrations.length).toEqual(0);
         });
     });
 });

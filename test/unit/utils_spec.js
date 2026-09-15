@@ -1,5 +1,4 @@
 const utils = require('../../lib/utils');
-const should = require('should');
 const fs = require('fs');
 const sinon = require('sinon');
 const path = require('path');
@@ -17,11 +16,11 @@ describe('Utils', function () {
                 currentVersion: '1.0',
             };
 
-            utils
-                .loadConfig({
+            expect(
+                utils.loadConfig({
                     knexMigratorConfig: config,
-                })
-                .should.eql(config);
+                }),
+            ).toEqual(config);
         });
 
         it('throws a helpful error when no config file is present', function () {
@@ -29,10 +28,10 @@ describe('Utils', function () {
                 utils.loadConfig({
                     knexMigratorFilePath: path.join(__dirname, 'missing-config'),
                 });
-                true.should.eql(false);
+                expect.unreachable();
             } catch (err) {
-                should.not.exist(err.code);
-                err.message.should.eql(
+                expect(err.code).toBeOneOf([null, undefined]);
+                expect(err.message).toEqual(
                     'Please provide a file named MigratorConfig.js, MigratorConfig.cjs, or MigratorConfig.mjs in your project root.',
                 );
             }
@@ -41,29 +40,29 @@ describe('Utils', function () {
         it('loads a CommonJS config from MigratorConfig.cjs', function () {
             const configPath = path.join(__dirname, 'fixtures', 'cjs-config');
 
-            utils
-                .loadConfig({
+            expect(
+                utils.loadConfig({
                     knexMigratorFilePath: configPath,
-                })
-                .should.eql({
-                    database: { client: 'sqlite3' },
-                    migrationPath: 'migrations',
-                    currentVersion: '1.0',
-                });
+                }),
+            ).toEqual({
+                database: { client: 'sqlite3' },
+                migrationPath: 'migrations',
+                currentVersion: '1.0',
+            });
         });
 
         it('loads an ESM config from MigratorConfig.mjs via its default export', function () {
             const configPath = path.join(__dirname, 'fixtures', 'mjs-config');
 
-            utils
-                .loadConfig({
+            expect(
+                utils.loadConfig({
                     knexMigratorFilePath: configPath,
-                })
-                .should.eql({
-                    database: { client: 'sqlite3' },
-                    migrationPath: 'migrations',
-                    currentVersion: '1.0',
-                });
+                }),
+            ).toEqual({
+                database: { client: 'sqlite3' },
+                migrationPath: 'migrations',
+                currentVersion: '1.0',
+            });
         });
 
         it('does not hide missing dependencies from MigratorConfig.js', function () {
@@ -73,13 +72,13 @@ describe('Utils', function () {
                 utils.loadConfig({
                     knexMigratorFilePath: configPath,
                 });
-                true.should.eql(false);
+                expect.unreachable();
             } catch (err) {
-                err.message.should.not.eql(
+                expect(err.message).not.toEqual(
                     'Please provide a file named MigratorConfig.js in your project root.',
                 );
-                err.code.should.eql('MODULE_NOT_FOUND');
-                err.stack.should.match(/Cannot find module 'missing-config-dependency'/);
+                expect(err.code).toEqual('MODULE_NOT_FOUND');
+                expect(err.stack).toMatch(/Cannot find module 'missing-config-dependency'/);
             }
         });
     });
@@ -87,164 +86,164 @@ describe('Utils', function () {
     describe('getKnexMigrator', function () {
         it('resolves with path to installation of knex-migrator', function () {
             return utils.getKnexMigrator({ path: process.cwd() }).then((constructor) => {
-                constructor.name.should.eql('KnexMigrator');
+                expect(constructor.name).toEqual('KnexMigrator');
             });
         });
     });
 
     describe('isGreaterThanVersion', function () {
         it('version has this notation: 1.1', function () {
-            utils
-                .isGreaterThanVersion({
+            expect(
+                utils.isGreaterThanVersion({
                     greaterVersion: '1.1',
                     smallerVersion: '1.0',
-                })
-                .should.eql(true);
+                }),
+            ).toEqual(true);
 
-            utils
-                .isGreaterThanVersion({
+            expect(
+                utils.isGreaterThanVersion({
                     greaterVersion: '2.0',
                     smallerVersion: '1.0',
-                })
-                .should.eql(true);
+                }),
+            ).toEqual(true);
 
-            utils
-                .isGreaterThanVersion({
+            expect(
+                utils.isGreaterThanVersion({
                     greaterVersion: '1.0',
                     smallerVersion: '2.0',
-                })
-                .should.eql(false);
+                }),
+            ).toEqual(false);
 
-            utils
-                .isGreaterThanVersion({
+            expect(
+                utils.isGreaterThanVersion({
                     greaterVersion: '1.11',
                     smallerVersion: '1.4',
-                })
-                .should.eql(true);
+                }),
+            ).toEqual(true);
         });
 
         it('version has this notation: 11', function () {
-            utils
-                .isGreaterThanVersion({
+            expect(
+                utils.isGreaterThanVersion({
                     greaterVersion: '11',
                     smallerVersion: '10',
-                })
-                .should.eql(true);
+                }),
+            ).toEqual(true);
 
-            utils
-                .isGreaterThanVersion({
+            expect(
+                utils.isGreaterThanVersion({
                     greaterVersion: '20',
                     smallerVersion: '10',
-                })
-                .should.eql(true);
+                }),
+            ).toEqual(true);
 
-            utils
-                .isGreaterThanVersion({
+            expect(
+                utils.isGreaterThanVersion({
                     greaterVersion: '10',
                     smallerVersion: '20',
-                })
-                .should.eql(false);
+                }),
+            ).toEqual(false);
         });
 
         it('version has this notation: 11 (INT)', function () {
-            utils
-                .isGreaterThanVersion({
+            expect(
+                utils.isGreaterThanVersion({
                     greaterVersion: 11,
                     smallerVersion: 10,
-                })
-                .should.eql(true);
+                }),
+            ).toEqual(true);
 
-            utils
-                .isGreaterThanVersion({
+            expect(
+                utils.isGreaterThanVersion({
                     greaterVersion: 20,
                     smallerVersion: 10,
-                })
-                .should.eql(true);
+                }),
+            ).toEqual(true);
 
-            utils
-                .isGreaterThanVersion({
+            expect(
+                utils.isGreaterThanVersion({
                     greaterVersion: 10,
                     smallerVersion: 20,
-                })
-                .should.eql(false);
+                }),
+            ).toEqual(false);
         });
 
         it('version has this notation: 1.1.1', function () {
-            utils
-                .isGreaterThanVersion({
+            expect(
+                utils.isGreaterThanVersion({
                     greaterVersion: '1.1.2',
                     smallerVersion: '1.1.1',
-                })
-                .should.eql(true);
+                }),
+            ).toEqual(true);
 
-            utils
-                .isGreaterThanVersion({
+            expect(
+                utils.isGreaterThanVersion({
                     greaterVersion: '2.0.0',
                     smallerVersion: '1.0.0',
-                })
-                .should.eql(true);
+                }),
+            ).toEqual(true);
 
-            utils
-                .isGreaterThanVersion({
+            expect(
+                utils.isGreaterThanVersion({
                     greaterVersion: '1.0.0',
                     smallerVersion: '2.0.0',
-                })
-                .should.eql(false);
+                }),
+            ).toEqual(false);
 
-            utils
-                .isGreaterThanVersion({
+            expect(
+                utils.isGreaterThanVersion({
                     greaterVersion: '2.0.0',
                     smallerVersion: '1.0.10',
-                })
-                .should.eql(true);
+                }),
+            ).toEqual(true);
 
-            utils
-                .isGreaterThanVersion({
+            expect(
+                utils.isGreaterThanVersion({
                     greaterVersion: '1.10.0',
                     smallerVersion: '1.2.0',
-                })
-                .should.eql(true);
+                }),
+            ).toEqual(true);
         });
 
         it('version has this notation: 1', function () {
-            utils
-                .isGreaterThanVersion({
+            expect(
+                utils.isGreaterThanVersion({
                     greaterVersion: '1',
                     smallerVersion: '1',
-                })
-                .should.eql(false);
+                }),
+            ).toEqual(false);
 
-            utils
-                .isGreaterThanVersion({
+            expect(
+                utils.isGreaterThanVersion({
                     greaterVersion: '2',
                     smallerVersion: '1',
-                })
-                .should.eql(true);
+                }),
+            ).toEqual(true);
 
-            utils
-                .isGreaterThanVersion({
+            expect(
+                utils.isGreaterThanVersion({
                     greaterVersion: '1',
                     smallerVersion: '2',
-                })
-                .should.eql(false);
+                }),
+            ).toEqual(false);
         });
 
         it('version has a suffix: 1.1-members', function () {
-            utils
-                .isGreaterThanVersion({
+            expect(
+                utils.isGreaterThanVersion({
                     greaterVersion: '1.10-members',
                     smallerVersion: '1.9',
-                })
-                .should.eql(true);
+                }),
+            ).toEqual(true);
         });
 
         it('version is not parseable', function () {
-            utils
-                .isGreaterThanVersion({
+            expect(
+                utils.isGreaterThanVersion({
                     greaterVersion: 'members',
                     smallerVersion: '1.0',
-                })
-                .should.eql(false);
+                }),
+            ).toEqual(false);
         });
     });
 
@@ -254,7 +253,7 @@ describe('Utils', function () {
             let folders = utils.readVersionFolders(
                 path.join(__dirname, 'assets', 'migrations', 'versions'),
             );
-            folders.should.eql(['1.0', '2.0', '2.3', '2.13']);
+            expect(folders).toEqual(['1.0', '2.0', '2.3', '2.13']);
         });
 
         it('ensure order', function () {
@@ -262,7 +261,7 @@ describe('Utils', function () {
             let folders = utils.readVersionFolders(
                 path.join(__dirname, 'assets', 'migrations', 'versions'),
             );
-            folders.should.eql(['0.1', '1.1.0', '1.1.2']);
+            expect(folders).toEqual(['0.1', '1.1.0', '1.1.2']);
         });
 
         it('ensure order', function () {
@@ -286,7 +285,7 @@ describe('Utils', function () {
                 path.join(__dirname, 'assets', 'migrations', 'versions'),
             );
 
-            folders.should.eql([
+            expect(folders).toEqual([
                 '1.3',
                 '1.4',
                 '1.5',
@@ -306,7 +305,7 @@ describe('Utils', function () {
             let folders = utils.readVersionFolders(
                 path.join(__dirname, 'assets', 'migrations', 'versions'),
             );
-            folders.should.eql(['1.0']);
+            expect(folders).toEqual(['1.0']);
         });
 
         it('orders suffixed version folders', function () {
@@ -314,7 +313,7 @@ describe('Utils', function () {
             let folders = utils.readVersionFolders(
                 path.join(__dirname, 'assets', 'migrations', 'versions'),
             );
-            folders.should.eql(['1.2', '1.10-members', 'misc']);
+            expect(folders).toEqual(['1.2', '1.10-members', 'misc']);
         });
 
         it('returns an empty folder list directly', function () {
@@ -322,14 +321,14 @@ describe('Utils', function () {
             let folders = utils.readVersionFolders(
                 path.join(__dirname, 'assets', 'migrations', 'versions'),
             );
-            folders.should.eql([]);
+            expect(folders).toEqual([]);
         });
     });
 
     describe('listFiles', function () {
         it('ignores dot files', function () {
             sinon.stub(fs, 'readdirSync').returns(['.hidden', '1-test.js']);
-            utils.listFiles('migrations').should.eql(['1-test.js']);
+            expect(utils.listFiles('migrations')).toEqual(['1-test.js']);
         });
 
         it('throws a migration path error when the directory is missing', function () {
@@ -337,10 +336,10 @@ describe('Utils', function () {
 
             try {
                 utils.listFiles('missing');
-                true.should.eql(false);
+                expect.unreachable();
             } catch (err) {
-                err.code.should.eql('MIGRATION_PATH');
-                err.message.should.eql('MigrationPath is wrong: missing');
+                expect(err.code).toEqual('MIGRATION_PATH');
+                expect(err.message).toEqual('MigrationPath is wrong: missing');
             }
         });
     });
