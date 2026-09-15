@@ -18,6 +18,17 @@ function createLockTable(data) {
     };
 }
 
+function createUpdatableLockTable(data, update) {
+    return function lockTable() {
+        return {
+            where: sinon.stub().returns({
+                forUpdate: sinon.stub().resolves(data),
+                update: update,
+            }),
+        };
+    };
+}
+
 function createRejectedLockTable(err) {
     return function lockTable() {
         return {
@@ -64,6 +75,19 @@ describe('Locking', function () {
                     err.message.should.eql('Error while acquire the migration lock.');
                 });
         });
+
+        it('stores acquired_at as a local timestamp', async function () {
+            sinon.useFakeTimers({ now: new Date(2026, 0, 2, 3, 4, 5), toFake: ['Date'] });
+            const update = sinon.stub().resolves(1);
+
+            sinon.stub(database, 'createTransaction').callsFake(function (connection, callback) {
+                return callback(createUpdatableLockTable([{ locked: 0 }], update));
+            });
+
+            await locking.lock({});
+
+            update.firstCall.args[0].should.eql({ locked: 1, acquired_at: '2026-01-02 03:04:05' });
+        });
     });
 
     describe('isLocked', function () {
@@ -94,6 +118,19 @@ describe('Locking', function () {
     });
 
     describe('unlock', function () {
+        it('stores released_at as a local timestamp', async function () {
+            sinon.useFakeTimers({ now: new Date(2026, 10, 12, 13, 14, 15), toFake: ['Date'] });
+            const update = sinon.stub().resolves(1);
+
+            sinon.stub(database, 'createTransaction').callsFake(function (connection, callback) {
+                return callback(createUpdatableLockTable([{ locked: 1 }], update));
+            });
+
+            await locking.unlock({});
+
+            update.firstCall.args[0].should.eql({ locked: 0, released_at: '2026-11-12 13:14:15' });
+        });
+
         it('rejects when the migration lock row is already released', function () {
             sinon.stub(database, 'createTransaction').callsFake(function (connection, callback) {
                 return callback(createLockTable([{ locked: 0 }]));
