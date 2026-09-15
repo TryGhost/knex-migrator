@@ -228,6 +228,24 @@ describe('Utils', function () {
                 })
                 .should.eql(false);
         });
+
+        it('version has a suffix: 1.1-members', function () {
+            utils
+                .isGreaterThanVersion({
+                    greaterVersion: '1.10-members',
+                    smallerVersion: '1.9',
+                })
+                .should.eql(true);
+        });
+
+        it('version is not parseable', function () {
+            utils
+                .isGreaterThanVersion({
+                    greaterVersion: 'members',
+                    smallerVersion: '1.0',
+                })
+                .should.eql(false);
+        });
     });
 
     describe('readFolders', function () {
@@ -289,6 +307,14 @@ describe('Utils', function () {
                 path.join(__dirname, 'assets', 'migrations', 'versions'),
             );
             folders.should.eql(['1.0']);
+        });
+
+        it('orders suffixed version folders', function () {
+            sinon.stub(fs, 'readdirSync').returns(['1.10-members', '1.2', 'misc']);
+            let folders = utils.readVersionFolders(
+                path.join(__dirname, 'assets', 'migrations', 'versions'),
+            );
+            folders.should.eql(['1.2', '1.10-members', 'misc']);
         });
 
         it('returns an empty folder list directly', function () {

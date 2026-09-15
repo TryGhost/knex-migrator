@@ -304,9 +304,9 @@ describe('KnexMigrator', function () {
 
             sinon.stub(utils, 'readTasks').throws(err);
 
-            (function () {
-                knexMigrator._migrateTo({ version: 'init' });
-            }).should.throw('permission denied');
+            return knexMigrator
+                ._migrateTo({ version: 'init' })
+                .should.be.rejectedWith('permission denied');
         });
 
         it('wraps generic migration script errors', function () {
