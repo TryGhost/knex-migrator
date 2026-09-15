@@ -1,5 +1,4 @@
-const _ = require('lodash'),
-    path = require('path'),
+const path = require('path'),
     fs = require('fs'),
     config = require('../config'),
     KnexMigrator = require('../../lib'),

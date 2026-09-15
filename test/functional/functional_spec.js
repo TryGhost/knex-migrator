@@ -1,5 +1,4 @@
-const _ = require('lodash'),
-    path = require('path'),
+const path = require('path'),
     sinon = require('sinon'),
     should = require('should'),
     fs = require('fs'),
@@ -20,7 +19,7 @@ _private.init = function init(knexMigrator, initMethod) {
     }
 };
 
-_.each(['default', 'migrateInit'], function (initMethod) {
+for (const initMethod of ['default', 'migrateInit']) {
     describe('Functional flow: ' + initMethod, function () {
         let knexMigrator,
             basePath = path.join(__dirname, '..', 'assets', 'migrations'),
@@ -157,11 +156,11 @@ _.each(['default', 'migrateInit'], function (initMethod) {
             if (fs.existsSync(migratorConfigPath)) {
                 fs.unlinkSync(migratorConfigPath);
 
-                _.each(require.cache, function (value, key) {
+                for (const key of Object.keys(require.cache)) {
                     if (key.match(/assets\/MigratorConfig\.js/)) {
                         delete require.cache[key];
                     }
-                });
+                }
             }
         });
 
@@ -427,11 +426,11 @@ _.each(['default', 'migrateInit'], function (initMethod) {
 
         describe('migrate to 1.4', function () {
             beforeEach(function () {
-                _.each(require.cache, function (value, key) {
+                for (const key of Object.keys(require.cache)) {
                     if (key.match(/migrations\/versions\/1.4\/2-error.js/)) {
                         delete require.cache[key];
                     }
-                });
+                }
             });
 
             it('migrate to 1.4, but error happens in one of the scripts --> expect rollback', function () {
@@ -835,4 +834,4 @@ _.each(['default', 'migrateInit'], function (initMethod) {
             }
         });
     });
-});
+}

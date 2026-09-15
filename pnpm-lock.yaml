@@ -23,9 +23,6 @@ importers:
       debug:
         specifier: ^4.4.3
         version: 4.4.3(supports-color@7.2.0)
-      lodash:
-        specifier: ^4.18.1
-        version: 4.18.1
       mysql2:
         specifier: ^3.24.4
         version: 3.24.4(@types/node@25.9.6)
