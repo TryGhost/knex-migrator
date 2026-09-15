@@ -174,16 +174,16 @@ importers:
         version: 3.3.14
       '@tryghost/logging':
         specifier: ^5.4.5
-        version: 5.4.5(supports-color@7.2.0)
+        version: 5.4.5
       commander:
         specifier: ^15.0.0
         version: 15.0.0
       debug:
         specifier: ^4.4.3
-        version: 4.4.3(supports-color@7.2.0)
+        version: 4.4.3
       mysql2:
         specifier: ^3.24.4
-        version: 3.24.4(@types/node@25.9.6)
+        version: 3.24.4(@types/node@25.9.7)
       semver:
         specifier: ^7.8.5
         version: 7.8.5
@@ -196,10 +196,10 @@ importers:
         version: 5.0.0(vitest@5.0.0)
       knex:
         specifier: 3.3.0
-        version: 3.3.0(better-sqlite3@12.11.1)(mysql2@3.24.4(@types/node@25.9.6))(supports-color@7.2.0)
+        version: 3.3.0(better-sqlite3@12.11.1)(mysql2@3.24.4(@types/node@25.9.7))
       knex2:
         specifier: npm:knex@2.4.2
-        version: knex@2.4.2(better-sqlite3@12.11.1)(mysql2@3.24.4(@types/node@25.9.6))(supports-color@7.2.0)
+        version: knex@2.4.2(better-sqlite3@12.11.1)(mysql2@3.24.4(@types/node@25.9.7))
       nconf:
         specifier: 0.13.0
         version: 0.13.0
@@ -217,7 +217,7 @@ importers:
         version: 22.1.0
       vitest:
         specifier: 5.0.0
-        version: 5.0.0(@opentelemetry/api@1.9.1)(@types/node@25.9.6)(@vitest/coverage-v8@5.0.0)(vite@8.3.0(@types/node@25.9.6))
+        version: 5.0.0(@opentelemetry/api@1.9.1)(@types/node@25.9.7)(@vitest/coverage-v8@5.0.0)(vite@8.3.0(@types/node@25.9.7))
     optionalDependencies:
       better-sqlite3:
         specifier: ^12.11.1
@@ -700,8 +700,8 @@ packages:
   '@types/http-cache-semantics@4.2.0':
     resolution: {integrity: sha512-L3LgimLHXtGkWikKnsPg0/VFx9OGZaC+eN1u4r+OB1XRqH3meBIAVC2zr1WdMH+RHmnRkqliQAOHNJ/E0j/e0Q==}
 
-  '@types/node@25.9.6':
-    resolution: {integrity: sha512-JR6Q/PV5DKFvjrGFVqQJdeG0qvsqQQLDa3TzFrqVwhqRXqwNaxPo2KYCtCQXpOdIulCouKwT7a6in9nFthBAzw==}
+  '@types/node@25.9.7':
+    resolution: {integrity: sha512-Y+axoNWOFLvDNFxNbDA+kqqV05imHwTu5bZWWO6tQM3Y2NX1jvzUJkYlf4nYnMCnvu4wQBKW6Nr+ok6yHWA9aQ==}
 
   '@vitest/coverage-v8@5.0.0':
     resolution: {integrity: sha512-toMg6PZGCIa/lQNCDoASrfb1ly4hsUKXFtFYC9kD4t78o5Y6LyNJU7AENt8eHPr3quYdxaxK7hj2mnbFfUk9NA==}
@@ -1005,10 +1005,6 @@ packages:
 
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
-
-  has-flag@4.0.0:
-    resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
-    engines: {node: '>=8'}
 
   hasown@2.0.4:
     resolution: {integrity: sha512-T2UbfbBEF32wiepXIsMlTW9+dDYC6wMh/t/vYA4tuOMKqWz/n3vr1NFSxQiyP+zk2mXsoMA/i/7qV6LKut1t1A==}
@@ -1511,10 +1507,6 @@ packages:
     resolution: {integrity: sha512-4gB8na07fecVVkOI6Rs4e7T6NOTki5EmL7TUduTs6bu3EdnSycntVJ4re8kgZA+wx9IueI2Y11bfbgwtzuE0KQ==}
     engines: {node: '>=0.10.0'}
 
-  supports-color@7.2.0:
-    resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
-    engines: {node: '>=8'}
-
   supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
@@ -1723,19 +1715,19 @@ snapshots:
 
   '@bcoe/v8-coverage@1.0.2': {}
 
-  '@elastic/elasticsearch@8.19.2(supports-color@7.2.0)':
+  '@elastic/elasticsearch@8.19.2':
     dependencies:
-      '@elastic/transport': 8.11.0(supports-color@7.2.0)
+      '@elastic/transport': 8.11.0
       apache-arrow: 21.2.0
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
 
-  '@elastic/transport@8.11.0(supports-color@7.2.0)':
+  '@elastic/transport@8.11.0':
     dependencies:
       '@opentelemetry/api': 1.9.1
       '@opentelemetry/core': 2.11.0(@opentelemetry/api@1.9.1)
-      debug: 4.4.3(supports-color@7.2.0)
+      debug: 4.4.3
       hpagent: 1.2.0
       ms: 2.1.3
       secure-json-parse: 3.0.2
@@ -1950,17 +1942,17 @@ snapshots:
 
   '@tryghost/database-info@2.3.14': {}
 
-  '@tryghost/debug@2.3.14(supports-color@7.2.0)':
+  '@tryghost/debug@2.3.14':
     dependencies:
       '@tryghost/root-utils': 2.3.14
-      debug: 4.4.3(supports-color@7.2.0)
+      debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
 
-  '@tryghost/elasticsearch@5.4.11(supports-color@7.2.0)':
+  '@tryghost/elasticsearch@5.4.11':
     dependencies:
-      '@elastic/elasticsearch': 8.19.2(supports-color@7.2.0)
-      '@tryghost/debug': 2.3.14(supports-color@7.2.0)
+      '@elastic/elasticsearch': 8.19.2
+      '@tryghost/debug': 2.3.14
       split2: 4.2.0
     transitivePeerDependencies:
       - supports-color
@@ -1972,10 +1964,10 @@ snapshots:
       '@tryghost/errors': 3.3.14
       '@tryghost/request': 4.0.7
 
-  '@tryghost/logging@5.4.5(supports-color@7.2.0)':
+  '@tryghost/logging@5.4.5':
     dependencies:
       '@tryghost/bunyan-rotating-filestream': 0.0.20
-      '@tryghost/elasticsearch': 5.4.11(supports-color@7.2.0)
+      '@tryghost/elasticsearch': 5.4.11
       '@tryghost/http-stream': 2.3.15
       '@tryghost/pretty-stream': 2.3.14
       '@tryghost/root-utils': 2.3.14
@@ -2038,7 +2030,7 @@ snapshots:
 
   '@types/http-cache-semantics@4.2.0': {}
 
-  '@types/node@25.9.6':
+  '@types/node@25.9.7':
     dependencies:
       undici-types: 7.24.6
 
@@ -2052,7 +2044,7 @@ snapshots:
       obug: 2.2.1
       std-env: 4.2.0
       tinyrainbow: 3.1.1
-      vitest: 5.0.0(@opentelemetry/api@1.9.1)(@types/node@25.9.6)(@vitest/coverage-v8@5.0.0)(vite@8.3.0(@types/node@25.9.6))
+      vitest: 5.0.0(@opentelemetry/api@1.9.1)(@types/node@25.9.7)(@vitest/coverage-v8@5.0.0)(vite@8.3.0(@types/node@25.9.7))
 
   '@vitest/istanbul-lib-coverage@1.0.1': {}
 
@@ -2060,14 +2052,14 @@ snapshots:
     dependencies:
       '@vitest/istanbul-lib-coverage': 1.0.1
 
-  '@vitest/mocker@5.0.0(vite@8.3.0(@types/node@25.9.6))':
+  '@vitest/mocker@5.0.0(vite@8.3.0(@types/node@25.9.7))':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
       '@vitest/spy': 5.0.0
       estree-walker: 3.0.3
       magic-string: 1.4.1
     optionalDependencies:
-      vite: 8.3.0(@types/node@25.9.6)
+      vite: 8.3.0(@types/node@25.9.7)
 
   '@vitest/spy@5.0.0': {}
 
@@ -2079,7 +2071,7 @@ snapshots:
 
   apache-arrow@21.2.0:
     dependencies:
-      '@types/node': 25.9.6
+      '@types/node': 25.9.7
       flatbuffers: 25.9.23
       json-with-bigint: 3.5.12
       tslib: 2.8.1
@@ -2195,17 +2187,13 @@ snapshots:
 
   date-format@4.0.14: {}
 
-  debug@4.3.4(supports-color@7.2.0):
+  debug@4.3.4:
     dependencies:
       ms: 2.1.2
-    optionalDependencies:
-      supports-color: 7.2.0
 
-  debug@4.4.3(supports-color@7.2.0):
+  debug@4.4.3:
     dependencies:
       ms: 2.1.3
-    optionalDependencies:
-      supports-color: 7.2.0
 
   decompress-response@10.0.0:
     dependencies:
@@ -2331,9 +2319,6 @@ snapshots:
 
   graceful-fs@4.2.11: {}
 
-  has-flag@4.0.0:
-    optional: true
-
   hasown@2.0.4:
     dependencies:
       function-bind: 1.1.2
@@ -2391,11 +2376,11 @@ snapshots:
     dependencies:
       '@keyv/serialize': 1.1.1
 
-  knex@2.4.2(better-sqlite3@12.11.1)(mysql2@3.24.4(@types/node@25.9.6))(supports-color@7.2.0):
+  knex@2.4.2(better-sqlite3@12.11.1)(mysql2@3.24.4(@types/node@25.9.7)):
     dependencies:
       colorette: 2.0.19
       commander: 9.5.0
-      debug: 4.3.4(supports-color@7.2.0)
+      debug: 4.3.4
       escalade: 3.2.0
       esm: 3.2.25
       get-package-type: 0.1.0
@@ -2409,15 +2394,15 @@ snapshots:
       tildify: 2.0.0
     optionalDependencies:
       better-sqlite3: 12.11.1
-      mysql2: 3.24.4(@types/node@25.9.6)
+      mysql2: 3.24.4(@types/node@25.9.7)
     transitivePeerDependencies:
       - supports-color
 
-  knex@3.3.0(better-sqlite3@12.11.1)(mysql2@3.24.4(@types/node@25.9.6))(supports-color@7.2.0):
+  knex@3.3.0(better-sqlite3@12.11.1)(mysql2@3.24.4(@types/node@25.9.7)):
     dependencies:
       colorette: 2.0.19
       commander: 10.0.1
-      debug: 4.3.4(supports-color@7.2.0)
+      debug: 4.3.4
       escalade: 3.2.0
       esm: 3.2.25
       get-package-type: 0.1.0
@@ -2431,7 +2416,7 @@ snapshots:
       tildify: 2.0.0
     optionalDependencies:
       better-sqlite3: 12.11.1
-      mysql2: 3.24.4(@types/node@25.9.6)
+      mysql2: 3.24.4(@types/node@25.9.7)
     transitivePeerDependencies:
       - supports-color
 
@@ -2551,9 +2536,9 @@ snapshots:
       rimraf: 2.4.5
     optional: true
 
-  mysql2@3.24.4(@types/node@25.9.6):
+  mysql2@3.24.4(@types/node@25.9.7):
     dependencies:
-      '@types/node': 25.9.6
+      '@types/node': 25.9.7
       aws-ssl-profiles: 1.1.2
       generate-function: 2.3.1
       iconv-lite: 0.7.3
@@ -2823,11 +2808,6 @@ snapshots:
   strip-json-comments@2.0.1:
     optional: true
 
-  supports-color@7.2.0:
-    dependencies:
-      has-flag: 4.0.0
-    optional: true
-
   supports-preserve-symlinks-flag@1.0.0: {}
 
   tagged-tag@1.0.0: {}
@@ -2894,7 +2874,7 @@ snapshots:
 
   validator@13.15.35: {}
 
-  vite@8.3.0(@types/node@25.9.6):
+  vite@8.3.0(@types/node@25.9.7):
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
@@ -2902,13 +2882,13 @@ snapshots:
       rolldown: 1.2.8
       tinyglobby: 0.2.17
     optionalDependencies:
-      '@types/node': 25.9.6
+      '@types/node': 25.9.7
       fsevents: 2.3.3
 
-  vitest@5.0.0(@opentelemetry/api@1.9.1)(@types/node@25.9.6)(@vitest/coverage-v8@5.0.0)(vite@8.3.0(@types/node@25.9.6)):
+  vitest@5.0.0(@opentelemetry/api@1.9.1)(@types/node@25.9.7)(@vitest/coverage-v8@5.0.0)(vite@8.3.0(@types/node@25.9.7)):
     dependencies:
       '@types/chai': 5.2.3
-      '@vitest/mocker': 5.0.0(vite@8.3.0(@types/node@25.9.6))
+      '@vitest/mocker': 5.0.0(vite@8.3.0(@types/node@25.9.7))
       chai: 6.2.2
       es-module-lexer: 2.3.2
       expect-type: 1.4.0
@@ -2919,11 +2899,11 @@ snapshots:
       tinybench: 6.1.4
       tinyexec: 1.3.0
       tinyglobby: 0.2.17
-      vite: 8.3.0(@types/node@25.9.6)
+      vite: 8.3.0(@types/node@25.9.7)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@opentelemetry/api': 1.9.1
-      '@types/node': 25.9.6
+      '@types/node': 25.9.7
       '@vitest/coverage-v8': 5.0.0(vitest@5.0.0)
     transitivePeerDependencies:
       - msw
