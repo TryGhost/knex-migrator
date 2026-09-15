@@ -1,4 +1,3 @@
-const should = require('should');
 const sinon = require('sinon');
 const fs = require('fs');
 const os = require('os');
@@ -21,11 +20,11 @@ describe('Database', function () {
                 },
             });
 
-            connection.client.config.client.should.eql('mysql2');
-            connection.client.config.connection.timezone.should.eql('Z');
-            connection.client.config.connection.charset.should.eql('utf8mb4');
-            connection.client.config.connection.decimalNumbers.should.eql(true);
-            should.not.exist(connection.client.config.connection.filename);
+            expect(connection.client.config.client).toEqual('mysql2');
+            expect(connection.client.config.connection.timezone).toEqual('Z');
+            expect(connection.client.config.connection.charset).toEqual('utf8mb4');
+            expect(connection.client.config.connection.decimalNumbers).toEqual(true);
+            expect(connection.client.config.connection.filename).toBeOneOf([null, undefined]);
 
             return connection.destroy();
         });
@@ -38,7 +37,7 @@ describe('Database', function () {
                 },
             });
 
-            connection.client.config.client.should.eql('better-sqlite3');
+            expect(connection.client.config.client).toEqual('better-sqlite3');
 
             return connection.destroy();
         });
@@ -52,7 +51,7 @@ describe('Database', function () {
                 useNullAsDefault: true,
             });
 
-            connection.client.config.useNullAsDefault.should.eql(true);
+            expect(connection.client.config.useNullAsDefault).toEqual(true);
 
             return connection.destroy();
         });
@@ -90,8 +89,8 @@ describe('Database', function () {
                     },
                 );
 
-                connection.loadedFromProject.should.eql(true);
-                connection.client.config.client.should.eql('better-sqlite3');
+                expect(connection.loadedFromProject).toEqual(true);
+                expect(connection.client.config.client).toEqual('better-sqlite3');
             } finally {
                 fs.rmSync(projectPath, { recursive: true, force: true });
             }
@@ -110,7 +109,7 @@ describe('Database', function () {
             );
 
             try {
-                (function () {
+                expect(function () {
                     database.connect(
                         {
                             client: 'sqlite3',
@@ -122,7 +121,7 @@ describe('Database', function () {
                             knexModulePath: projectPath,
                         },
                     );
-                }).should.throw('broken project knex');
+                }).toThrow('broken project knex');
             } finally {
                 fs.rmSync(projectPath, { recursive: true, force: true });
             }
@@ -147,7 +146,7 @@ describe('Database', function () {
                     },
                 );
 
-                connection.client.config.client.should.eql('better-sqlite3');
+                expect(connection.client.config.client).toEqual('better-sqlite3');
                 return connection.destroy();
             } finally {
                 fs.rmSync(projectPath, { recursive: true, force: true });
@@ -157,7 +156,7 @@ describe('Database', function () {
         it('uses the knex major selected for the test run', function () {
             const knexVersion = require('../knex-version');
 
-            require('knex/package.json').version.split('.')[0].should.eql(knexVersion);
+            expect(require('knex/package.json').version.split('.')[0]).toEqual(knexVersion);
         });
     });
 
@@ -171,12 +170,12 @@ describe('Database', function () {
                     raw: sinon.stub().rejects(err),
                 })
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (wrappedErr) {
-                    wrappedErr.should.be.instanceof(errors.DatabaseError);
-                    wrappedErr.message.should.eql('Invalid database host.');
-                    wrappedErr.help.should.eql('Please double check your database config.');
+                    expect(wrappedErr).toBeInstanceOf(errors.DatabaseError);
+                    expect(wrappedErr.message).toEqual('Invalid database host.');
+                    expect(wrappedErr.help).toEqual('Please double check your database config.');
                 });
         });
 
@@ -186,12 +185,12 @@ describe('Database', function () {
                     raw: sinon.stub().rejects(new Error('permission denied')),
                 })
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (wrappedErr) {
-                    wrappedErr.should.be.instanceof(errors.DatabaseError);
-                    wrappedErr.message.should.eql('permission denied');
-                    wrappedErr.help.should.eql('Unknown database error');
+                    expect(wrappedErr).toBeInstanceOf(errors.DatabaseError);
+                    expect(wrappedErr.message).toEqual('permission denied');
+                    expect(wrappedErr.help).toEqual('Unknown database error');
                 });
         });
     });
@@ -208,7 +207,7 @@ describe('Database', function () {
                     },
                 })
                 .then(function () {
-                    createTable.called.should.eql(false);
+                    expect(createTable.called).toEqual(false);
                 });
         });
     });
@@ -232,11 +231,11 @@ describe('Database', function () {
                     },
                 })
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (err) {
-                    err.should.be.instanceof(errors.KnexMigrateError);
-                    err.message.should.eql('Database is not supported.');
+                    expect(err).toBeInstanceOf(errors.KnexMigrateError);
+                    expect(err.message).toEqual('Database is not supported.');
                 });
         });
 
@@ -257,7 +256,7 @@ describe('Database', function () {
                     },
                 })
                 .then(function () {
-                    connection.destroy.calledOnce.should.eql(true);
+                    expect(connection.destroy.calledOnce).toEqual(true);
                 });
         });
 
@@ -278,10 +277,10 @@ describe('Database', function () {
                     },
                 })
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (err) {
-                    err.message.should.eql('destroy failed');
+                    expect(err.message).toEqual('destroy failed');
                 });
         });
     });
@@ -323,10 +322,10 @@ describe('Database', function () {
                     },
                 })
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (err) {
-                    err.should.be.instanceof(errors.KnexMigrateError);
+                    expect(err).toBeInstanceOf(errors.KnexMigrateError);
                 });
         });
 
@@ -352,7 +351,7 @@ describe('Database', function () {
                     connection: connection,
                 })
                 .then(function () {
-                    dropTableIfExists.calledOnceWith('migrations').should.eql(true);
+                    expect(dropTableIfExists.calledOnceWith('migrations')).toEqual(true);
                 });
         });
 
@@ -382,8 +381,8 @@ describe('Database', function () {
                     connection: connection,
                 })
                 .then(function () {
-                    raw.firstCall.calledWith('PRAGMA foreign_keys = OFF;').should.eql(true);
-                    raw.thirdCall.calledWith('PRAGMA foreign_keys = ON;').should.eql(true);
+                    expect(raw.firstCall.calledWith('PRAGMA foreign_keys = OFF;')).toEqual(true);
+                    expect(raw.thirdCall.calledWith('PRAGMA foreign_keys = ON;')).toEqual(true);
                 });
         });
 
@@ -425,10 +424,10 @@ describe('Database', function () {
                     },
                 })
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (err) {
-                    err.should.be.instanceof(errors.KnexMigrateError);
+                    expect(err).toBeInstanceOf(errors.KnexMigrateError);
                 });
         });
 
@@ -447,11 +446,11 @@ describe('Database', function () {
                     },
                 })
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (err) {
-                    err.should.be.instanceof(errors.KnexMigrateError);
-                    err.message.should.eql('Database client not supported: postgres');
+                    expect(err).toBeInstanceOf(errors.KnexMigrateError);
+                    expect(err.message).toEqual('Database client not supported: postgres');
                 });
         });
     });

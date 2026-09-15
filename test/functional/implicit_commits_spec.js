@@ -15,11 +15,11 @@ _private.isBetterSQLite3 = function isBetterSQLite3() {
 
 _private.assertTableMissingError = function assertTableMissingError(err) {
     if (['mysql', 'mysql2'].includes(config.get('database:client'))) {
-        err.errno.should.eql(1146);
+        expect(err.errno).toEqual(1146);
     } else {
-        err.code.should.eql('SQLITE_ERROR');
-        err.message.should.startWith('select * from');
-        err.message.should.containEql('no such table:');
+        expect(err.code).toEqual('SQLITE_ERROR');
+        expect(err.message).toMatch(/^select \* from/);
+        expect(err.message).toContain('no such table:');
     }
 };
 
@@ -30,7 +30,7 @@ let knexMigrator, connection;
 describe('Implicit Commits', function () {
     describe('knex-migrator init', function () {
         describe('fail #1', function () {
-            before(function () {
+            beforeAll(function () {
                 migratorConfigPath = path.join(
                     __dirname,
                     '..',
@@ -55,7 +55,7 @@ describe('Implicit Commits', function () {
                 return knexMigrator.reset();
             });
 
-            after(function () {
+            afterAll(function () {
                 if (fs.existsSync(migratorConfigPath)) {
                     fs.unlinkSync(migratorConfigPath);
                 }
@@ -68,22 +68,22 @@ describe('Implicit Commits', function () {
                         throw new Error('init should fail');
                     })
                     .catch(function (err) {
-                        err.message.should.eql('unknown');
+                        expect(err.message).toEqual('unknown');
                         return connection('users');
                     })
                     .then(function (values) {
                         // mysql table still exists, was not manually rolled back, see assets
-                        values.length.should.eql(0);
+                        expect(values.length).toEqual(0);
                     })
                     .catch(function (err) {
                         // sqlite doesn't use autocommits inside an explicit transaction
-                        err.errno.should.eql(1);
+                        expect(err.errno).toEqual(1);
                     });
             });
         });
 
         describe('fail #2', function () {
-            before(function () {
+            beforeAll(function () {
                 migratorConfigPath = path.join(
                     __dirname,
                     '..',
@@ -108,7 +108,7 @@ describe('Implicit Commits', function () {
                 return knexMigrator.reset();
             });
 
-            after(function () {
+            afterAll(function () {
                 if (fs.existsSync(migratorConfigPath)) {
                     fs.unlinkSync(migratorConfigPath);
                 }
@@ -121,7 +121,7 @@ describe('Implicit Commits', function () {
                         throw new Error('init should fail');
                     })
                     .catch(function (err) {
-                        err.message.should.eql('unknown');
+                        expect(err.message).toEqual('unknown');
                         return connection('users');
                     })
                     .then(function (values) {
@@ -139,7 +139,7 @@ describe('Implicit Commits', function () {
         });
 
         describe('success #1', function () {
-            before(function () {
+            beforeAll(function () {
                 migratorConfigPath = path.join(
                     __dirname,
                     '..',
@@ -164,7 +164,7 @@ describe('Implicit Commits', function () {
                 return knexMigrator.reset();
             });
 
-            after(function () {
+            afterAll(function () {
                 if (fs.existsSync(migratorConfigPath)) {
                     fs.unlinkSync(migratorConfigPath);
                 }
@@ -177,12 +177,12 @@ describe('Implicit Commits', function () {
                         return connection('users');
                     })
                     .then(function (values) {
-                        values.length.should.eql(2);
+                        expect(values.length).toEqual(2);
 
                         return connection('migrations');
                     })
                     .then(function (values) {
-                        values.length.should.eql(5);
+                        expect(values.length).toEqual(5);
                     });
             });
         });
@@ -190,7 +190,7 @@ describe('Implicit Commits', function () {
 
     describe('knex-migrator migrate', function () {
         describe('fail #1', function () {
-            before(function () {
+            beforeAll(function () {
                 migratorConfigPath = path.join(
                     __dirname,
                     '..',
@@ -215,7 +215,7 @@ describe('Implicit Commits', function () {
                 return knexMigrator.reset();
             });
 
-            after(function () {
+            afterAll(function () {
                 if (fs.existsSync(migratorConfigPath)) {
                     fs.unlinkSync(migratorConfigPath);
                 }
@@ -229,10 +229,10 @@ describe('Implicit Commits', function () {
                     })
                     .then(function (values) {
                         // from init
-                        values.length.should.eql(1);
-                        Object.prototype.hasOwnProperty
-                            .call(values[0], 'country')
-                            .should.eql(false);
+                        expect(values.length).toEqual(1);
+                        expect(Object.prototype.hasOwnProperty.call(values[0], 'country')).toEqual(
+                            false,
+                        );
 
                         return knexMigrator.migrate({ force: true });
                     })
@@ -240,7 +240,7 @@ describe('Implicit Commits', function () {
                         throw new Error('Expect error from migrate.');
                     })
                     .catch(function (err) {
-                        err.message.should.eql('Ooops');
+                        expect(err.message).toEqual('Ooops');
 
                         return connection('dogs');
                     })
@@ -259,17 +259,17 @@ describe('Implicit Commits', function () {
                     })
                     .then(function (values) {
                         // from init
-                        values.length.should.eql(1);
+                        expect(values.length).toEqual(1);
 
-                        Object.prototype.hasOwnProperty
-                            .call(values[0], 'country')
-                            .should.eql(false);
+                        expect(Object.prototype.hasOwnProperty.call(values[0], 'country')).toEqual(
+                            false,
+                        );
                     });
             });
         });
 
         describe('success #1', function () {
-            before(function () {
+            beforeAll(function () {
                 migratorConfigPath = path.join(
                     __dirname,
                     '..',
@@ -294,7 +294,7 @@ describe('Implicit Commits', function () {
                 return knexMigrator.reset();
             });
 
-            after(function () {
+            afterAll(function () {
                 if (fs.existsSync(migratorConfigPath)) {
                     fs.unlinkSync(migratorConfigPath);
                 }
@@ -311,13 +311,15 @@ describe('Implicit Commits', function () {
                     })
                     .then(function (values) {
                         // from init
-                        values.length.should.eql(3);
-                        Object.prototype.hasOwnProperty.call(values[0], 'country').should.eql(true);
+                        expect(values.length).toEqual(3);
+                        expect(Object.prototype.hasOwnProperty.call(values[0], 'country')).toEqual(
+                            true,
+                        );
 
                         return connection('dogs');
                     })
                     .then(function (values) {
-                        values.length.should.eql(1);
+                        expect(values.length).toEqual(1);
                     });
             });
         });

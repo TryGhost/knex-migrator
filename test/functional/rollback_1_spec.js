@@ -21,7 +21,7 @@ describe('knex-migrator rollback (default)', function () {
         ),
         connection;
 
-    before(function () {
+    beforeAll(function () {
         if (fs.existsSync(migration121File)) {
             fs.unlinkSync(migration121File);
         }
@@ -45,15 +45,15 @@ describe('knex-migrator rollback (default)', function () {
         });
     });
 
-    before(function () {
+    beforeAll(function () {
         return knexMigrator.reset();
     });
 
-    before(function () {
+    beforeAll(function () {
         connection = testUtils.connect();
     });
 
-    after(async function () {
+    afterAll(async function () {
         if (connection) {
             await connection.destroy();
         }
@@ -116,10 +116,10 @@ describe('knex-migrator rollback (default)', function () {
         return knexMigrator
             .isDatabaseOK()
             .then(function () {
-                'Database should not be okay'.should.eql(false);
+                expect.unreachable();
             })
             .catch(function (err) {
-                err.message.should.eql(
+                expect(err.message).toEqual(
                     'Migrations are missing. Please run `pnpm knex-migrator migrate`.',
                 );
             });
@@ -127,7 +127,7 @@ describe('knex-migrator rollback (default)', function () {
 
     it('db check', function () {
         return connection('migrations').then(function (migrations) {
-            migrations.length.should.eql(2);
+            expect(migrations.length).toEqual(2);
         });
     });
 
@@ -135,10 +135,10 @@ describe('knex-migrator rollback (default)', function () {
         return knexMigrator
             .rollback({ force: true })
             .then(function () {
-                'No rollback expected.'.should.eql(false);
+                expect.unreachable();
             })
             .catch(function (err) {
-                err.message.should.eql('No migrations available to rollback.');
+                expect(err.message).toEqual('No migrations available to rollback.');
             });
     });
 });

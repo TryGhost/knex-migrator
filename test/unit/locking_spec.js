@@ -53,10 +53,10 @@ describe('Locking', function () {
             return locking
                 .lock({})
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (err) {
-                    err.should.be.instanceof(errors.MigrationsAreLockedError);
+                    expect(err).toBeInstanceOf(errors.MigrationsAreLockedError);
                 });
         });
 
@@ -68,11 +68,11 @@ describe('Locking', function () {
             return locking
                 .lock({})
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (err) {
-                    err.should.be.instanceof(errors.LockError);
-                    err.message.should.eql('Error while acquire the migration lock.');
+                    expect(err).toBeInstanceOf(errors.LockError);
+                    expect(err.message).toEqual('Error while acquire the migration lock.');
                 });
         });
 
@@ -86,7 +86,10 @@ describe('Locking', function () {
 
             await locking.lock({});
 
-            update.firstCall.args[0].should.eql({ locked: 1, acquired_at: '2026-01-02 03:04:05' });
+            expect(update.firstCall.args[0]).toEqual({
+                locked: 1,
+                acquired_at: '2026-01-02 03:04:05',
+            });
         });
     });
 
@@ -97,7 +100,7 @@ describe('Locking', function () {
             });
 
             return locking.isLocked(connection).then(function (result) {
-                result.should.eql(false);
+                expect(result).toEqual(false);
             });
         });
 
@@ -109,10 +112,10 @@ describe('Locking', function () {
             return locking
                 .isLocked(connection)
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (err) {
-                    err.should.be.instanceof(errors.MigrationsAreLockedError);
+                    expect(err).toBeInstanceOf(errors.MigrationsAreLockedError);
                 });
         });
     });
@@ -128,7 +131,10 @@ describe('Locking', function () {
 
             await locking.unlock({});
 
-            update.firstCall.args[0].should.eql({ locked: 0, released_at: '2026-11-12 13:14:15' });
+            expect(update.firstCall.args[0]).toEqual({
+                locked: 0,
+                released_at: '2026-11-12 13:14:15',
+            });
         });
 
         it('rejects when the migration lock row is already released', function () {
@@ -139,10 +145,10 @@ describe('Locking', function () {
             return locking
                 .unlock({})
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (err) {
-                    err.should.be.instanceof(errors.MigrationsAreLockedError);
+                    expect(err).toBeInstanceOf(errors.MigrationsAreLockedError);
                 });
         });
 
@@ -154,11 +160,11 @@ describe('Locking', function () {
             return locking
                 .unlock({})
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (err) {
-                    err.should.be.instanceof(errors.UnlockError);
-                    err.message.should.eql('Error while releasing the migration lock.');
+                    expect(err).toBeInstanceOf(errors.UnlockError);
+                    expect(err.message).toEqual('Error while releasing the migration lock.');
                 });
         });
     });

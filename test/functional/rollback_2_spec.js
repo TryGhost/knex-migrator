@@ -1,6 +1,5 @@
 const path = require('path'),
     sinon = require('sinon'),
-    should = require('should'),
     fs = require('fs'),
     KnexMigrator = require('../../lib'),
     testUtils = require('../utils');
@@ -22,7 +21,7 @@ describe('knex-migrator rollback (force)', function () {
         ),
         connection;
 
-    before(function () {
+    beforeAll(function () {
         if (fs.existsSync(migration121File)) {
             fs.unlinkSync(migration121File);
         }
@@ -46,15 +45,15 @@ describe('knex-migrator rollback (force)', function () {
         });
     });
 
-    before(function () {
+    beforeAll(function () {
         return knexMigrator.reset();
     });
 
-    before(function () {
+    beforeAll(function () {
         connection = testUtils.connect();
     });
 
-    after(async function () {
+    afterAll(async function () {
         if (connection) {
             await connection.destroy();
         }
@@ -122,7 +121,7 @@ describe('knex-migrator rollback (force)', function () {
 
     it('db check', function () {
         return connection('migrations').then(function (migrations) {
-            migrations.length.should.eql(2);
+            expect(migrations.length).toEqual(2);
         });
     });
 });
