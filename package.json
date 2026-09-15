@@ -1,6 +1,6 @@
 {
   "name": "knex-migrator",
-  "version": "6.2.0",
+  "version": "6.2.1",
   "packageManager": "pnpm@12.4.1",
   "description": "Database migrations with knex.",
   "keywords": [
