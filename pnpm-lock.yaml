@@ -182,8 +182,8 @@ importers:
         specifier: ^4.4.3
         version: 4.4.3
       mysql2:
-        specifier: ^3.24.4
-        version: 3.24.4(@types/node@24.19.0)
+        specifier: ^3.24.5
+        version: 3.24.5(@types/node@24.19.0)
       semver:
         specifier: ^7.8.5
         version: 7.8.5
@@ -199,10 +199,10 @@ importers:
         version: 5.0.2(vitest@5.0.2)
       knex:
         specifier: 3.3.0
-        version: 3.3.0(better-sqlite3@12.11.1)(mysql2@3.24.4(@types/node@24.19.0))
+        version: 3.3.0(better-sqlite3@12.11.1)(mysql2@3.24.5(@types/node@24.19.0))
       knex2:
         specifier: npm:knex@2.4.2
-        version: knex@2.4.2(better-sqlite3@12.11.1)(mysql2@3.24.4(@types/node@24.19.0))
+        version: knex@2.4.2(better-sqlite3@12.11.1)(mysql2@3.24.5(@types/node@24.19.0))
       nconf:
         specifier: 0.13.0
         version: 0.13.0
@@ -1405,8 +1405,8 @@ packages:
     resolution: {integrity: sha512-at/ZndSy3xEGJ8i0ygALh8ru9qy7gWW1cmkaqBN29JmMlIvM//MEO9y1sk/avxuwnPcfhkejkLsuPxH81BrkSg==}
     engines: {node: '>=0.8.0'}
 
-  mysql2@3.24.4:
-    resolution: {integrity: sha512-A2olluVlj0mvgyIRRISMEzXc51m+21mRtcMVjJyIpt2GG98+XrC9m9HzsqcMsX2LcnfccJvY5NB22g8fENBnOA==}
+  mysql2@3.24.5:
+    resolution: {integrity: sha512-X6Ujsr2QSkkLpkQGjxzpKRAPn9nu4axpR63ntBzquFVEvPOArgbUQ1sJjFKI7hnaYtiVZxa17Z7q18KSubW0IQ==}
     engines: {node: '>= 8.0'}
     peerDependencies:
       '@types/node': '>= 8'
@@ -2549,7 +2549,7 @@ snapshots:
     dependencies:
       '@keyv/serialize': 1.1.1
 
-  knex@2.4.2(better-sqlite3@12.11.1)(mysql2@3.24.4(@types/node@24.19.0)):
+  knex@2.4.2(better-sqlite3@12.11.1)(mysql2@3.24.5(@types/node@24.19.0)):
     dependencies:
       colorette: 2.0.19
       commander: 9.5.0
@@ -2567,11 +2567,11 @@ snapshots:
       tildify: 2.0.0
     optionalDependencies:
       better-sqlite3: 12.11.1
-      mysql2: 3.24.4(@types/node@24.19.0)
+      mysql2: 3.24.5(@types/node@24.19.0)
     transitivePeerDependencies:
       - supports-color
 
-  knex@3.3.0(better-sqlite3@12.11.1)(mysql2@3.24.4(@types/node@24.19.0)):
+  knex@3.3.0(better-sqlite3@12.11.1)(mysql2@3.24.5(@types/node@24.19.0)):
     dependencies:
       colorette: 2.0.19
       commander: 10.0.1
@@ -2589,7 +2589,7 @@ snapshots:
       tildify: 2.0.0
     optionalDependencies:
       better-sqlite3: 12.11.1
-      mysql2: 3.24.4(@types/node@24.19.0)
+      mysql2: 3.24.5(@types/node@24.19.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -2709,7 +2709,7 @@ snapshots:
       rimraf: 2.4.5
     optional: true
 
-  mysql2@3.24.4(@types/node@24.19.0):
+  mysql2@3.24.5(@types/node@24.19.0):
     dependencies:
       '@types/node': 24.19.0
       aws-ssl-profiles: 1.1.2
