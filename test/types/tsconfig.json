@@ -8,8 +8,8 @@
         "types": ["node"],
         "skipLibCheck": true,
         "paths": {
-            "knex-migrator": ["../.."]
+            "knex-migrator": ["../../lib/index.d.ts"]
         }
     },
-    "files": ["index.ts"]
+    "files": ["index.ts", "config.mts"]
 }

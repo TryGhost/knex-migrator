@@ -32,7 +32,7 @@ describe('Utils', function () {
             } catch (err) {
                 expect(err.code).toBeOneOf([null, undefined]);
                 expect(err.message).toEqual(
-                    'Please provide a file named MigratorConfig.js, MigratorConfig.cjs, or MigratorConfig.mjs in your project root.',
+                    'Please provide a file named MigratorConfig.js, MigratorConfig.cjs, MigratorConfig.mjs, MigratorConfig.ts, MigratorConfig.cts, or MigratorConfig.mts in your project root.',
                 );
             }
         });
@@ -63,6 +63,40 @@ describe('Utils', function () {
                 migrationPath: 'migrations',
                 currentVersion: '1.0',
             });
+        });
+
+        describe.runIf(utils.supportsTypeScript())('TypeScript configs', function () {
+            it.each([
+                ['MigratorConfig.ts via its default export', 'ts-config'],
+                ['MigratorConfig.cts', 'cts-config'],
+                ['MigratorConfig.mts via its default export', 'mts-config'],
+            ])('loads %s', function (_name, fixture) {
+                expect(
+                    utils.loadConfig({
+                        knexMigratorFilePath: path.join(__dirname, 'fixtures', fixture),
+                    }),
+                ).toEqual({
+                    database: { client: 'sqlite3' },
+                    migrationPath: 'migrations',
+                    currentVersion: '1.0',
+                });
+            });
+        });
+
+        it('throws a helpful error for TypeScript configs when type stripping is unavailable', function () {
+            sinon.stub(utils, 'supportsTypeScript').returns(false);
+
+            try {
+                utils.loadConfig({
+                    knexMigratorFilePath: path.join(__dirname, 'fixtures', 'ts-config'),
+                });
+                expect.unreachable();
+            } catch (err) {
+                expect(err.message).toMatch(
+                    /^Cannot load MigratorConfig\.ts: this version of Node\.js .* does not support TypeScript type stripping\.$/,
+                );
+                expect(err.help).toMatch(/--experimental-strip-types/);
+            }
         });
 
         it('does not hide missing dependencies from MigratorConfig.js', function () {

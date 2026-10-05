@@ -40,6 +40,16 @@ describe('KnexMigrator', function () {
         sinon.restore();
     });
 
+    it('exposes defineConfig as an identity helper', function () {
+        const config = {
+            database: {},
+            migrationPath: 'migrations',
+            currentVersion: '1.0',
+        };
+
+        expect(KnexMigrator.defineConfig(config)).toBe(config);
+    });
+
     it('requires a database config', function () {
         try {
             new KnexMigrator({
