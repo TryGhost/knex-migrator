@@ -73,6 +73,17 @@ export default defineConfig({
 });
 ```
 
+`.ts` files follow the module type of the nearest `package.json`, like `.js` files. The example above uses ESM syntax, so it works in a `"type": "module"` package or one with no `type` field. If your `package.json` sets `"type": "commonjs"`, name the file `MigratorConfig.mts` to keep the ESM syntax, or use `MigratorConfig.cts` with CommonJS syntax:
+
+```ts
+// MigratorConfig.cts
+const { defineConfig } = require('knex-migrator');
+
+module.exports = defineConfig({
+    /* ... */
+});
+```
+
 ```js
 module.exports = {
     database: {
