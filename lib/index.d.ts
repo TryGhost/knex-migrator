@@ -2,8 +2,8 @@ import type { Knex } from 'knex';
 
 declare namespace KnexMigrator {
     /**
-     * Shape of `MigratorConfig.js` (or `.cjs`/`.mjs` default export), or the
-     * object passed as `knexMigratorConfig`.
+     * Shape of `MigratorConfig.js` (or the `.cjs`/`.mjs`/`.ts`/`.cts`/`.mts`
+     * default export), or the object passed as `knexMigratorConfig`.
      */
     interface Config {
         /** Knex configuration used to connect to the database. */
@@ -15,6 +15,23 @@ declare namespace KnexMigrator {
         /** Folder under `migrationPath` holding version folders. Defaults to `'versions'`. */
         subfolder?: string;
     }
+
+    /**
+     * Identity helper that type-checks a config file's export against
+     * {@link Config}. Returns `config` unchanged at runtime.
+     *
+     * ```ts
+     * // MigratorConfig.ts
+     * import { defineConfig } from 'knex-migrator';
+     *
+     * export default defineConfig({
+     *     database: { client: 'sqlite3', connection: { filename: 'db.sqlite' } },
+     *     migrationPath: '/path/to/migrations',
+     *     currentVersion: '2.0',
+     * });
+     * ```
+     */
+    function defineConfig(config: Config): Config;
 
     interface ConstructorOptions {
         /** Directory containing `MigratorConfig.js`. Defaults to `process.cwd()`. */

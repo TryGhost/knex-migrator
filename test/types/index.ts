@@ -41,6 +41,24 @@ void run;
 // @ts-expect-error config requires migrationPath and currentVersion
 new KnexMigrator({ knexMigratorConfig: { database: {} } });
 
+const defined: KnexMigrator.Config = KnexMigrator.defineConfig({
+    database: { client: 'sqlite3', connection: { filename: '/path/to/database.sqlite' } },
+    migrationPath: '/path/to/project/migrations',
+    currentVersion: '2.0',
+});
+new KnexMigrator({ knexMigratorConfig: defined });
+
+// @ts-expect-error defineConfig requires migrationPath and currentVersion
+KnexMigrator.defineConfig({ database: {} });
+
+KnexMigrator.defineConfig({
+    database: {},
+    migrationPath: '/path/to/project/migrations',
+    currentVersion: '2.0',
+    // @ts-expect-error defineConfig rejects unknown keys
+    subFolder: 'versions',
+});
+
 const migration: KnexMigrator.Migration = {
     config: { transaction: true, irreversible: false },
     async up({ transacting, connection }) {

@@ -53,6 +53,37 @@ export default {
 };
 ```
 
+TypeScript configs are supported as `MigratorConfig.ts`, `MigratorConfig.cts`, and `MigratorConfig.mts`, resolved in that order after the JavaScript variants. They are loaded with Node's built-in type stripping, so they need Node.js `>= 22.18` (or `--experimental-strip-types` on earlier Node 22 releases), may only use [erasable TypeScript syntax](https://nodejs.org/api/typescript.html#type-stripping), and follow the same synchronous loading rules as ESM configs.
+
+Wrap the config in `defineConfig` to have it type-checked against the expected shape. It returns the config unchanged and works from JavaScript configs too:
+
+```ts
+// MigratorConfig.ts
+import { defineConfig } from 'knex-migrator';
+
+export default defineConfig({
+    database: {
+        client: 'sqlite3',
+        connection: {
+            filename: '/path/to/database.sqlite'
+        }
+    },
+    migrationPath: '/path/to/project/migrations',
+    currentVersion: '2.0'
+});
+```
+
+`.ts` files follow the module type of the nearest `package.json`, like `.js` files. The example above uses ESM syntax, so it works in a `"type": "module"` package or one with no `type` field. If your `package.json` sets `"type": "commonjs"`, name the file `MigratorConfig.mts` to keep the ESM syntax, or use `MigratorConfig.cts` with CommonJS syntax:
+
+```ts
+// MigratorConfig.cts
+const { defineConfig } = require('knex-migrator');
+
+module.exports = defineConfig({
+    /* ... */
+});
+```
+
 ```js
 module.exports = {
     database: {
