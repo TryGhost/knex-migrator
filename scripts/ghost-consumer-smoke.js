@@ -19,7 +19,12 @@ const migratorCwd = path.resolve(
 
 function resolveGhostCorePath(inputPath) {
     const resolvedPath = path.resolve(inputPath);
-    const candidates = [resolvedPath, path.join(resolvedPath, 'ghost', 'core')];
+    // Ghost's package root moved from ghost/core to ghost (TryGhost/Ghost#31630).
+    const candidates = [
+        resolvedPath,
+        path.join(resolvedPath, 'ghost'),
+        path.join(resolvedPath, 'ghost', 'core'),
+    ];
 
     const corePath = candidates.find((candidatePath) => {
         return (

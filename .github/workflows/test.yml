@@ -102,14 +102,14 @@ jobs:
         run: pnpm --filter ghost^... build
         working-directory: Ghost
       - name: Use linked knex-migrator in Ghost
-        working-directory: Ghost/ghost/core
+        working-directory: Ghost/ghost
         run: pnpm link ${{ github.workspace }}/knex-migrator
       - name: Run Ghost consumer smoke
         working-directory: knex-migrator
         env:
           GHOST_CORE_PATH: ${{ github.workspace }}/Ghost
-          KNEX_MIGRATOR_BIN: ${{ github.workspace }}/Ghost/ghost/core/node_modules/.bin/knex-migrator
-          KNEX_MIGRATOR_CWD: ${{ github.workspace }}/Ghost/ghost/core
+          KNEX_MIGRATOR_BIN: ${{ github.workspace }}/Ghost/ghost/node_modules/.bin/knex-migrator
+          KNEX_MIGRATOR_CWD: ${{ github.workspace }}/Ghost/ghost
         run: pnpm smoke:ghost
 
   required-checks-pass:
