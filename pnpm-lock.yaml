@@ -170,11 +170,11 @@ importers:
         specifier: ^2.3.16
         version: 2.3.16
       '@tryghost/errors':
-        specifier: ^3.4.1
-        version: 3.4.1
+        specifier: ^3.4.2
+        version: 3.4.2
       '@tryghost/logging':
-        specifier: ^5.4.7
-        version: 5.4.7
+        specifier: ^5.4.8
+        version: 5.4.8
       commander:
         specifier: ^15.0.0
         version: 15.0.0
@@ -661,14 +661,14 @@ packages:
   '@tryghost/elasticsearch@5.4.13':
     resolution: {integrity: sha512-Q3vo0Vp2mPiPbqM4p0ilzlVq0voOU9a2O6HJ253AUKta7N4X3JggKJBrACEhoZsCUdV7bbwiV/8dP1XegH/9eg==}
 
-  '@tryghost/errors@3.4.1':
-    resolution: {integrity: sha512-kUsC+QDJC+C7z8KPhwSxR0uXwloTNxRL9yzvyV7X/XMT2Wc/tz114uQgrqUMVbEWYhyzlNa7WvlqcOsyK0wo+g==}
+  '@tryghost/errors@3.4.2':
+    resolution: {integrity: sha512-vKkoorFbIoFEATz0wojDAKnZs4jrezlaA3r0xSaaAGrweZPqMBwGfFx16T6zTOgwK8Moms2ciyMtQepYS/2eiA==}
 
-  '@tryghost/http-stream@2.3.17':
-    resolution: {integrity: sha512-QI2rFqgQwxZ9YeygJvZmXdJPThNseQY85xJ2kcDYA+TlEkS74NTDkZy6IMCFMp94T8VynOEYMaDRVum5LB6+IQ==}
+  '@tryghost/http-stream@2.3.18':
+    resolution: {integrity: sha512-2nwaobQfUgKnPRfunOyyUCkXBdZYnSQrrkq2l2B78mDXtjVbHlfD7uMh55MoWlcK0TZVBO8XWw9GgO91iywkEQ==}
 
-  '@tryghost/logging@5.4.7':
-    resolution: {integrity: sha512-UwFWijFClqqecTkGdFc29NAIB3NBsBbYK4QYPcOv1UAgym/X9bGdhbf+h5+hTKbgDkzgjYZBQ86zmWhO9cnCaQ==}
+  '@tryghost/logging@5.4.8':
+    resolution: {integrity: sha512-4L2eJyOfChFLpEIrmygivO9Mpoz19rmN1/tPVx9G7dTBDdUL8bSRXGJkRGwqyT2bQb9C1JpVUROd1dCAdZ1j/g==}
 
   '@tryghost/pretty-stream@2.3.16':
     resolution: {integrity: sha512-yGeEkTfn/R/rCHDUSMsk/JsbozTbRuhhcw1QgQxY1I4gHC7DuAfVGLlBWY/NsvTGBelJJFyHYMQqH23CKajLoA==}
@@ -678,8 +678,8 @@ packages:
     engines: {node: '>=20.20.0'}
     hasBin: true
 
-  '@tryghost/request@4.0.9':
-    resolution: {integrity: sha512-sgRraMx+Gjh+Nn46jQ99dA4LBVwOT8j5IWiMiC3Bp9fv+stE4aVjAYPa6Fn8E2IvHSFlthWCRTr9zhqydanQ/Q==}
+  '@tryghost/request@4.0.10':
+    resolution: {integrity: sha512-W5TpzRyc3zp+guj+EtknhICLHyLjiIGOvI+9Ynk1tkU3ICH+eagoxUbHE138JuIASjzaoXPAru/QwTxyCjPlhA==}
     engines: {node: ^22.12.0 || >=24.0.0}
 
   '@tryghost/root-utils@2.3.14':
@@ -691,8 +691,8 @@ packages:
   '@tryghost/tpl@2.3.16':
     resolution: {integrity: sha512-b453KdCWF9gKtsVpy9as3FiATdRDkrGh3f2+C9GSTiaa51zjBBTPOV1qqEMs/VCByxtWvpHev+dNg5ECQLAOMg==}
 
-  '@tryghost/validator@3.2.16':
-    resolution: {integrity: sha512-ziJ0pqCeY1i9PG4Z+jhue6kaQjDenqkQm2ju7OAhiwTUEE4Otl2QERBxYRqdM3qMDI+04byp6jqS2RGqP0iLGA==}
+  '@tryghost/validator@3.2.17':
+    resolution: {integrity: sha512-GUki6g7XrTF+YKTgMT5Ta8Q5MxQitLgcZvHbzKNCiaKRn5C3XjusXdw4xvKnDomwY+o9ExSFqiyprPj15FMF+A==}
 
   '@tryghost/version@2.3.16':
     resolution: {integrity: sha512-BsA8haci9Qy2pX9istUmKnJzrXfvXebGbHR4azEcxZn9aqiGl1K0FFiPKmoNHjDR0Q+2ogPZy5oUIXDLJSVsUg==}
@@ -2073,21 +2073,21 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@tryghost/errors@3.4.1': {}
+  '@tryghost/errors@3.4.2': {}
 
-  '@tryghost/http-stream@2.3.17':
+  '@tryghost/http-stream@2.3.18':
     dependencies:
       '@tryghost/debug': 2.3.16
-      '@tryghost/errors': 3.4.1
-      '@tryghost/request': 4.0.9
+      '@tryghost/errors': 3.4.2
+      '@tryghost/request': 4.0.10
     transitivePeerDependencies:
       - supports-color
 
-  '@tryghost/logging@5.4.7':
+  '@tryghost/logging@5.4.8':
     dependencies:
       '@tryghost/bunyan-rotating-filestream': 0.0.22
       '@tryghost/elasticsearch': 5.4.13
-      '@tryghost/http-stream': 2.3.17
+      '@tryghost/http-stream': 2.3.18
       '@tryghost/pretty-stream': 2.3.16
       '@tryghost/root-utils': 2.3.16
       bunyan: 1.8.15
@@ -2108,10 +2108,10 @@ snapshots:
       '@tryghost/root-utils': 2.3.14
       semver: 7.8.5
 
-  '@tryghost/request@4.0.9':
+  '@tryghost/request@4.0.10':
     dependencies:
-      '@tryghost/errors': 3.4.1
-      '@tryghost/validator': 3.2.16
+      '@tryghost/errors': 3.4.2
+      '@tryghost/validator': 3.2.17
       '@tryghost/version': 2.3.16
       cacheable-lookup: 7.0.0
       got: 16.0.0
@@ -2129,9 +2129,9 @@ snapshots:
 
   '@tryghost/tpl@2.3.16': {}
 
-  '@tryghost/validator@3.2.16':
+  '@tryghost/validator@3.2.17':
     dependencies:
-      '@tryghost/errors': 3.4.1
+      '@tryghost/errors': 3.4.2
       '@tryghost/tpl': 2.3.16
       lodash: 4.18.1
       moment-timezone: 0.5.48
