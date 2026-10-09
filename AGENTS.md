@@ -44,8 +44,9 @@ linking:
 GHOST_CORE_PATH=/path/to/Ghost pnpm smoke:ghost
 ```
 
-`GHOST_CORE_PATH` may point at either the Ghost repository root or
-`ghost/core`. CI links this package into `Ghost/ghost/core` with pnpm and then
+`GHOST_CORE_PATH` may point at the Ghost repository root or at Ghost's package
+directory (`ghost`, or `ghost/core` in checkouts from before Ghost moved its
+package root). CI links this package into `Ghost/ghost` with pnpm and then
 runs Ghost init, health, rollback, migrate, and health through the linked
 `knex-migrator` binary.
 
