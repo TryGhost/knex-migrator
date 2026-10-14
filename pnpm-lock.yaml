@@ -167,11 +167,11 @@ importers:
   .:
     dependencies:
       '@tryghost/database-info':
-        specifier: ^2.3.16
-        version: 2.3.16
+        specifier: ^2.3.18
+        version: 2.3.18
       '@tryghost/errors':
-        specifier: ^3.4.2
-        version: 3.4.2
+        specifier: ^3.4.4
+        version: 3.4.4
       '@tryghost/logging':
         specifier: ^5.4.8
         version: 5.4.8
@@ -652,8 +652,8 @@ packages:
   '@tryghost/bunyan-rotating-filestream@0.0.22':
     resolution: {integrity: sha512-bK/WAmrL7Jb5C2aVelbLYakoF4HQZY2Kxm9ZSs8uGPeWCxm0ftbfSRkWChwW2KALakVr/0To83AZg1eFBHTl4g==}
 
-  '@tryghost/database-info@2.3.16':
-    resolution: {integrity: sha512-fjJJhzPU+zuLJEPHGp37AkCOYJ5nmRWgzkPZRbcNlJQETsui5+neLtxqBYHQ/Agh3Bof+RzTlLORBGOfBwocug==}
+  '@tryghost/database-info@2.3.18':
+    resolution: {integrity: sha512-wtfs8Aptt36w80w4xiMN+m7ydLkthQfkEdwHW8d1FB7x5gBl+iyESM1p+nxEOmbpMWuRc3hm5B42dfTygjUtLA==}
 
   '@tryghost/debug@2.3.16':
     resolution: {integrity: sha512-xnFUf3+PrTO2hQXIlAd4YeDjTeZZ5Qa0dDVO8FCKNkf63DQTQTPoOJ8WygVFfqBnIYcdbB534Mo5kCzIfQPXDQ==}
@@ -663,6 +663,9 @@ packages:
 
   '@tryghost/errors@3.4.2':
     resolution: {integrity: sha512-vKkoorFbIoFEATz0wojDAKnZs4jrezlaA3r0xSaaAGrweZPqMBwGfFx16T6zTOgwK8Moms2ciyMtQepYS/2eiA==}
+
+  '@tryghost/errors@3.4.4':
+    resolution: {integrity: sha512-Tfr3H4G4tU4QAaS9GN5+OnSfvsVhwDycZcK7iGoQG2JGUivY3kxDOo/nZzEC/8+PRDsyFYgXCAatAWIfeXiUwg==}
 
   '@tryghost/http-stream@2.3.18':
     resolution: {integrity: sha512-2nwaobQfUgKnPRfunOyyUCkXBdZYnSQrrkq2l2B78mDXtjVbHlfD7uMh55MoWlcK0TZVBO8XWw9GgO91iywkEQ==}
@@ -2056,7 +2059,7 @@ snapshots:
     dependencies:
       long-timeout: 0.1.1
 
-  '@tryghost/database-info@2.3.16': {}
+  '@tryghost/database-info@2.3.18': {}
 
   '@tryghost/debug@2.3.16':
     dependencies:
@@ -2074,6 +2077,8 @@ snapshots:
       - supports-color
 
   '@tryghost/errors@3.4.2': {}
+
+  '@tryghost/errors@3.4.4': {}
 
   '@tryghost/http-stream@2.3.18':
     dependencies:

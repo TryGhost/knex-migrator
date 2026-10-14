@@ -54,8 +54,8 @@
     "node": "^22.13.1 || ^24.14.1"
   },
   "dependencies": {
-    "@tryghost/database-info": "^2.3.16",
-    "@tryghost/errors": "^3.4.2",
+    "@tryghost/database-info": "^2.3.18",
+    "@tryghost/errors": "^3.4.4",
     "@tryghost/logging": "^5.4.8",
     "commander": "^15.0.0",
     "debug": "^4.4.3",
