@@ -56,7 +56,7 @@
   "dependencies": {
     "@tryghost/database-info": "^2.3.18",
     "@tryghost/errors": "^3.4.4",
-    "@tryghost/logging": "^5.4.8",
+    "@tryghost/logging": "^6.0.1",
     "commander": "^15.0.0",
     "debug": "^4.4.3",
     "mysql2": "^3.24.6",
