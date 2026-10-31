@@ -1,7 +1,5 @@
-const _ = require('lodash'),
-    path = require('path'),
+const path = require('path'),
     sinon = require('sinon'),
-    should = require('should'),
     fs = require('fs'),
     KnexMigrator = require('../../lib'),
     config = require('../config'),
@@ -20,7 +18,7 @@ _private.init = function init(knexMigrator, initMethod) {
     }
 };
 
-_.each(['default', 'migrateInit'], function (initMethod) {
+for (const initMethod of ['default', 'migrateInit']) {
     describe('Functional flow: ' + initMethod, function () {
         let knexMigrator,
             basePath = path.join(__dirname, '..', 'assets', 'migrations'),
@@ -39,7 +37,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
             migratorConfigPath = path.join(__dirname, '..', 'assets', 'MigratorConfig.js'),
             connection;
 
-        before(function () {
+        beforeAll(function () {
             if (fs.existsSync(migrationsv11File)) {
                 fs.unlinkSync(migrationsv11File);
             }
@@ -85,7 +83,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
             }
         });
 
-        before(function () {
+        beforeAll(function () {
             testUtils.writeMigratorConfig({
                 migratorConfigPath: migratorConfigPath,
                 migrationPath: migrationPath,
@@ -97,15 +95,15 @@ _.each(['default', 'migrateInit'], function (initMethod) {
             });
         });
 
-        before(function () {
+        beforeAll(function () {
             return knexMigrator.reset({ force: true });
         });
 
-        before(function () {
+        beforeAll(function () {
             connection = testUtils.connect();
         });
 
-        after(async function () {
+        afterAll(async function () {
             if (connection) {
                 await connection.destroy();
             }
@@ -157,11 +155,11 @@ _.each(['default', 'migrateInit'], function (initMethod) {
             if (fs.existsSync(migratorConfigPath)) {
                 fs.unlinkSync(migratorConfigPath);
 
-                _.each(require.cache, function (value, key) {
+                for (const key of Object.keys(require.cache)) {
                     if (key.match(/assets\/MigratorConfig\.js/)) {
                         delete require.cache[key];
                     }
-                });
+                }
             }
         });
 
@@ -181,14 +179,14 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     throw new Error('Database should be NOT ok!');
                 })
                 .catch(function (err) {
-                    should.exist(err);
+                    expect(err).toEqual(expect.anything());
 
-                    (err instanceof errors.DatabaseIsNotOkError).should.eql(true);
+                    expect(err instanceof errors.DatabaseIsNotOkError).toEqual(true);
 
                     if (DatabaseInfo.isSQLiteConfig(config.get('database'))) {
-                        err.code.should.eql('MIGRATION_TABLE_IS_MISSING');
+                        expect(err.code).toEqual('MIGRATION_TABLE_IS_MISSING');
                     } else {
-                        err.code.should.eql('DB_NOT_INITIALISED');
+                        expect(err.code).toEqual('DB_NOT_INITIALISED');
                     }
                 });
         });
@@ -200,30 +198,30 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     return connection('users');
                 })
                 .then(function (values) {
-                    values.length.should.eql(1);
-                    values[0].name.should.eql('Hausweib');
+                    expect(values.length).toEqual(1);
+                    expect(values[0].name).toEqual('Hausweib');
 
                     return connection('migrations');
                 })
                 .then(function (values) {
-                    values.length.should.eql(3);
-                    should.exist(values[0].id);
-                    values[0].name.should.eql('1-create-tables.js');
-                    values[0].version.should.eql('init');
+                    expect(values.length).toEqual(3);
+                    expect(values[0].id).toEqual(expect.anything());
+                    expect(values[0].name).toEqual('1-create-tables.js');
+                    expect(values[0].version).toEqual('init');
 
                     // db was initialised when the service was on 1.0
-                    values[0].currentVersion.should.eql('1.0');
+                    expect(values[0].currentVersion).toEqual('1.0');
 
-                    values[1].name.should.eql('2-seed.js');
-                    values[1].version.should.eql('init');
+                    expect(values[1].name).toEqual('2-seed.js');
+                    expect(values[1].version).toEqual('init');
 
-                    values[2].name.should.eql('1-another.js');
-                    values[2].version.should.eql('1.0');
+                    expect(values[2].name).toEqual('1-another.js');
+                    expect(values[2].version).toEqual('1.0');
 
-                    knexMigrator._beforeEach.called.should.eql(true);
-                    knexMigrator._beforeEach.callCount.should.eql(2);
+                    expect(knexMigrator._beforeEach.called).toEqual(true);
+                    expect(knexMigrator._beforeEach.callCount).toEqual(2);
 
-                    knexMigrator._afterEach.called.should.eql(true);
+                    expect(knexMigrator._afterEach.called).toEqual(true);
                 });
         });
 
@@ -238,18 +236,18 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     return connection('users');
                 })
                 .then(function (values) {
-                    values.length.should.eql(1);
-                    values[0].name.should.eql('Hausweib');
+                    expect(values.length).toEqual(1);
+                    expect(values[0].name).toEqual('Hausweib');
 
                     return connection('migrations');
                 })
                 .then(function (values) {
-                    values.length.should.eql(3);
+                    expect(values.length).toEqual(3);
 
                     // will throw 2 times an error
-                    knexMigrator._beforeEach.called.should.eql(true);
-                    knexMigrator._beforeEach.callCount.should.eql(2);
-                    knexMigrator._afterEach.called.should.eql(false);
+                    expect(knexMigrator._beforeEach.called).toEqual(true);
+                    expect(knexMigrator._beforeEach.callCount).toEqual(2);
+                    expect(knexMigrator._afterEach.called).toEqual(false);
                 });
         });
 
@@ -286,8 +284,8 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     throw new Error('database should be not ok');
                 })
                 .catch(function (err) {
-                    should.exist(err);
-                    (err instanceof errors.DatabaseIsNotOkError).should.eql(true);
+                    expect(err).toEqual(expect.anything());
+                    expect(err instanceof errors.DatabaseIsNotOkError).toEqual(true);
                 });
         });
 
@@ -299,33 +297,33 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     return connection('users');
                 })
                 .then(function (values) {
-                    values.length.should.eql(1);
-                    values[0].name.should.eql('Kind');
+                    expect(values.length).toEqual(1);
+                    expect(values[0].name).toEqual('Kind');
 
                     return connection('migrations');
                 })
                 .then(function (values) {
-                    values.length.should.eql(5);
-                    values[0].name.should.eql('1-create-tables.js');
-                    values[0].version.should.eql('init');
+                    expect(values.length).toEqual(5);
+                    expect(values[0].name).toEqual('1-create-tables.js');
+                    expect(values[0].version).toEqual('init');
 
-                    values[1].name.should.eql('2-seed.js');
-                    values[1].version.should.eql('init');
+                    expect(values[1].name).toEqual('2-seed.js');
+                    expect(values[1].version).toEqual('init');
 
-                    values[2].name.should.eql('1-another.js');
-                    values[2].version.should.eql('1.0');
+                    expect(values[2].name).toEqual('1-another.js');
+                    expect(values[2].version).toEqual('1.0');
 
-                    values[3].name.should.eql('1-modify-user.js');
-                    values[3].version.should.eql('1.1');
+                    expect(values[3].name).toEqual('1-modify-user.js');
+                    expect(values[3].version).toEqual('1.1');
 
-                    values[4].name.should.eql('1-modify-user-again.js');
-                    values[4].version.should.eql('1.2');
+                    expect(values[4].name).toEqual('1-modify-user-again.js');
+                    expect(values[4].version).toEqual('1.2');
 
                     // will throw 2 times an error
-                    knexMigrator._beforeEach.called.should.eql(true);
-                    knexMigrator._beforeEach.callCount.should.eql(4);
-                    knexMigrator._afterEach.called.should.eql(true);
-                    knexMigrator._afterEach.callCount.should.eql(2);
+                    expect(knexMigrator._beforeEach.called).toEqual(true);
+                    expect(knexMigrator._beforeEach.callCount).toEqual(4);
+                    expect(knexMigrator._afterEach.called).toEqual(true);
+                    expect(knexMigrator._afterEach.callCount).toEqual(2);
                 });
         });
 
@@ -340,33 +338,33 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     return connection('users');
                 })
                 .then(function (values) {
-                    values.length.should.eql(1);
-                    values[0].name.should.eql('Kind');
+                    expect(values.length).toEqual(1);
+                    expect(values[0].name).toEqual('Kind');
 
                     return connection('migrations');
                 })
                 .then(function (values) {
-                    values.length.should.eql(5);
-                    values[0].name.should.eql('1-create-tables.js');
-                    values[0].version.should.eql('init');
+                    expect(values.length).toEqual(5);
+                    expect(values[0].name).toEqual('1-create-tables.js');
+                    expect(values[0].version).toEqual('init');
 
-                    values[1].name.should.eql('2-seed.js');
-                    values[1].version.should.eql('init');
+                    expect(values[1].name).toEqual('2-seed.js');
+                    expect(values[1].version).toEqual('init');
 
-                    values[2].name.should.eql('1-another.js');
-                    values[2].version.should.eql('1.0');
+                    expect(values[2].name).toEqual('1-another.js');
+                    expect(values[2].version).toEqual('1.0');
 
-                    values[3].name.should.eql('1-modify-user.js');
-                    values[3].version.should.eql('1.1');
+                    expect(values[3].name).toEqual('1-modify-user.js');
+                    expect(values[3].version).toEqual('1.1');
 
-                    values[4].name.should.eql('1-modify-user-again.js');
-                    values[4].version.should.eql('1.2');
+                    expect(values[4].name).toEqual('1-modify-user-again.js');
+                    expect(values[4].version).toEqual('1.2');
 
                     // 1.2 was already executed
-                    knexMigrator._beforeEach.called.should.eql(false);
-                    knexMigrator._beforeEach.callCount.should.eql(0);
-                    knexMigrator._afterEach.called.should.eql(false);
-                    knexMigrator._afterEach.callCount.should.eql(0);
+                    expect(knexMigrator._beforeEach.called).toEqual(false);
+                    expect(knexMigrator._beforeEach.callCount).toEqual(0);
+                    expect(knexMigrator._afterEach.called).toEqual(false);
+                    expect(knexMigrator._afterEach.callCount).toEqual(0);
                 });
         });
 
@@ -390,34 +388,34 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                     return connection('users');
                 })
                 .then(function (values) {
-                    values.length.should.eql(0);
+                    expect(values.length).toEqual(0);
                     return connection('migrations');
                 })
                 .then(function (values) {
-                    values.length.should.eql(6);
-                    values[0].name.should.eql('1-create-tables.js');
-                    values[0].version.should.eql('init');
+                    expect(values.length).toEqual(6);
+                    expect(values[0].name).toEqual('1-create-tables.js');
+                    expect(values[0].version).toEqual('init');
 
-                    values[1].name.should.eql('2-seed.js');
-                    values[1].version.should.eql('init');
+                    expect(values[1].name).toEqual('2-seed.js');
+                    expect(values[1].version).toEqual('init');
 
-                    values[2].name.should.eql('1-another.js');
-                    values[2].version.should.eql('1.0');
+                    expect(values[2].name).toEqual('1-another.js');
+                    expect(values[2].version).toEqual('1.0');
 
-                    values[3].name.should.eql('1-modify-user.js');
-                    values[3].version.should.eql('1.1');
+                    expect(values[3].name).toEqual('1-modify-user.js');
+                    expect(values[3].version).toEqual('1.1');
 
-                    values[4].name.should.eql('1-modify-user-again.js');
-                    values[4].version.should.eql('1.2');
+                    expect(values[4].name).toEqual('1-modify-user-again.js');
+                    expect(values[4].version).toEqual('1.2');
 
-                    values[5].name.should.eql('1-delete-user.js');
-                    values[5].version.should.eql('1.3');
+                    expect(values[5].name).toEqual('1-delete-user.js');
+                    expect(values[5].version).toEqual('1.3');
 
                     // will throw 2 times an error
-                    knexMigrator._beforeEach.called.should.eql(true);
-                    knexMigrator._beforeEach.callCount.should.eql(1);
-                    knexMigrator._afterEach.called.should.eql(true);
-                    knexMigrator._afterEach.callCount.should.eql(1);
+                    expect(knexMigrator._beforeEach.called).toEqual(true);
+                    expect(knexMigrator._beforeEach.callCount).toEqual(1);
+                    expect(knexMigrator._afterEach.called).toEqual(true);
+                    expect(knexMigrator._afterEach.callCount).toEqual(1);
                 });
         });
 
@@ -427,11 +425,11 @@ _.each(['default', 'migrateInit'], function (initMethod) {
 
         describe('migrate to 1.4', function () {
             beforeEach(function () {
-                _.each(require.cache, function (value, key) {
+                for (const key of Object.keys(require.cache)) {
                     if (key.match(/migrations\/versions\/1.4\/2-error.js/)) {
                         delete require.cache[key];
                     }
-                });
+                }
             });
 
             it('migrate to 1.4, but error happens in one of the scripts --> expect rollback', function () {
@@ -456,40 +454,40 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                         throw new Error('This test case should fail! Please check why!');
                     })
                     .catch(function (err) {
-                        should.exist(err);
-                        err.message.should.eql('unexpected error');
+                        expect(err).toEqual(expect.anything());
+                        expect(err.message).toEqual('unexpected error');
 
                         return connection('users')
                             .then(function (values) {
-                                values.length.should.eql(0);
+                                expect(values.length).toEqual(0);
                                 return connection('migrations');
                             })
                             .then(function (values) {
-                                values.length.should.eql(6);
-                                values[0].name.should.eql('1-create-tables.js');
-                                values[0].version.should.eql('init');
+                                expect(values.length).toEqual(6);
+                                expect(values[0].name).toEqual('1-create-tables.js');
+                                expect(values[0].version).toEqual('init');
 
-                                values[1].name.should.eql('2-seed.js');
-                                values[1].version.should.eql('init');
+                                expect(values[1].name).toEqual('2-seed.js');
+                                expect(values[1].version).toEqual('init');
 
-                                values[2].name.should.eql('1-another.js');
-                                values[2].version.should.eql('1.0');
+                                expect(values[2].name).toEqual('1-another.js');
+                                expect(values[2].version).toEqual('1.0');
 
-                                values[3].name.should.eql('1-modify-user.js');
-                                values[3].version.should.eql('1.1');
+                                expect(values[3].name).toEqual('1-modify-user.js');
+                                expect(values[3].version).toEqual('1.1');
 
-                                values[4].name.should.eql('1-modify-user-again.js');
-                                values[4].version.should.eql('1.2');
+                                expect(values[4].name).toEqual('1-modify-user-again.js');
+                                expect(values[4].version).toEqual('1.2');
 
-                                values[5].name.should.eql('1-delete-user.js');
-                                values[5].version.should.eql('1.3');
+                                expect(values[5].name).toEqual('1-delete-user.js');
+                                expect(values[5].version).toEqual('1.3');
 
                                 // 2-error is missing!
 
-                                knexMigrator._beforeEach.called.should.eql(true);
-                                knexMigrator._beforeEach.callCount.should.eql(2);
-                                knexMigrator._afterEach.called.should.eql(true);
-                                knexMigrator._afterEach.callCount.should.eql(1);
+                                expect(knexMigrator._beforeEach.called).toEqual(true);
+                                expect(knexMigrator._beforeEach.callCount).toEqual(2);
+                                expect(knexMigrator._afterEach.called).toEqual(true);
+                                expect(knexMigrator._afterEach.callCount).toEqual(1);
                             });
                     });
             });
@@ -512,7 +510,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
 
                 return connection('migrations')
                     .then(function (values) {
-                        values.length.should.eql(6);
+                        expect(values.length).toEqual(6);
 
                         return knexMigrator.migrate();
                     })
@@ -520,38 +518,38 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                         throw new Error('This test case should fail! Please check why!');
                     })
                     .catch(function (err) {
-                        should.exist(err);
-                        err.message.should.startWith("Cannot find module 'lalalalala'");
+                        expect(err).toEqual(expect.anything());
+                        expect(err.message).toMatch(/^Cannot find module 'lalalalala'/);
 
                         return connection('users')
                             .then(function (values) {
-                                values.length.should.eql(0);
+                                expect(values.length).toEqual(0);
                                 return connection('migrations');
                             })
                             .then(function (values) {
-                                values.length.should.eql(6);
-                                values[0].name.should.eql('1-create-tables.js');
-                                values[0].version.should.eql('init');
+                                expect(values.length).toEqual(6);
+                                expect(values[0].name).toEqual('1-create-tables.js');
+                                expect(values[0].version).toEqual('init');
 
-                                values[1].name.should.eql('2-seed.js');
-                                values[1].version.should.eql('init');
+                                expect(values[1].name).toEqual('2-seed.js');
+                                expect(values[1].version).toEqual('init');
 
-                                values[2].name.should.eql('1-another.js');
-                                values[2].version.should.eql('1.0');
+                                expect(values[2].name).toEqual('1-another.js');
+                                expect(values[2].version).toEqual('1.0');
 
-                                values[3].name.should.eql('1-modify-user.js');
-                                values[3].version.should.eql('1.1');
+                                expect(values[3].name).toEqual('1-modify-user.js');
+                                expect(values[3].version).toEqual('1.1');
 
-                                values[4].name.should.eql('1-modify-user-again.js');
-                                values[4].version.should.eql('1.2');
+                                expect(values[4].name).toEqual('1-modify-user-again.js');
+                                expect(values[4].version).toEqual('1.2');
 
-                                values[5].name.should.eql('1-delete-user.js');
-                                values[5].version.should.eql('1.3');
+                                expect(values[5].name).toEqual('1-delete-user.js');
+                                expect(values[5].version).toEqual('1.3');
 
-                                knexMigrator._beforeEach.called.should.eql(false);
-                                knexMigrator._beforeEach.callCount.should.eql(0);
-                                knexMigrator._afterEach.called.should.eql(false);
-                                knexMigrator._afterEach.callCount.should.eql(0);
+                                expect(knexMigrator._beforeEach.called).toEqual(false);
+                                expect(knexMigrator._beforeEach.callCount).toEqual(0);
+                                expect(knexMigrator._afterEach.called).toEqual(false);
+                                expect(knexMigrator._afterEach.callCount).toEqual(0);
                             });
                     });
             });
@@ -580,36 +578,36 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                         throw new Error('This test case should fail! Please check why!');
                     })
                     .catch(function (err) {
-                        should.exist(err);
-                        err.message.should.eql('y is not defined');
+                        expect(err).toEqual(expect.anything());
+                        expect(err.message).toEqual('y is not defined');
 
                         return connection('users')
                             .then(function (values) {
-                                values.length.should.eql(0);
+                                expect(values.length).toEqual(0);
                                 return connection('migrations');
                             })
                             .then(function (values) {
-                                values.length.should.eql(6);
-                                values[0].name.should.eql('1-create-tables.js');
-                                values[0].version.should.eql('init');
+                                expect(values.length).toEqual(6);
+                                expect(values[0].name).toEqual('1-create-tables.js');
+                                expect(values[0].version).toEqual('init');
 
-                                values[1].name.should.eql('2-seed.js');
-                                values[1].version.should.eql('init');
+                                expect(values[1].name).toEqual('2-seed.js');
+                                expect(values[1].version).toEqual('init');
 
-                                values[2].name.should.eql('1-another.js');
-                                values[2].version.should.eql('1.0');
+                                expect(values[2].name).toEqual('1-another.js');
+                                expect(values[2].version).toEqual('1.0');
 
-                                values[3].name.should.eql('1-modify-user.js');
-                                values[3].version.should.eql('1.1');
+                                expect(values[3].name).toEqual('1-modify-user.js');
+                                expect(values[3].version).toEqual('1.1');
 
-                                values[4].name.should.eql('1-modify-user-again.js');
-                                values[4].version.should.eql('1.2');
+                                expect(values[4].name).toEqual('1-modify-user-again.js');
+                                expect(values[4].version).toEqual('1.2');
 
-                                values[5].name.should.eql('1-delete-user.js');
-                                values[5].version.should.eql('1.3');
+                                expect(values[5].name).toEqual('1-delete-user.js');
+                                expect(values[5].version).toEqual('1.3');
 
-                                knexMigrator._beforeEach.called.should.eql(false);
-                                knexMigrator._afterEach.called.should.eql(false);
+                                expect(knexMigrator._beforeEach.called).toEqual(false);
+                                expect(knexMigrator._afterEach.called).toEqual(false);
                             });
                     });
             });
@@ -642,39 +640,39 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                         return connection('users');
                     })
                     .then(function (values) {
-                        values.length.should.eql(0);
+                        expect(values.length).toEqual(0);
                         return connection('migrations');
                     })
                     .then(function (values) {
-                        values.length.should.eql(8);
-                        values[0].name.should.eql('1-create-tables.js');
-                        values[0].version.should.eql('init');
+                        expect(values.length).toEqual(8);
+                        expect(values[0].name).toEqual('1-create-tables.js');
+                        expect(values[0].version).toEqual('init');
 
-                        values[1].name.should.eql('2-seed.js');
-                        values[1].version.should.eql('init');
+                        expect(values[1].name).toEqual('2-seed.js');
+                        expect(values[1].version).toEqual('init');
 
-                        values[2].name.should.eql('1-another.js');
-                        values[2].version.should.eql('1.0');
+                        expect(values[2].name).toEqual('1-another.js');
+                        expect(values[2].version).toEqual('1.0');
 
-                        values[3].name.should.eql('1-modify-user.js');
-                        values[3].version.should.eql('1.1');
+                        expect(values[3].name).toEqual('1-modify-user.js');
+                        expect(values[3].version).toEqual('1.1');
 
-                        values[4].name.should.eql('1-modify-user-again.js');
-                        values[4].version.should.eql('1.2');
+                        expect(values[4].name).toEqual('1-modify-user-again.js');
+                        expect(values[4].version).toEqual('1.2');
 
-                        values[5].name.should.eql('1-delete-user.js');
-                        values[5].version.should.eql('1.3');
+                        expect(values[5].name).toEqual('1-delete-user.js');
+                        expect(values[5].version).toEqual('1.3');
 
-                        values[6].name.should.eql('1-no-error.js');
-                        values[6].version.should.eql('1.4');
+                        expect(values[6].name).toEqual('1-no-error.js');
+                        expect(values[6].version).toEqual('1.4');
 
-                        values[7].name.should.eql('2-error.js');
-                        values[7].version.should.eql('1.4');
+                        expect(values[7].name).toEqual('2-error.js');
+                        expect(values[7].version).toEqual('1.4');
 
-                        knexMigrator._beforeEach.called.should.eql(true);
-                        knexMigrator._beforeEach.callCount.should.eql(2);
-                        knexMigrator._afterEach.called.should.eql(true);
-                        knexMigrator._afterEach.callCount.should.eql(2);
+                        expect(knexMigrator._beforeEach.called).toEqual(true);
+                        expect(knexMigrator._beforeEach.callCount).toEqual(2);
+                        expect(knexMigrator._afterEach.called).toEqual(true);
+                        expect(knexMigrator._afterEach.callCount).toEqual(2);
                     });
             });
         });
@@ -685,7 +683,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
 
                 return connection('migrations')
                     .then(function (values) {
-                        values.length.should.eql(8);
+                        expect(values.length).toEqual(8);
 
                         removedEntry = values[7];
 
@@ -695,7 +693,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                         return connection('migrations');
                     })
                     .then(function (values) {
-                        values.length.should.eql(7);
+                        expect(values.length).toEqual(7);
                     })
                     .then(function () {
                         return knexMigrator.isDatabaseOK();
@@ -704,7 +702,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                         throw new Error('should fail');
                     })
                     .catch(function (err) {
-                        (err instanceof errors.DatabaseIsNotOkError).should.eql(true);
+                        expect(err instanceof errors.DatabaseIsNotOkError).toEqual(true);
                     })
                     .then(function () {
                         return knexMigrator.migrate();
@@ -713,10 +711,10 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                         return connection('migrations');
                     })
                     .then(function (values) {
-                        values.length.should.eql(8);
-                        values[7].name.should.eql(removedEntry.name);
-                        values[7].version.should.eql(removedEntry.version);
-                        values[7].currentVersion.should.eql(removedEntry.currentVersion);
+                        expect(values.length).toEqual(8);
+                        expect(values[7].name).toEqual(removedEntry.name);
+                        expect(values[7].version).toEqual(removedEntry.version);
+                        expect(values[7].currentVersion).toEqual(removedEntry.currentVersion);
                     });
             });
         });
@@ -739,34 +737,34 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                         return connection('users');
                     })
                     .then(function (values) {
-                        values.length.should.eql(0);
+                        expect(values.length).toEqual(0);
                         return connection('migrations');
                     })
                     .then(function (values) {
-                        values.length.should.eql(8);
-                        values[0].name.should.eql('1-create-tables.js');
-                        values[0].version.should.eql('init');
+                        expect(values.length).toEqual(8);
+                        expect(values[0].name).toEqual('1-create-tables.js');
+                        expect(values[0].version).toEqual('init');
 
-                        values[1].name.should.eql('2-seed.js');
-                        values[1].version.should.eql('init');
+                        expect(values[1].name).toEqual('2-seed.js');
+                        expect(values[1].version).toEqual('init');
 
-                        values[2].name.should.eql('1-another.js');
-                        values[2].version.should.eql('1.0');
+                        expect(values[2].name).toEqual('1-another.js');
+                        expect(values[2].version).toEqual('1.0');
 
-                        values[3].name.should.eql('1-modify-user.js');
-                        values[3].version.should.eql('1.1');
+                        expect(values[3].name).toEqual('1-modify-user.js');
+                        expect(values[3].version).toEqual('1.1');
 
-                        values[4].name.should.eql('1-modify-user-again.js');
-                        values[4].version.should.eql('1.2');
+                        expect(values[4].name).toEqual('1-modify-user-again.js');
+                        expect(values[4].version).toEqual('1.2');
 
-                        values[5].name.should.eql('1-delete-user.js');
-                        values[5].version.should.eql('1.3');
+                        expect(values[5].name).toEqual('1-delete-user.js');
+                        expect(values[5].version).toEqual('1.3');
 
-                        values[6].name.should.eql('1-no-error.js');
-                        values[6].version.should.eql('1.4');
+                        expect(values[6].name).toEqual('1-no-error.js');
+                        expect(values[6].version).toEqual('1.4');
 
-                        values[7].name.should.eql('2-error.js');
-                        values[7].version.should.eql('1.4');
+                        expect(values[7].name).toEqual('2-error.js');
+                        expect(values[7].version).toEqual('1.4');
                     });
             });
 
@@ -778,37 +776,37 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                         return connection('users');
                     })
                     .then(function (values) {
-                        values.length.should.eql(0);
+                        expect(values.length).toEqual(0);
                         return connection('migrations');
                     })
                     .then(function (values) {
-                        values.length.should.eql(9);
-                        values[0].name.should.eql('1-create-tables.js');
-                        values[0].version.should.eql('init');
+                        expect(values.length).toEqual(9);
+                        expect(values[0].name).toEqual('1-create-tables.js');
+                        expect(values[0].version).toEqual('init');
 
-                        values[1].name.should.eql('2-seed.js');
-                        values[1].version.should.eql('init');
+                        expect(values[1].name).toEqual('2-seed.js');
+                        expect(values[1].version).toEqual('init');
 
-                        values[2].name.should.eql('1-another.js');
-                        values[2].version.should.eql('1.0');
+                        expect(values[2].name).toEqual('1-another.js');
+                        expect(values[2].version).toEqual('1.0');
 
-                        values[3].name.should.eql('1-modify-user.js');
-                        values[3].version.should.eql('1.1');
+                        expect(values[3].name).toEqual('1-modify-user.js');
+                        expect(values[3].version).toEqual('1.1');
 
-                        values[4].name.should.eql('1-modify-user-again.js');
-                        values[4].version.should.eql('1.2');
+                        expect(values[4].name).toEqual('1-modify-user-again.js');
+                        expect(values[4].version).toEqual('1.2');
 
-                        values[5].name.should.eql('1-delete-user.js');
-                        values[5].version.should.eql('1.3');
+                        expect(values[5].name).toEqual('1-delete-user.js');
+                        expect(values[5].version).toEqual('1.3');
 
-                        values[6].name.should.eql('1-no-error.js');
-                        values[6].version.should.eql('1.4');
+                        expect(values[6].name).toEqual('1-no-error.js');
+                        expect(values[6].version).toEqual('1.4');
 
-                        values[7].name.should.eql('2-error.js');
-                        values[7].version.should.eql('1.4');
+                        expect(values[7].name).toEqual('2-error.js');
+                        expect(values[7].version).toEqual('1.4');
 
-                        values[8].name.should.eql('1-no-error.js');
-                        values[8].version.should.eql('1.5');
+                        expect(values[8].name).toEqual('1-no-error.js');
+                        expect(values[8].version).toEqual('1.5');
                     });
             });
         });
@@ -817,7 +815,7 @@ _.each(['default', 'migrateInit'], function (initMethod) {
             knexMigrator.currentVersion = '1.4';
             if (DatabaseInfo.isSQLiteConfig(config.get('database'))) {
                 return connection.raw(`PRAGMA index_list('migrations_lock');`).then((indexes) => {
-                    indexes.filter((index) => index.origin === 'pk').length.should.eql(1);
+                    expect(indexes.filter((index) => index.origin === 'pk').length).toEqual(1);
                 });
             } else {
                 return connection
@@ -830,9 +828,9 @@ _.each(['default', 'migrateInit'], function (initMethod) {
                         { tableName: 'migrations_lock' },
                     )
                     .then(([rawConstraints]) => {
-                        rawConstraints.length.should.eql(1);
+                        expect(rawConstraints.length).toEqual(1);
                     });
             }
         });
     });
-});
+}

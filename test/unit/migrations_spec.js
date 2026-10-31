@@ -22,14 +22,14 @@ describe('Migrations', function () {
             };
 
             return addPrimaryKeyToLockTable.up(connection).then(function () {
-                table.called.should.eql(false);
+                expect(table.called).toEqual(false);
             });
         });
 
         it('creates sqlite primary keys when the constraint is missing', function () {
             const primary = sinon.stub();
             const table = sinon.stub().callsFake(function (tableName, callback) {
-                tableName.should.eql('migrations_lock');
+                expect(tableName).toEqual('migrations_lock');
                 callback({
                     primary: primary,
                 });
@@ -48,7 +48,7 @@ describe('Migrations', function () {
             };
 
             return addPrimaryKeyToLockTable.up(connection).then(function () {
-                primary.calledWith('lock_key').should.eql(true);
+                expect(primary.calledWith('lock_key')).toEqual(true);
             });
         });
 
@@ -85,10 +85,10 @@ describe('Migrations', function () {
             return addPrimaryKeyToLockTable
                 .up(connection)
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (err) {
-                    err.message.should.eql('table missing');
+                    expect(err.message).toEqual('table missing');
                 });
         });
     });
@@ -107,7 +107,7 @@ describe('Migrations', function () {
             connection.schema = {
                 hasTable: sinon.stub().resolves(false),
                 createTable: sinon.stub().callsFake(function (tableName, callback) {
-                    tableName.should.eql('migrations_lock');
+                    expect(tableName).toEqual('migrations_lock');
                     callback({
                         string: string,
                         boolean: boolean,
@@ -118,20 +118,20 @@ describe('Migrations', function () {
             };
 
             return lockTable.up(connection).then(function () {
-                string.calledWith('lock_key', 191).should.eql(true);
-                nullable.calledWith(false).should.eql(true);
-                primary.calledOnce.should.eql(true);
-                boolean.calledWith('locked').should.eql(true);
-                defaultValue.calledWith(0).should.eql(true);
-                dateTime.calledWith('acquired_at').should.eql(true);
-                dateTime.calledWith('released_at').should.eql(true);
-                connection.calledWith('migrations_lock').should.eql(true);
-                insert
-                    .calledWith({
+                expect(string.calledWith('lock_key', 191)).toEqual(true);
+                expect(nullable.calledWith(false)).toEqual(true);
+                expect(primary.calledOnce).toEqual(true);
+                expect(boolean.calledWith('locked')).toEqual(true);
+                expect(defaultValue.calledWith(0)).toEqual(true);
+                expect(dateTime.calledWith('acquired_at')).toEqual(true);
+                expect(dateTime.calledWith('released_at')).toEqual(true);
+                expect(connection.calledWith('migrations_lock')).toEqual(true);
+                expect(
+                    insert.calledWith({
                         lock_key: 'km01',
                         locked: 0,
-                    })
-                    .should.eql(true);
+                    }),
+                ).toEqual(true);
             });
         });
 
@@ -144,7 +144,7 @@ describe('Migrations', function () {
             };
 
             return lockTable.up(connection).then(function () {
-                connection.schema.createTable.called.should.eql(false);
+                expect(connection.schema.createTable.called).toEqual(false);
             });
         });
 
@@ -161,10 +161,10 @@ describe('Migrations', function () {
             return lockTable
                 .up(connection)
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (err) {
-                    err.name.should.eql('MigrationsAreLockedError');
+                    expect(err.name).toEqual('MigrationsAreLockedError');
                 });
         });
 
@@ -179,10 +179,10 @@ describe('Migrations', function () {
             return lockTable
                 .up(connection)
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (err) {
-                    err.message.should.eql('create failed');
+                    expect(err.message).toEqual('create failed');
                 });
         });
     });
@@ -198,7 +198,7 @@ describe('Migrations', function () {
             };
 
             return fieldLength.up(connection).then(function () {
-                alterTable.called.should.eql(false);
+                expect(alterTable.called).toEqual(false);
             });
         });
     });
@@ -214,7 +214,7 @@ describe('Migrations', function () {
             };
 
             return useIndex.up(connection).then(function () {
-                alterTable.called.should.eql(false);
+                expect(alterTable.called).toEqual(false);
             });
         });
     });

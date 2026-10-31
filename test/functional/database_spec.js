@@ -45,11 +45,11 @@ describe('Database', function () {
         return database
             .ensureConnectionWorks(connection2)
             .then(() => {
-                '1'.should.eql(1, 'Test should fail.');
+                expect.unreachable('Test should fail.');
             })
             .catch((err) => {
-                (err instanceof errors.DatabaseError).should.be.true();
-                err.message.should.eql('Invalid database host.');
+                expect(err instanceof errors.DatabaseError).toBe(true);
+                expect(err.message).toEqual('Invalid database host.');
             });
     });
 

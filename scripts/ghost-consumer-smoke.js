@@ -5,7 +5,7 @@ const fs = require('fs');
 const { createRequire } = require('module');
 const os = require('os');
 const path = require('path');
-const compareVer = require('compare-ver');
+const semver = require('semver');
 
 const repoRoot = path.resolve(__dirname, '..');
 const ghostPath =
@@ -19,7 +19,12 @@ const migratorCwd = path.resolve(
 
 function resolveGhostCorePath(inputPath) {
     const resolvedPath = path.resolve(inputPath);
-    const candidates = [resolvedPath, path.join(resolvedPath, 'ghost', 'core')];
+    // Ghost's package root moved from ghost/core to ghost (TryGhost/Ghost#31630).
+    const candidates = [
+        resolvedPath,
+        path.join(resolvedPath, 'ghost'),
+        path.join(resolvedPath, 'ghost', 'core'),
+    ];
 
     const corePath = candidates.find((candidatePath) => {
         return (
@@ -53,7 +58,9 @@ function requireFromGhost(moduleName) {
 }
 
 function sortVersions(versions) {
-    return versions.sort((left, right) => compareVer.gt(left, right));
+    return versions.sort((left, right) =>
+        semver.compare(semver.coerce(left), semver.coerce(right)),
+    );
 }
 
 function runStep(name, args, env) {
@@ -119,7 +126,7 @@ function getGhostVersions() {
             );
         }),
     ).filter((version) => {
-        return compareVer.gt(version, ghostVersion) !== 1;
+        return semver.lte(semver.coerce(version), semver.coerce(ghostVersion));
     });
 
     const currentVersion = versions[versions.length - 1];

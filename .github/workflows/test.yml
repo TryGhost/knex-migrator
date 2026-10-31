@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: '22.13.1'
       - name: Install Corepack
@@ -41,6 +41,7 @@ jobs:
     strategy:
       matrix:
         node: [ '22.13.1', '24.14.1' ]
+        knex: [ '2', '3' ]
         env:
           - DB: better-sqlite3
             NODE_ENV: testing-better-sqlite3
@@ -49,11 +50,12 @@ jobs:
     env:
       DB: ${{ matrix.env.DB }}
       NODE_ENV: ${{ matrix.env.NODE_ENV }}
+      KNEX_VERSION: ${{ matrix.knex }}
       database__connection__password: root
-    name: Node ${{ matrix.node }} - ${{ matrix.env.DB }}
+    name: Node ${{ matrix.node }} - ${{ matrix.env.DB }} - knex ${{ matrix.knex }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: ${{ matrix.node }}
       - name: Install Corepack
@@ -83,9 +85,9 @@ jobs:
           repository: TryGhost/Ghost
           path: Ghost
           persist-credentials: false
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
-          node-version: '24.18.0'
+          node-version-file: Ghost/.nvmrc
       - name: Install Corepack
         run: npm install --global corepack@0.34.6
       - name: Enable corepack
@@ -100,14 +102,14 @@ jobs:
         run: pnpm --filter ghost^... build
         working-directory: Ghost
       - name: Use linked knex-migrator in Ghost
-        working-directory: Ghost/ghost/core
+        working-directory: Ghost/ghost
         run: pnpm link ${{ github.workspace }}/knex-migrator
       - name: Run Ghost consumer smoke
         working-directory: knex-migrator
         env:
           GHOST_CORE_PATH: ${{ github.workspace }}/Ghost
-          KNEX_MIGRATOR_BIN: ${{ github.workspace }}/Ghost/ghost/core/node_modules/.bin/knex-migrator
-          KNEX_MIGRATOR_CWD: ${{ github.workspace }}/Ghost/ghost/core
+          KNEX_MIGRATOR_BIN: ${{ github.workspace }}/Ghost/ghost/node_modules/.bin/knex-migrator
+          KNEX_MIGRATOR_CWD: ${{ github.workspace }}/Ghost/ghost
         run: pnpm smoke:ghost
 
   required-checks-pass:

@@ -40,6 +40,16 @@ describe('KnexMigrator', function () {
         sinon.restore();
     });
 
+    it('exposes defineConfig as an identity helper', function () {
+        const config = {
+            database: {},
+            migrationPath: 'migrations',
+            currentVersion: '1.0',
+        };
+
+        expect(KnexMigrator.defineConfig(config)).toBe(config);
+    });
+
     it('requires a database config', function () {
         try {
             new KnexMigrator({
@@ -48,9 +58,9 @@ describe('KnexMigrator', function () {
                     currentVersion: '1.0',
                 },
             });
-            true.should.eql(false);
+            expect.unreachable();
         } catch (err) {
-            err.message.should.eql('MigratorConfig.js needs to export a database config.');
+            expect(err.message).toEqual('MigratorConfig.js needs to export a database config.');
         }
     });
 
@@ -62,9 +72,9 @@ describe('KnexMigrator', function () {
                     currentVersion: '1.0',
                 },
             });
-            true.should.eql(false);
+            expect.unreachable();
         } catch (err) {
-            err.message.should.eql(
+            expect(err.message).toEqual(
                 'MigratorConfig.js needs to export the location of your migration files.',
             );
         }
@@ -78,9 +88,9 @@ describe('KnexMigrator', function () {
                     migrationPath: 'migrations',
                 },
             });
-            true.should.eql(false);
+            expect.unreachable();
         } catch (err) {
-            err.message.should.eql('MigratorConfig.js needs to export the a current version.');
+            expect(err.message).toEqual('MigratorConfig.js needs to export the a current version.');
         }
     });
 
@@ -107,10 +117,10 @@ describe('KnexMigrator', function () {
                     version: '1.0',
                 })
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (err) {
-                    err.should.be.instanceof(errors.MigrationExistsError);
+                    expect(err).toBeInstanceOf(errors.MigrationExistsError);
                 });
         });
 
@@ -159,10 +169,10 @@ describe('KnexMigrator', function () {
                     hooks: hooks,
                 })
                 .then(function (result) {
-                    result.skippedTasks.should.eql([]);
-                    hooks.beforeEach.calledOnce.should.eql(true);
-                    hooks.afterEach.calledOnce.should.eql(true);
-                    task.up.calledWith({ transacting: txn }).should.eql(true);
+                    expect(result.skippedTasks).toEqual([]);
+                    expect(hooks.beforeEach.calledOnce).toEqual(true);
+                    expect(hooks.afterEach.calledOnce).toEqual(true);
+                    expect(task.up.calledWith({ transacting: txn })).toEqual(true);
                 });
         });
 
@@ -183,7 +193,7 @@ describe('KnexMigrator', function () {
                     version: '1.0',
                 })
                 .then(function (result) {
-                    result.skippedTasks.should.eql(['1-test.js']);
+                    expect(result.skippedTasks).toEqual(['1-test.js']);
                 });
         });
 
@@ -209,11 +219,11 @@ describe('KnexMigrator', function () {
                     version: '1.0',
                 })
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (wrappedErr) {
-                    wrappedErr.should.be.instanceof(errors.MigrationScriptError);
-                    wrappedErr.message.should.eql(
+                    expect(wrappedErr).toBeInstanceOf(errors.MigrationScriptError);
+                    expect(wrappedErr.message).toEqual(
                         'Field length of `field_name` in `table_name` is too long!',
                     );
                 });
@@ -242,8 +252,8 @@ describe('KnexMigrator', function () {
                     only: 2,
                 })
                 .then(function () {
-                    skippedTask.up.called.should.eql(false);
-                    selectedTask.up.calledOnce.should.eql(true);
+                    expect(skippedTask.up.called).toEqual(false);
+                    expect(selectedTask.up.calledOnce).toEqual(true);
                 });
         });
 
@@ -270,8 +280,8 @@ describe('KnexMigrator', function () {
                     skip: 1,
                 })
                 .then(function () {
-                    skippedTask.up.called.should.eql(false);
-                    selectedTask.up.calledOnce.should.eql(true);
+                    expect(skippedTask.up.called).toEqual(false);
+                    expect(selectedTask.up.calledOnce).toEqual(true);
                 });
         });
 
@@ -293,7 +303,9 @@ describe('KnexMigrator', function () {
                     version: '1.0',
                 })
                 .then(function () {
-                    task.up.calledWith({ connection: knexMigrator.connection }).should.eql(true);
+                    expect(task.up.calledWith({ connection: knexMigrator.connection })).toEqual(
+                        true,
+                    );
                 });
         });
 
@@ -304,9 +316,9 @@ describe('KnexMigrator', function () {
 
             sinon.stub(utils, 'readTasks').throws(err);
 
-            (function () {
-                knexMigrator._migrateTo({ version: 'init' });
-            }).should.throw('permission denied');
+            return expect(knexMigrator._migrateTo({ version: 'init' })).rejects.toThrow(
+                'permission denied',
+            );
         });
 
         it('wraps generic migration script errors', function () {
@@ -326,11 +338,11 @@ describe('KnexMigrator', function () {
                     version: '1.0',
                 })
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (err) {
-                    err.should.be.instanceof(errors.MigrationScriptError);
-                    err.message.should.eql('boom');
+                    expect(err).toBeInstanceOf(errors.MigrationScriptError);
+                    expect(err.message).toEqual('boom');
                 });
         });
     });
@@ -345,11 +357,11 @@ describe('KnexMigrator', function () {
             return knexMigrator
                 ._integrityCheck({})
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (err) {
-                    err.should.be.instanceof(errors.DatabaseIsNotOkError);
-                    err.code.should.eql('DB_NOT_INITIALISED');
+                    expect(err).toBeInstanceOf(errors.DatabaseIsNotOkError);
+                    expect(err.code).toEqual('DB_NOT_INITIALISED');
                 });
         });
 
@@ -365,11 +377,11 @@ describe('KnexMigrator', function () {
             return knexMigrator
                 ._integrityCheck({})
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (err) {
-                    err.should.be.instanceof(errors.DatabaseIsNotOkError);
-                    err.code.should.eql('MIGRATION_TABLE_IS_MISSING');
+                    expect(err).toBeInstanceOf(errors.DatabaseIsNotOkError);
+                    expect(err.code).toEqual('MIGRATION_TABLE_IS_MISSING');
                 });
         });
 
@@ -382,11 +394,11 @@ describe('KnexMigrator', function () {
             return knexMigrator
                 ._integrityCheck({})
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (err) {
-                    err.should.be.instanceof(errors.DatabaseIsNotOkError);
-                    err.code.should.eql('DB_NOT_INITIALISED');
+                    expect(err).toBeInstanceOf(errors.DatabaseIsNotOkError);
+                    expect(err.code).toEqual('DB_NOT_INITIALISED');
                 });
         });
 
@@ -404,7 +416,7 @@ describe('KnexMigrator', function () {
             sinon.stub(utils, 'listFiles').returns([]);
 
             return knexMigrator._integrityCheck({ force: true }).then(function (result) {
-                result.should.eql({
+                expect(result).toEqual({
                     init: {
                         expected: 0,
                         actual: 0,
@@ -427,7 +439,7 @@ describe('KnexMigrator', function () {
             sinon.stub(utils, 'listFiles').returns(['1-test.js']);
 
             return knexMigrator._integrityCheck().then(function (result) {
-                result['1.1'].should.eql({
+                expect(result['1.1']).toEqual({
                     expected: 1,
                     actual: 1,
                 });
@@ -457,13 +469,13 @@ describe('KnexMigrator', function () {
             return knexMigrator
                 .migrate()
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (caughtErr) {
-                    caughtErr.should.eql(err);
-                    knexMigrator._rollback.called.should.eql(false);
-                    locking.unlock.called.should.eql(false);
-                    connection.destroy.calledOnce.should.eql(true);
+                    expect(caughtErr).toEqual(err);
+                    expect(knexMigrator._rollback.called).toEqual(false);
+                    expect(locking.unlock.called).toEqual(false);
+                    expect(connection.destroy.calledOnce).toEqual(true);
                 });
         }
 
@@ -484,9 +496,9 @@ describe('KnexMigrator', function () {
                     only: 1,
                 })
                 .then(function () {
-                    knexMigrator._migrateTo.called.should.eql(false);
-                    locking.unlock.calledOnce.should.eql(true);
-                    connection.destroy.calledOnce.should.eql(true);
+                    expect(knexMigrator._migrateTo.called).toEqual(false);
+                    expect(locking.unlock.calledOnce).toEqual(true);
+                    expect(connection.destroy.calledOnce).toEqual(true);
                 });
         });
 
@@ -513,9 +525,11 @@ describe('KnexMigrator', function () {
                     version: '1.2',
                 })
                 .then(function () {
-                    locking.unlock.calledOnce.should.eql(true);
-                    logging.warn.calledWith('Cannot find requested version: 1.2').should.eql(true);
-                    knexMigrator._migrateTo.called.should.eql(false);
+                    expect(locking.unlock.calledOnce).toEqual(true);
+                    expect(logging.warn.calledWith('Cannot find requested version: 1.2')).toEqual(
+                        true,
+                    );
+                    expect(knexMigrator._migrateTo.called).toEqual(false);
                 });
         });
 
@@ -556,9 +570,9 @@ describe('KnexMigrator', function () {
             return knexMigrator
                 .migrate()
                 .then(function () {
-                    global.__kmBeforeHook.should.eql(1);
-                    global.__kmAfterHook.should.eql(1);
-                    global.__kmShutdownHook.should.eql(1);
+                    expect(global.__kmBeforeHook).toEqual(1);
+                    expect(global.__kmAfterHook).toEqual(1);
+                    expect(global.__kmShutdownHook).toEqual(1);
                 })
                 .finally(function () {
                     delete global.__kmBeforeHook;
@@ -594,7 +608,7 @@ describe('KnexMigrator', function () {
                     force: true,
                 })
                 .then(function () {
-                    connection.destroy.calledOnce.should.eql(true);
+                    expect(connection.destroy.calledOnce).toEqual(true);
                 });
         });
 
@@ -612,12 +626,12 @@ describe('KnexMigrator', function () {
             return knexMigrator
                 .reset()
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (caughtErr) {
-                    caughtErr.should.eql(err);
-                    locking.unlock.called.should.eql(false);
-                    connection.destroy.calledOnce.should.eql(true);
+                    expect(caughtErr).toEqual(err);
+                    expect(locking.unlock.called).toEqual(false);
+                    expect(connection.destroy.calledOnce).toEqual(true);
                 });
         });
 
@@ -633,12 +647,12 @@ describe('KnexMigrator', function () {
             return knexMigrator
                 .reset()
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (caughtErr) {
-                    caughtErr.should.eql(err);
-                    locking.unlock.called.should.eql(false);
-                    connection.destroy.calledOnce.should.eql(true);
+                    expect(caughtErr).toEqual(err);
+                    expect(locking.unlock.called).toEqual(false);
+                    expect(connection.destroy.calledOnce).toEqual(true);
                 });
         });
 
@@ -654,8 +668,8 @@ describe('KnexMigrator', function () {
             sinon.stub(database, 'drop').rejects({ errno: 1049 });
 
             return knexMigrator.reset().then(function () {
-                locking.unlock.called.should.eql(false);
-                connection.destroy.calledOnce.should.eql(true);
+                expect(locking.unlock.called).toEqual(false);
+                expect(connection.destroy.calledOnce).toEqual(true);
             });
         });
     });
@@ -683,12 +697,12 @@ describe('KnexMigrator', function () {
             return knexMigrator
                 .isDatabaseOK()
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (err) {
-                    err.should.be.instanceof(errors.DatabaseIsNotOkError);
-                    err.code.should.eql('MIGRATION_STATE_ERROR');
-                    connection.destroy.calledOnce.should.eql(true);
+                    expect(err).toBeInstanceOf(errors.DatabaseIsNotOkError);
+                    expect(err.code).toEqual('MIGRATION_STATE_ERROR');
+                    expect(connection.destroy.calledOnce).toEqual(true);
                 });
         });
 
@@ -702,12 +716,12 @@ describe('KnexMigrator', function () {
             return knexMigrator
                 .isDatabaseOK()
                 .then(function () {
-                    true.should.eql(false);
+                    expect.unreachable();
                 })
                 .catch(function (err) {
-                    err.should.be.instanceof(errors.DatabaseIsNotOkError);
-                    err.code.should.eql('DB_NOT_INITIALISED');
-                    connection.destroy.calledOnce.should.eql(true);
+                    expect(err).toBeInstanceOf(errors.DatabaseIsNotOkError);
+                    expect(err.code).toEqual('DB_NOT_INITIALISED');
+                    expect(connection.destroy.calledOnce).toEqual(true);
                 });
         });
     });
@@ -754,14 +768,14 @@ describe('KnexMigrator', function () {
                     force: true,
                 })
                 .then(function () {
-                    global.__kmRollbackBeforeHook.should.eql(1);
-                    global.__kmRollbackShutdownHook.should.eql(1);
-                    knexMigrator._rollback
-                        .calledWith({
+                    expect(global.__kmRollbackBeforeHook).toEqual(1);
+                    expect(global.__kmRollbackShutdownHook).toEqual(1);
+                    expect(
+                        knexMigrator._rollback.calledWith({
                             version: '1.1',
                             onlyTasks: ['1-test.js'],
-                        })
-                        .should.eql(true);
+                        }),
+                    ).toEqual(true);
                 })
                 .finally(function () {
                     delete global.__kmRollbackBeforeHook;

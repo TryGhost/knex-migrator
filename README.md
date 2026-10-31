@@ -33,7 +33,7 @@ npm install --global knex-migrator
 ## Requirements
 
 - Node.js `^22.13.1 || ^24.14.1`
-- A compatible Knex installation. `knex-migrator` first tries to load `knex` from the project path passed with `--mgpath` or `knexMigratorFilePath`, then falls back to its bundled Knex `2.4.2`.
+- Knex `^2.4.2 || ^3.0.0`, installed alongside `knex-migrator` as a peer dependency. `knex-migrator` first tries to load `knex` from the project path passed with `--mgpath` or `knexMigratorFilePath`, then falls back to the `knex` resolvable from its own install location. Use the same Knex major for your migrations and `knex-migrator`; query builders from one major cannot be run by the other.
 - A database client supported by this package: `mysql`, `mysql2`, `sqlite3`, or `better-sqlite3`
 
 The `mysql` client name is accepted for backwards compatibility and is mapped to `mysql2`.
@@ -51,6 +51,37 @@ export default {
     migrationPath: '/path/to/project/migrations',
     currentVersion: '2.0'
 };
+```
+
+TypeScript configs are supported as `MigratorConfig.ts`, `MigratorConfig.cts`, and `MigratorConfig.mts`, resolved in that order after the JavaScript variants. They are loaded with Node's built-in type stripping, so they need Node.js `>= 22.18` (or `--experimental-strip-types` on earlier Node 22 releases), may only use [erasable TypeScript syntax](https://nodejs.org/api/typescript.html#type-stripping), and follow the same synchronous loading rules as ESM configs.
+
+Wrap the config in `defineConfig` to have it type-checked against the expected shape. It returns the config unchanged and works from JavaScript configs too:
+
+```ts
+// MigratorConfig.ts
+import { defineConfig } from 'knex-migrator';
+
+export default defineConfig({
+    database: {
+        client: 'sqlite3',
+        connection: {
+            filename: '/path/to/database.sqlite'
+        }
+    },
+    migrationPath: '/path/to/project/migrations',
+    currentVersion: '2.0'
+});
+```
+
+`.ts` files follow the module type of the nearest `package.json`, like `.js` files. The example above uses ESM syntax, so it works in a `"type": "module"` package or one with no `type` field. If your `package.json` sets `"type": "commonjs"`, name the file `MigratorConfig.mts` to keep the ESM syntax, or use `MigratorConfig.cts` with CommonJS syntax:
+
+```ts
+// MigratorConfig.cts
+const { defineConfig } = require('knex-migrator');
+
+module.exports = defineConfig({
+    /* ... */
+});
 ```
 
 ```js
@@ -221,6 +252,19 @@ Available methods:
 - `rollback(options)`
 - `reset(options)`
 - `isDatabaseOK()`
+
+TypeScript declarations ship with the package. Config, command options, migration files, and hooks are typed under the `KnexMigrator` namespace:
+
+```ts
+import KnexMigrator = require('knex-migrator');
+
+export const config: KnexMigrator.Config = { /* ... */ };
+
+const migration: KnexMigrator.Migration = {
+    config: { transaction: true },
+    async up({ transacting }) { /* ... */ },
+};
+```
 
 Example:
 

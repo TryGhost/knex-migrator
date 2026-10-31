@@ -101,8 +101,8 @@ describe('bin', function () {
             },
         );
 
-        result.status.should.eql(0);
-        result.stdout.trim().should.eql(pkg.version);
+        expect(result.status).toEqual(0);
+        expect(result.stdout.trim()).toEqual(pkg.version);
     });
 
     it('dispatches root CLI executable subcommands', function () {
@@ -116,8 +116,8 @@ describe('bin', function () {
                 projectPath,
             );
 
-            result.status.should.eql(0);
-            record.should.eql({
+            expect(result.status).toEqual(0);
+            expect(record).toEqual({
                 constructorOptions: {
                     knexMigratorFilePath: mgpath,
                     executedFromShell: true,
@@ -144,8 +144,8 @@ describe('bin', function () {
                 projectPath,
             );
 
-            result.status.should.eql(0);
-            record.should.eql({
+            expect(result.status).toEqual(0);
+            expect(record).toEqual({
                 constructorOptions: {
                     knexMigratorFilePath: mgpath,
                     executedFromShell: true,
@@ -172,8 +172,8 @@ describe('bin', function () {
                 projectPath,
             );
 
-            result.status.should.eql(0);
-            record.should.eql({
+            expect(result.status).toEqual(0);
+            expect(record).toEqual({
                 constructorOptions: {
                     knexMigratorFilePath: mgpath,
                     executedFromShell: true,
@@ -202,8 +202,8 @@ describe('bin', function () {
                 projectPath,
             );
 
-            result.status.should.eql(0);
-            record.should.eql({
+            expect(result.status).toEqual(0);
+            expect(record).toEqual({
                 constructorOptions: {
                     knexMigratorFilePath: mgpath,
                     executedFromShell: true,
@@ -229,8 +229,8 @@ describe('bin', function () {
                 projectPath,
             );
 
-            result.status.should.eql(0);
-            record.should.eql({
+            expect(result.status).toEqual(0);
+            expect(record).toEqual({
                 constructorOptions: {
                     knexMigratorFilePath: mgpath,
                     executedFromShell: true,
@@ -257,8 +257,8 @@ describe('bin', function () {
                 projectPath,
             );
 
-            result.status.should.eql(0);
-            record.should.eql({
+            expect(result.status).toEqual(0);
+            expect(record).toEqual({
                 constructorOptions: {
                     knexMigratorFilePath: mgpath,
                     executedFromShell: true,

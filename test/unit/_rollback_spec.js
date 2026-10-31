@@ -1,5 +1,4 @@
 const sinon = require('sinon');
-const should = require('should');
 const KnexMigrator = require('../../lib');
 const utils = require('../../lib/utils');
 
@@ -43,8 +42,8 @@ describe('Unit: _rollback', function () {
                 version: '1.10',
             })
             .then(function () {
-                tasks[0].down.called.should.eql(true);
-                tasks[1].down.called.should.eql(true);
+                expect(tasks[0].down.called).toEqual(true);
+                expect(tasks[1].down.called).toEqual(true);
             });
     });
 
@@ -84,8 +83,8 @@ describe('Unit: _rollback', function () {
                 task: tasks[0],
             })
             .then(function () {
-                tasks[0].down.called.should.eql(true);
-                tasks[1].down.called.should.eql(false);
+                expect(tasks[0].down.called).toEqual(true);
+                expect(tasks[1].down.called).toEqual(false);
             });
     });
 
@@ -128,8 +127,8 @@ describe('Unit: _rollback', function () {
                 task: tasks[0],
             })
             .then(function () {
-                tasks[0].down.called.should.eql(false);
-                tasks[1].down.called.should.eql(false);
+                expect(tasks[0].down.called).toEqual(false);
+                expect(tasks[1].down.called).toEqual(false);
             });
     });
 
@@ -179,10 +178,10 @@ describe('Unit: _rollback', function () {
                 task: tasks[2],
             })
             .then(function () {
-                tasks[0].down.called.should.eql(true);
-                tasks[1].down.called.should.eql(true);
-                tasks[2].down.called.should.eql(true);
-                tasks[3].down.called.should.eql(false);
+                expect(tasks[0].down.called).toEqual(true);
+                expect(tasks[1].down.called).toEqual(true);
+                expect(tasks[2].down.called).toEqual(true);
+                expect(tasks[3].down.called).toEqual(false);
             });
     });
 
@@ -227,14 +226,14 @@ describe('Unit: _rollback', function () {
                 version: '2.31',
             })
             .then(function () {
-                true.should.eql(false);
+                expect.unreachable();
             })
             .catch((err) => {
-                should.exist(err);
-                err.errorType.should.eql('IrreversibleMigrationError');
-                tasks[0].down.called.should.eql(false);
-                tasks[1].down.called.should.eql(false);
-                tasks[2].down.called.should.eql(false);
+                expect(err).toEqual(expect.anything());
+                expect(err.errorType).toEqual('IrreversibleMigrationError');
+                expect(tasks[0].down.called).toEqual(false);
+                expect(tasks[1].down.called).toEqual(false);
+                expect(tasks[2].down.called).toEqual(false);
             });
     });
 
@@ -280,14 +279,14 @@ describe('Unit: _rollback', function () {
                 task: tasks[2],
             })
             .then(function () {
-                true.should.eql(false);
+                expect.unreachable();
             })
             .catch((err) => {
-                should.exist(err);
-                err.errorType.should.eql('IrreversibleMigrationError');
-                tasks[0].down.called.should.eql(false);
-                tasks[1].down.called.should.eql(false);
-                tasks[2].down.called.should.eql(false);
+                expect(err).toEqual(expect.anything());
+                expect(err.errorType).toEqual('IrreversibleMigrationError');
+                expect(tasks[0].down.called).toEqual(false);
+                expect(tasks[1].down.called).toEqual(false);
+                expect(tasks[2].down.called).toEqual(false);
             });
     });
 
@@ -324,7 +323,7 @@ describe('Unit: _rollback', function () {
                 },
             })
             .then(function () {
-                tasks[0].down.called.should.eql(false);
+                expect(tasks[0].down.called).toEqual(false);
             });
     });
 
@@ -359,7 +358,7 @@ describe('Unit: _rollback', function () {
                 onlyTasks: ['2-something'],
             })
             .then(function () {
-                tasks[0].down.called.should.eql(false);
+                expect(tasks[0].down.called).toEqual(false);
             });
     });
 
@@ -400,7 +399,7 @@ describe('Unit: _rollback', function () {
                 version: '1.10',
             })
             .then(function () {
-                task.down.calledWith({ transacting: txn }).should.eql(true);
+                expect(task.down.calledWith({ transacting: txn })).toEqual(true);
             });
     });
 });
