@@ -60,7 +60,7 @@
     "commander": "^15.0.0",
     "debug": "^4.4.3",
     "mysql2": "^3.24.6",
-    "semver": "^7.8.5"
+    "semver": "^7.8.6"
   },
   "files": [
     "bin",
