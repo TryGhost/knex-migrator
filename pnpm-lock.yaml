@@ -167,11 +167,11 @@ importers:
   .:
     dependencies:
       '@tryghost/database-info':
-        specifier: ^2.3.18
-        version: 2.3.18
+        specifier: ^2.3.19
+        version: 2.3.19
       '@tryghost/errors':
-        specifier: ^3.4.4
-        version: 3.4.4
+        specifier: ^3.4.5
+        version: 3.4.5
       '@tryghost/logging':
         specifier: ^5.4.8
         version: 5.4.8
@@ -652,8 +652,8 @@ packages:
   '@tryghost/bunyan-rotating-filestream@0.0.22':
     resolution: {integrity: sha512-bK/WAmrL7Jb5C2aVelbLYakoF4HQZY2Kxm9ZSs8uGPeWCxm0ftbfSRkWChwW2KALakVr/0To83AZg1eFBHTl4g==}
 
-  '@tryghost/database-info@2.3.18':
-    resolution: {integrity: sha512-wtfs8Aptt36w80w4xiMN+m7ydLkthQfkEdwHW8d1FB7x5gBl+iyESM1p+nxEOmbpMWuRc3hm5B42dfTygjUtLA==}
+  '@tryghost/database-info@2.3.19':
+    resolution: {integrity: sha512-BOt3P517sIo8Ht/XiYd7Mg+S8qKL6LVRoJpuR3UeEzcy9YiA8ydZMaIHtPNXhVTI0GjB9+VTfDaDMCrCWKjJTQ==}
 
   '@tryghost/debug@2.3.18':
     resolution: {integrity: sha512-eIKfADnzRXZRHMSooAYFSQbLw+e4boCxhdalq3KbMTlb9QcV5RIbCIBswUtawwK9duZTXsEZdarRj2YrPHtTrg==}
@@ -661,8 +661,8 @@ packages:
   '@tryghost/elasticsearch@5.4.13':
     resolution: {integrity: sha512-Q3vo0Vp2mPiPbqM4p0ilzlVq0voOU9a2O6HJ253AUKta7N4X3JggKJBrACEhoZsCUdV7bbwiV/8dP1XegH/9eg==}
 
-  '@tryghost/errors@3.4.4':
-    resolution: {integrity: sha512-Tfr3H4G4tU4QAaS9GN5+OnSfvsVhwDycZcK7iGoQG2JGUivY3kxDOo/nZzEC/8+PRDsyFYgXCAatAWIfeXiUwg==}
+  '@tryghost/errors@3.4.5':
+    resolution: {integrity: sha512-5yX4K5TZmtz2MJzYWFIUY1Ls0+TvZ6hC331xgq/yUzp7USXL2KfWOJ1+ih8Wlp8bhv0NrozsixgV/O5YoYvUHg==}
 
   '@tryghost/http-stream@2.3.20':
     resolution: {integrity: sha512-s2ihLU6/rYXBXVESP7FSXt/E+N14henaxqcgzOO6RbkGT2C7JEE55YIUke/sH/VSpgB+AVlOGyq2AW3FZIoJMw==}
@@ -2067,7 +2067,7 @@ snapshots:
     dependencies:
       long-timeout: 0.1.1
 
-  '@tryghost/database-info@2.3.18': {}
+  '@tryghost/database-info@2.3.19': {}
 
   '@tryghost/debug@2.3.18':
     dependencies:
@@ -2084,12 +2084,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@tryghost/errors@3.4.4': {}
+  '@tryghost/errors@3.4.5': {}
 
   '@tryghost/http-stream@2.3.20':
     dependencies:
       '@tryghost/debug': 2.3.18
-      '@tryghost/errors': 3.4.4
+      '@tryghost/errors': 3.4.5
       '@tryghost/request': 4.0.12
     transitivePeerDependencies:
       - supports-color
@@ -2121,7 +2121,7 @@ snapshots:
 
   '@tryghost/request@4.0.12':
     dependencies:
-      '@tryghost/errors': 3.4.4
+      '@tryghost/errors': 3.4.5
       '@tryghost/validator': 3.2.19
       '@tryghost/version': 2.3.18
       cacheable-lookup: 7.0.0
@@ -2142,7 +2142,7 @@ snapshots:
 
   '@tryghost/validator@3.2.19':
     dependencies:
-      '@tryghost/errors': 3.4.4
+      '@tryghost/errors': 3.4.5
       '@tryghost/tpl': 2.3.18
       lodash: 4.18.1
       moment-timezone: 0.5.48
