@@ -185,8 +185,8 @@ importers:
         specifier: ^3.24.6
         version: 3.24.6(@types/node@26.6.6)
       semver:
-        specifier: ^7.8.5
-        version: 7.8.5
+        specifier: ^7.8.6
+        version: 7.8.6
     devDependencies:
       '@tryghost/pro-ship':
         specifier: 1.1.9
@@ -1586,6 +1586,11 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  semver@7.8.6:
+    resolution: {integrity: sha512-9lpSSU4Mly3mrtruwLs1eLK6+gzbzqeBFwRNjIjE+9LuDpWdYctrQlQ3ej1Ilgi7gknpsTRnPoLP8DpCHqHIJw==}
+    engines: {node: '>=10'}
+    hasBin: true
+
   simple-concat@1.0.1:
     resolution: {integrity: sha512-cSFtAPtRhljv69IK0hTVZQ+OfE9nePi/rtJmw5UjHeVyVroEqJXP1sFztKUy1qU+xvz3u/sfYJLa947b7nAN2Q==}
 
@@ -2146,7 +2151,7 @@ snapshots:
   '@tryghost/version@2.3.18':
     dependencies:
       '@tryghost/root-utils': 2.3.18
-      semver: 7.8.5
+      semver: 7.8.6
 
   '@types/chai@5.2.3':
     dependencies:
@@ -2750,7 +2755,7 @@ snapshots:
 
   node-abi@3.101.0:
     dependencies:
-      semver: 7.8.5
+      semver: 7.8.6
     optional: true
 
   normalize-url@8.1.1: {}
@@ -2939,6 +2944,8 @@ snapshots:
   secure-keys@1.0.0: {}
 
   semver@7.8.5: {}
+
+  semver@7.8.6: {}
 
   simple-concat@1.0.1:
     optional: true
