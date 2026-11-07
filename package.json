@@ -74,7 +74,7 @@
   "devDependencies": {
     "@tryghost/pro-ship": "1.1.9",
     "@types/node": "26.6.6",
-    "@vitest/coverage-v8": "5.0.5",
+    "@vitest/coverage-v8": "5.1.0",
     "knex": "3.3.0",
     "knex2": "npm:knex@2.4.2",
     "nconf": "0.13.0",
@@ -83,7 +83,7 @@
     "rimraf": "6.1.4",
     "sinon": "22.1.0",
     "typescript": "7.0.2",
-    "vitest": "5.0.5"
+    "vitest": "5.1.0"
   },
   "optionalDependencies": {
     "better-sqlite3": "^12.11.1"
