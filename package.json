@@ -57,7 +57,7 @@
     "@tryghost/database-info": "^2.3.19",
     "@tryghost/errors": "^3.4.5",
     "@tryghost/logging": "^5.4.8",
-    "commander": "^15.0.0",
+    "commander": "^15.1.0",
     "debug": "^4.4.3",
     "mysql2": "^3.24.6",
     "semver": "^7.8.6"
