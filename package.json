@@ -56,7 +56,7 @@
   "dependencies": {
     "@tryghost/database-info": "^2.3.19",
     "@tryghost/errors": "^3.4.5",
-    "@tryghost/logging": "^5.4.8",
+    "@tryghost/logging": "^6.0.5",
     "commander": "^15.1.0",
     "debug": "^4.4.3",
     "mysql2": "^3.24.6",
@@ -72,7 +72,7 @@
     "knex": "^2.4.2 || ^3.0.0"
   },
   "devDependencies": {
-    "@tryghost/pro-ship": "1.1.9",
+    "@tryghost/pro-ship": "2.0.4",
     "@types/node": "26.6.6",
     "@vitest/coverage-v8": "5.1.0",
     "knex": "3.3.0",
