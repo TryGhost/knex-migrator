@@ -99,6 +99,36 @@ describe('Database', function () {
             return connection.destroy();
         });
 
+        it('passes mysql connection strings to knex unchanged', function () {
+            const connection = database.connect(
+                deepFreeze({ client: 'mysql', connection: 'mysql://root@127.0.0.1/km_testing' }),
+            );
+
+            // Knex parses the string itself; spreading it would yield character-index keys.
+            expect(connection.client.config.client).toEqual('mysql2');
+            expect(connection.client.config.connection).toEqual({
+                host: '127.0.0.1',
+                user: 'root',
+                database: 'km_testing',
+            });
+
+            return connection.destroy();
+        });
+
+        it('passes mysql connection provider functions to knex unchanged', function () {
+            const provider = function () {
+                return { host: '127.0.0.1' };
+            };
+            const connection = database.connect(
+                deepFreeze({ client: 'mysql', connection: provider }),
+            );
+
+            expect(connection.client.config.connection).toBe(provider);
+            expect(Object.keys(provider)).toEqual([]);
+
+            return connection.destroy();
+        });
+
         it('does not mutate a frozen sqlite config', function () {
             const config = deepFreeze({
                 client: 'sqlite3',
