@@ -6,7 +6,7 @@ only records repo-local workflow details that are easy to get wrong.
 
 ## Runtime And Package Manager
 
-- Use Node `22.13.1` or `24.14.1`; those are the supported package runtimes and
+- Use Node `22.18.0` or `24.14.1`; those are the supported package runtimes and
   the CI matrix versions.
 - Use Corepack with the pinned package manager from `package.json`
   (`pnpm@11.9.0`). Do not switch repo commands back to Yarn or npm.
