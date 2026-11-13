@@ -16,6 +16,14 @@ function deepFreeze(value) {
     return Object.freeze(value);
 }
 
+// Knex keeps `password` non-enumerable on the connection configs it exposes.
+function withHiddenPassword(connection) {
+    return Object.defineProperty(connection, 'password', {
+        enumerable: false,
+        value: 'secret',
+    });
+}
+
 describe('Database', function () {
     afterEach(function () {
         sinon.restore();
@@ -95,6 +103,19 @@ describe('Database', function () {
                 charset: 'utf8',
                 decimalNumbers: true,
             });
+
+            return connection.destroy();
+        });
+
+        it('keeps a hidden mysql password from a reused knex connection config', function () {
+            const connection = database.connect(
+                deepFreeze({
+                    client: 'mysql',
+                    connection: withHiddenPassword({ host: '127.0.0.1', user: 'root' }),
+                }),
+            );
+
+            expect(connection.client.config.connection.password).toEqual('secret');
 
             return connection.destroy();
         });
@@ -343,6 +364,29 @@ describe('Database', function () {
                 .catch(function (err) {
                     expect(err).toBeInstanceOf(errors.KnexMigrateError);
                     expect(err.message).toEqual('Database is not supported.');
+                });
+        });
+
+        it('keeps a hidden password when connecting without the database name', function () {
+            const connection = {
+                raw: sinon.stub().resolves(),
+                destroy: sinon.stub().callsArg(0),
+            };
+
+            sinon.stub(database, 'connect').returns(connection);
+            sinon.stub(database, 'ensureConnectionWorks').resolves();
+
+            return database
+                .createDatabaseIfNotExist({
+                    client: 'mysql2',
+                    connection: withHiddenPassword({ database: 'km_testing' }),
+                })
+                .then(function () {
+                    const serverConnection = database.connect.firstCall.args[0].connection;
+
+                    expect(serverConnection.password).toEqual('secret');
+                    expect(serverConnection.database).toBeUndefined();
+                    expect(connection.raw.firstCall.args[0]).toContain('`km_testing`');
                 });
         });
 
