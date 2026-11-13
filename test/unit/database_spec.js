@@ -6,6 +6,16 @@ const path = require('path');
 const database = require('../../lib/database');
 const errors = require('../../lib/errors');
 
+function deepFreeze(value) {
+    Object.values(value).forEach(function (child) {
+        if (child && typeof child === 'object') {
+            deepFreeze(child);
+        }
+    });
+
+    return Object.freeze(value);
+}
+
 describe('Database', function () {
     afterEach(function () {
         sinon.restore();
@@ -40,6 +50,73 @@ describe('Database', function () {
             expect(connection.client.config.client).toEqual('better-sqlite3');
 
             return connection.destroy();
+        });
+
+        it('does not mutate a frozen mysql config', function () {
+            const config = deepFreeze({
+                client: 'mysql',
+                connection: {
+                    host: '127.0.0.1',
+                    filename: 'unused.db',
+                },
+            });
+            const snapshot = structuredClone(config);
+
+            const connection = database.connect(config);
+
+            expect(config).toEqual(snapshot);
+            expect(connection.client.config.client).toEqual('mysql2');
+            expect(connection.client.config.connection).toEqual({
+                host: '127.0.0.1',
+                timezone: 'Z',
+                charset: 'utf8mb4',
+                decimalNumbers: true,
+            });
+
+            return connection.destroy();
+        });
+
+        it('keeps explicit mysql connection options from a frozen config', function () {
+            const config = deepFreeze({
+                client: 'mysql2',
+                connection: {
+                    host: '127.0.0.1',
+                    timezone: '+01:00',
+                    charset: 'utf8',
+                    decimalNumbers: false,
+                },
+            });
+
+            const connection = database.connect(config);
+
+            expect(connection.client.config.connection).toEqual({
+                host: '127.0.0.1',
+                timezone: '+01:00',
+                charset: 'utf8',
+                decimalNumbers: true,
+            });
+
+            return connection.destroy();
+        });
+
+        it('does not mutate a frozen sqlite config', function () {
+            const config = deepFreeze({
+                client: 'sqlite3',
+                connection: {
+                    filename: ':memory:',
+                },
+            });
+            const snapshot = structuredClone(config);
+
+            const connection = database.connect(config);
+
+            expect(config).toEqual(snapshot);
+            expect(connection.client.config.client).toEqual('better-sqlite3');
+            expect(connection.client.config.useNullAsDefault).toEqual(false);
+
+            return connection.raw('SELECT 1').then(function () {
+                return connection.destroy();
+            });
         });
 
         it('preserves explicit sqlite useNullAsDefault', function () {
