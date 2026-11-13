@@ -11,9 +11,7 @@ const config = require('./config');
 const database = require('../lib/database');
 
 exports.connect = function () {
-    // Deep clone so the production connect helper (which aliases `sqlite3` to
-    // `better-sqlite3` and applies driver defaults) can't mutate the shared config.
-    return database.connect(JSON.parse(JSON.stringify(config.get('database'))));
+    return database.connect(config.get('database'));
 };
 
 exports.writeMigratorConfig = function writeMigratorConfig(options) {

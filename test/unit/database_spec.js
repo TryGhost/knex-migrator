@@ -6,6 +6,24 @@ const path = require('path');
 const database = require('../../lib/database');
 const errors = require('../../lib/errors');
 
+function deepFreeze(value) {
+    Object.values(value).forEach(function (child) {
+        if (child && typeof child === 'object') {
+            deepFreeze(child);
+        }
+    });
+
+    return Object.freeze(value);
+}
+
+// Knex keeps `password` non-enumerable on the connection configs it exposes.
+function withHiddenPassword(connection) {
+    return Object.defineProperty(connection, 'password', {
+        enumerable: false,
+        value: 'secret',
+    });
+}
+
 describe('Database', function () {
     afterEach(function () {
         sinon.restore();
@@ -40,6 +58,116 @@ describe('Database', function () {
             expect(connection.client.config.client).toEqual('better-sqlite3');
 
             return connection.destroy();
+        });
+
+        it('does not mutate a frozen mysql config', function () {
+            const config = deepFreeze({
+                client: 'mysql',
+                connection: {
+                    host: '127.0.0.1',
+                    filename: 'unused.db',
+                },
+            });
+            const snapshot = structuredClone(config);
+
+            const connection = database.connect(config);
+
+            expect(config).toEqual(snapshot);
+            expect(connection.client.config.client).toEqual('mysql2');
+            expect(connection.client.config.connection).toEqual({
+                host: '127.0.0.1',
+                timezone: 'Z',
+                charset: 'utf8mb4',
+                decimalNumbers: true,
+            });
+
+            return connection.destroy();
+        });
+
+        it('keeps explicit mysql connection options from a frozen config', function () {
+            const config = deepFreeze({
+                client: 'mysql2',
+                connection: {
+                    host: '127.0.0.1',
+                    timezone: '+01:00',
+                    charset: 'utf8',
+                    decimalNumbers: false,
+                },
+            });
+
+            const connection = database.connect(config);
+
+            expect(connection.client.config.connection).toEqual({
+                host: '127.0.0.1',
+                timezone: '+01:00',
+                charset: 'utf8',
+                decimalNumbers: true,
+            });
+
+            return connection.destroy();
+        });
+
+        it('keeps a hidden mysql password from a reused knex connection config', function () {
+            const connection = database.connect(
+                deepFreeze({
+                    client: 'mysql',
+                    connection: withHiddenPassword({ host: '127.0.0.1', user: 'root' }),
+                }),
+            );
+
+            expect(connection.client.config.connection.password).toEqual('secret');
+
+            return connection.destroy();
+        });
+
+        it('passes mysql connection strings to knex unchanged', function () {
+            const connection = database.connect(
+                deepFreeze({ client: 'mysql', connection: 'mysql://root@127.0.0.1/km_testing' }),
+            );
+
+            // Knex parses the string itself; spreading it would yield character-index keys.
+            expect(connection.client.config.client).toEqual('mysql2');
+            expect(connection.client.config.connection).toEqual({
+                host: '127.0.0.1',
+                user: 'root',
+                database: 'km_testing',
+            });
+
+            return connection.destroy();
+        });
+
+        it('passes mysql connection provider functions to knex unchanged', function () {
+            const provider = function () {
+                return { host: '127.0.0.1' };
+            };
+            const connection = database.connect(
+                deepFreeze({ client: 'mysql', connection: provider }),
+            );
+
+            expect(connection.client.config.connection).toBe(provider);
+            expect(Object.keys(provider)).toEqual([]);
+
+            return connection.destroy();
+        });
+
+        it('does not mutate a frozen sqlite config', function () {
+            const config = deepFreeze({
+                client: 'sqlite3',
+                connection: {
+                    filename: ':memory:',
+                },
+            });
+            const snapshot = structuredClone(config);
+
+            const connection = database.connect(config);
+
+            expect(config).toEqual(snapshot);
+            expect(connection.client.config.client).toEqual('better-sqlite3');
+            expect(connection.client.config.useNullAsDefault).toEqual(false);
+
+            return connection.raw('SELECT 1').then(function () {
+                return connection.destroy();
+            });
         });
 
         it('preserves explicit sqlite useNullAsDefault', function () {
@@ -236,6 +364,29 @@ describe('Database', function () {
                 .catch(function (err) {
                     expect(err).toBeInstanceOf(errors.KnexMigrateError);
                     expect(err.message).toEqual('Database is not supported.');
+                });
+        });
+
+        it('keeps a hidden password when connecting without the database name', function () {
+            const connection = {
+                raw: sinon.stub().resolves(),
+                destroy: sinon.stub().callsArg(0),
+            };
+
+            sinon.stub(database, 'connect').returns(connection);
+            sinon.stub(database, 'ensureConnectionWorks').resolves();
+
+            return database
+                .createDatabaseIfNotExist({
+                    client: 'mysql2',
+                    connection: withHiddenPassword({ database: 'km_testing' }),
+                })
+                .then(function () {
+                    const serverConnection = database.connect.firstCall.args[0].connection;
+
+                    expect(serverConnection.password).toEqual('secret');
+                    expect(serverConnection.database).toBeUndefined();
+                    expect(connection.raw.firstCall.args[0]).toContain('`km_testing`');
                 });
         });
 
