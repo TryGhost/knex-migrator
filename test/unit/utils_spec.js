@@ -365,6 +365,23 @@ describe('Utils', function () {
             expect(utils.listFiles('migrations')).toEqual(['1-test.js']);
         });
 
+        it('records TypeScript migrations under their .js name', function () {
+            sinon.stub(fs, 'readdirSync').returns(['1-test.js', '2-test.ts', '2-test.d.ts']);
+            expect(utils.listFiles('migrations')).toEqual(['1-test.js', '2-test.js']);
+        });
+
+        it('records .mts and .cts migrations under their .mjs and .cjs names', function () {
+            sinon
+                .stub(fs, 'readdirSync')
+                .returns(['1-test.mts', '1-test.d.mts', '2-test.cts', '2-test.d.cts']);
+            expect(utils.listFiles('migrations')).toEqual(['1-test.mjs', '2-test.cjs']);
+        });
+
+        it('lists a migration once when its .ts source and .js output sit side by side', function () {
+            sinon.stub(fs, 'readdirSync').returns(['1-test.ts', '1-test.js', '1-test.d.ts']);
+            expect(utils.listFiles('migrations')).toEqual(['1-test.js']);
+        });
+
         it('throws a migration path error when the directory is missing', function () {
             sinon.stub(fs, 'readdirSync').throws(new Error('missing'));
 
@@ -375,6 +392,44 @@ describe('Utils', function () {
                 expect(err.code).toEqual('MIGRATION_PATH');
                 expect(err.message).toEqual('MigrationPath is wrong: missing');
             }
+        });
+    });
+
+    describe('readTasks with ESM migrations', function () {
+        it('reads a migration from its default export or its named exports', async function () {
+            const tasks = utils.readTasks(path.join(__dirname, 'fixtures', 'esm-migrations'));
+
+            expect(tasks.map((task) => [task.name, task.config])).toEqual([
+                ['1-default.mjs', { transaction: true }],
+                ['2-named.mjs', { transaction: false }],
+            ]);
+            expect(await tasks[0].up()).toEqual('default.mjs');
+            expect(await tasks[0].down()).toEqual('default.mjs down');
+            expect(await tasks[1].up()).toEqual('named.mjs');
+            expect(tasks[1].down).toBeUndefined();
+        });
+    });
+
+    describe.runIf(utils.supportsTypeScript())('readTasks with TypeScript migrations', function () {
+        it('loads TypeScript migrations under their compiled names and prefers compiled output', async function () {
+            const tasks = utils.readTasks(path.join(__dirname, 'fixtures', 'ts-migrations'));
+
+            expect(tasks.map((task) => task.name)).toEqual([
+                '1-plain.js',
+                '2-source.js',
+                '3-compiled.js',
+                '4-common.cjs',
+                '5-module.mjs',
+                '6-default.mjs',
+            ]);
+            expect(await Promise.all(tasks.map((task) => task.up()))).toEqual([
+                'plain.js',
+                'source.ts',
+                'compiled.js',
+                'common.cts',
+                'module.mts',
+                'default.mts',
+            ]);
         });
     });
 });

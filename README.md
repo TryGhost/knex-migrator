@@ -166,6 +166,16 @@ module.exports.down = async function down(options) {
 
 Write both `up` and `down` whenever possible so failed migrations and manual rollbacks can return the database to a known state. Avoid mixing DDL and DML in one transactional migration for MySQL because DDL statements use implicit commits.
 
+Migrations can also be ES modules, exporting `up`, `down` and `config` either as named exports or together as the default export.
+
+### TypeScript migrations
+
+knex-migrator records each migration by file name. A TypeScript migration is recorded under the name of its compiled output (`.ts` as `.js`, `.mts` as `.mjs`, `.cts` as `.cjs`), so it keeps the same name whether it runs from source or from a build. When a folder holds both a source file and its compiled output, only the compiled file runs. Declaration files (`.d.ts`, `.d.mts`, `.d.cts`) are ignored.
+
+Running `.ts` sources needs a loader such as [tsx](https://tsx.is), or Node's built-in type stripping, which every supported Node.js version enables by default. Type stripping only accepts erasable syntax, as with [TypeScript configs](#configuration).
+
+Earlier releases recorded a TypeScript migration under its source name. If your `migrations` table has rows ending in `.ts`, `.mts` or `.cts`, rename each to its compiled name (for example `2-add-users.ts` to `2-add-users.js`) before upgrading. Otherwise those migrations are treated as new and run again.
+
 ## Hooks
 
 Hooks live under `migrations/hooks/init` or `migrations/hooks/migrate`. Export any of these functions from the hook folder's `index.js`:
