@@ -32,7 +32,7 @@ npm install --global knex-migrator
 
 ## Requirements
 
-- Node.js `^22.13.1 || ^24.14.1`
+- Node.js `^22.18.0 || ^24.14.1`
 - Knex `^2.4.2 || ^3.0.0`, installed alongside `knex-migrator` as a peer dependency. `knex-migrator` first tries to load `knex` from the project path passed with `--mgpath` or `knexMigratorFilePath`, then falls back to the `knex` resolvable from its own install location. Use the same Knex major for your migrations and `knex-migrator`; query builders from one major cannot be run by the other.
 - A database client supported by this package: `mysql`, `mysql2`, `sqlite3`, or `better-sqlite3`
 
@@ -53,7 +53,7 @@ export default {
 };
 ```
 
-TypeScript configs are supported as `MigratorConfig.ts`, `MigratorConfig.cts`, and `MigratorConfig.mts`, resolved in that order after the JavaScript variants. They are loaded with Node's built-in type stripping, so they need Node.js `>= 22.18` (or `--experimental-strip-types` on earlier Node 22 releases), may only use [erasable TypeScript syntax](https://nodejs.org/api/typescript.html#type-stripping), and follow the same synchronous loading rules as ESM configs.
+TypeScript configs are supported as `MigratorConfig.ts`, `MigratorConfig.cts`, and `MigratorConfig.mts`, resolved in that order after the JavaScript variants. They are loaded with Node's built-in type stripping, which every supported Node.js version enables by default, so they may only use [erasable TypeScript syntax](https://nodejs.org/api/typescript.html#type-stripping), and follow the same synchronous loading rules as ESM configs.
 
 Wrap the config in `defineConfig` to have it type-checked against the expected shape. It returns the config unchanged and works from JavaScript configs too:
 
@@ -306,7 +306,7 @@ NODE_ENV=testing-better-sqlite3 pnpm test
 NODE_ENV=testing-mysql pnpm test
 ```
 
-CI runs linting, coverage on Node `22.13.1` and `24.14.1` across sqlite3, better-sqlite3, and MySQL 8, plus a Ghost consumer smoke test. The smoke test checks out Ghost, links this package into Ghost core, then runs Ghost init, health, rollback, migrate, and health checks through the CLI.
+CI runs linting, coverage on Node `22.18.0` and `24.14.1` across sqlite3, better-sqlite3, and MySQL 8, plus a Ghost consumer smoke test. The smoke test checks out Ghost, links this package into Ghost core, then runs Ghost init, health, rollback, migrate, and health checks through the CLI.
 
 To run the Ghost smoke locally, place a Ghost checkout next to this repo or set `GHOST_CORE_PATH`:
 

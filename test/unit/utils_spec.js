@@ -93,9 +93,9 @@ describe('Utils', function () {
                 expect.unreachable();
             } catch (err) {
                 expect(err.message).toMatch(
-                    /^Cannot load MigratorConfig\.ts: this version of Node\.js .* does not support TypeScript type stripping\.$/,
+                    /^Cannot load MigratorConfig\.ts: TypeScript type stripping is disabled in this Node\.js process \(v.*\)\.$/,
                 );
-                expect(err.help).toMatch(/--experimental-strip-types/);
+                expect(err.help).toMatch(/--no-experimental-strip-types/);
             }
         });
 
