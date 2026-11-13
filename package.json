@@ -51,7 +51,7 @@
     "knex-migrator-rollback": "./bin/knex-migrator-rollback"
   },
   "engines": {
-    "node": "^22.18.0 || ^24.14.1"
+    "node": "^22.18.0 || ^24.14.1 || ^26.0.0"
   },
   "dependencies": {
     "@tryghost/database-info": "^2.3.19",
