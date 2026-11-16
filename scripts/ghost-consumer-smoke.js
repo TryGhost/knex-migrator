@@ -5,7 +5,9 @@ const fs = require('fs');
 const { createRequire } = require('module');
 const os = require('os');
 const path = require('path');
+const { pathToFileURL } = require('url');
 const semver = require('semver');
+const { CONFIG_FILENAMES } = require('../lib/utils');
 
 const repoRoot = path.resolve(__dirname, '..');
 const ghostPath =
@@ -26,16 +28,20 @@ function resolveGhostCorePath(inputPath) {
         path.join(resolvedPath, 'ghost', 'core'),
     ];
 
+    // Match any config filename knex-migrator can load: Ghost uses MigratorConfig.mts
+    // since TryGhost/Ghost#31393, and older checkouts use MigratorConfig.js.
     const corePath = candidates.find((candidatePath) => {
         return (
             fs.existsSync(path.join(candidatePath, 'package.json')) &&
-            fs.existsSync(path.join(candidatePath, 'MigratorConfig.js'))
+            CONFIG_FILENAMES.some((filename) => fs.existsSync(path.join(candidatePath, filename)))
         );
     });
 
     if (!corePath) {
         fail(
-            'Ghost core package.json not found from ' +
+            'Ghost core (package.json with a ' +
+                CONFIG_FILENAMES.join(', ') +
+                ') not found from ' +
                 resolvedPath +
                 '. Set GHOST_CORE_PATH to a Ghost repository or Ghost core checkout.',
         );
@@ -143,6 +149,24 @@ function getGhostVersions() {
     };
 }
 
+/**
+ * Unbuilt Ghost trees (TryGhost/Ghost#31393 and later) import `.js` paths that only exist
+ * as `.ts` sources, so Ghost's own knex-migrator scripts preload tsx and use the `source`
+ * export condition. Mirror that when Ghost has tsx installed. The loader is passed as an
+ * absolute URL because `--import` resolves from the knex-migrator cwd, not from Ghost.
+ */
+function getGhostNodeOptions() {
+    let tsxLoaderPath;
+
+    try {
+        tsxLoaderPath = ghostRequire.resolve('tsx');
+    } catch {
+        return null;
+    }
+
+    return '--conditions=source --import=' + pathToFileURL(tsxLoaderPath).href;
+}
+
 function main() {
     if (!fs.existsSync(migratorBin)) {
         fail(
@@ -167,9 +191,16 @@ function main() {
         paths__contentPath: contentPath,
     });
 
+    const ghostNodeOptions = getGhostNodeOptions();
+
+    if (ghostNodeOptions) {
+        env.NODE_OPTIONS = [process.env.NODE_OPTIONS, ghostNodeOptions].filter(Boolean).join(' ');
+    }
+
     console.log('Ghost core: ' + ghostCorePath);
     console.log('knex-migrator bin: ' + migratorBin);
     console.log('knex-migrator cwd: ' + migratorCwd);
+    console.log('Ghost NODE_OPTIONS: ' + (ghostNodeOptions || '(none)'));
     console.log('Ghost version: ' + versions.ghostVersion);
     console.log('Rollback target: ' + versions.previousVersion);
     console.log('Forward target: ' + versions.currentVersion);
