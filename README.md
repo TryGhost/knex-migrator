@@ -53,6 +53,8 @@ export default {
 };
 ```
 
+A `default` export compiled to CommonJS, by tsc, Babel or a require hook such as tsx, is unwrapped the same way, so an ESM-syntax config still loads when a loader or build step turns it into CommonJS.
+
 TypeScript configs are supported as `MigratorConfig.ts`, `MigratorConfig.cts`, and `MigratorConfig.mts`, resolved in that order after the JavaScript variants. They are loaded with Node's built-in type stripping, which every supported Node.js version enables by default, so they may only use [erasable TypeScript syntax](https://nodejs.org/api/typescript.html#type-stripping), and follow the same synchronous loading rules as ESM configs.
 
 Wrap the config in `defineConfig` to have it type-checked against the expected shape. It returns the config unchanged and works from JavaScript configs too:
@@ -166,7 +168,7 @@ module.exports.down = async function down(options) {
 
 Write both `up` and `down` whenever possible so failed migrations and manual rollbacks can return the database to a known state. Avoid mixing DDL and DML in one transactional migration for MySQL because DDL statements use implicit commits.
 
-Migrations can also be ES modules, exporting `up`, `down` and `config` either as named exports or together as the default export.
+Migrations can also be ES modules, exporting `up`, `down` and `config` either as named exports or together as the default export, including a default export compiled to CommonJS.
 
 ### TypeScript migrations
 

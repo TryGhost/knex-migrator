@@ -65,6 +65,20 @@ describe('Utils', function () {
             });
         });
 
+        it('loads an ESM config compiled to CommonJS via its default export', function () {
+            const configPath = path.join(__dirname, 'fixtures', 'transpiled-config');
+
+            expect(
+                utils.loadConfig({
+                    knexMigratorFilePath: configPath,
+                }),
+            ).toEqual({
+                database: { client: 'sqlite3' },
+                migrationPath: 'migrations',
+                currentVersion: '1.0',
+            });
+        });
+
         describe.runIf(utils.supportsTypeScript())('TypeScript configs', function () {
             it.each([
                 ['MigratorConfig.ts via its default export', 'ts-config'],
@@ -396,17 +410,19 @@ describe('Utils', function () {
     });
 
     describe('readTasks with ESM migrations', function () {
-        it('reads a migration from its default export or its named exports', async function () {
+        it('reads a migration from its default export, its named exports, or a compiled default export', async function () {
             const tasks = utils.readTasks(path.join(__dirname, 'fixtures', 'esm-migrations'));
 
             expect(tasks.map((task) => [task.name, task.config])).toEqual([
                 ['1-default.mjs', { transaction: true }],
                 ['2-named.mjs', { transaction: false }],
+                ['3-transpiled.cjs', { transaction: true }],
             ]);
             expect(await tasks[0].up()).toEqual('default.mjs');
             expect(await tasks[0].down()).toEqual('default.mjs down');
             expect(await tasks[1].up()).toEqual('named.mjs');
             expect(tasks[1].down).toBeUndefined();
+            expect(await tasks[2].up()).toEqual('transpiled.cjs');
         });
     });
 
