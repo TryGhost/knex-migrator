@@ -40,7 +40,7 @@ jobs:
           --health-retries=12
     strategy:
       matrix:
-        node: [ '22.18.0', '24.14.1' ]
+        node: [ '22.18.0', '24.14.1', '26.x' ]
         knex: [ '2', '3' ]
         env:
           - DB: better-sqlite3

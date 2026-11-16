@@ -23,6 +23,16 @@
       "enabled": false
     },
     {
+      "description": "Keep Node 22 supported in engines for now: only widen the range for new majors, never raise the ^22.18.0 floor.",
+      "matchDepTypes": [
+        "engines"
+      ],
+      "matchPackageNames": [
+        "node"
+      ],
+      "rangeStrategy": "widen"
+    },
+    {
       "description": "Keep the knex 2 test alias on the lowest supported knex 2 version (Ghost's current version).",
       "matchDepNames": [
         "knex2"
