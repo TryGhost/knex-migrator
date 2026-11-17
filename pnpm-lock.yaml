@@ -208,10 +208,10 @@ importers:
         version: 5.1.0(vitest@5.1.0)
       knex:
         specifier: 3.3.0
-        version: 3.3.0(better-sqlite3@13.1.1)(mysql2@3.24.6(@types/node@26.6.6))
+        version: 3.3.0(better-sqlite3@13.2.0)(mysql2@3.24.6(@types/node@26.6.6))
       knex2:
         specifier: npm:knex@2.4.2
-        version: knex@2.4.2(better-sqlite3@13.1.1)(mysql2@3.24.6(@types/node@26.6.6))
+        version: knex@2.4.2(better-sqlite3@13.2.0)(mysql2@3.24.6(@types/node@26.6.6))
       nconf:
         specifier: 0.13.0
         version: 0.13.0
@@ -235,8 +235,8 @@ importers:
         version: 5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(@vitest/coverage-v8@5.1.0)(vite@8.3.6(@types/node@26.6.6))
     optionalDependencies:
       better-sqlite3:
-        specifier: ^13.1.1
-        version: 13.1.1
+        specifier: ^13.2.0
+        version: 13.2.0
 
 packages:
 
@@ -883,8 +883,8 @@ packages:
     resolution: {integrity: sha512-BLrgEcRTwX2o6gGxGOCNyMvGSp35YofuYzw9h1IMTRmKqttAZZVU67bdb9Pr2vUHA8+j3i2tJfjO6C6+4myGTA==}
     engines: {node: 18 || 20 || >=22}
 
-  better-sqlite3@13.1.1:
-    resolution: {integrity: sha512-JjyLCATp+VLxZVFyWkicyzKYwpEFLCrV4MmshW97xv3JXdhw5jBDcsbEWRGm2L/96E+k7rtjON8q9nml05h3Pw==}
+  better-sqlite3@13.2.0:
+    resolution: {integrity: sha512-Z8Q/9x/uNyKxA1v4FNodyItRVRw1TeKBrmj32JhxhR0ceNcBY+wMobt/Bv7M7TzwPAXjnZRtNaEsATnUZSKWZQ==}
     engines: {node: '>=22'}
 
   brace-expansion@1.1.21:
@@ -2090,7 +2090,7 @@ snapshots:
 
   balanced-match@4.0.4: {}
 
-  better-sqlite3@13.1.1:
+  better-sqlite3@13.2.0:
     dependencies:
       node-addon-api: 8.9.2
     optional: true
@@ -2291,7 +2291,7 @@ snapshots:
     dependencies:
       '@keyv/serialize': 1.1.1
 
-  knex@2.4.2(better-sqlite3@13.1.1)(mysql2@3.24.6(@types/node@26.6.6)):
+  knex@2.4.2(better-sqlite3@13.2.0)(mysql2@3.24.6(@types/node@26.6.6)):
     dependencies:
       colorette: 2.0.19
       commander: 9.5.0
@@ -2308,12 +2308,12 @@ snapshots:
       tarn: 3.1.2
       tildify: 2.0.0
     optionalDependencies:
-      better-sqlite3: 13.1.1
+      better-sqlite3: 13.2.0
       mysql2: 3.24.6(@types/node@26.6.6)
     transitivePeerDependencies:
       - supports-color
 
-  knex@3.3.0(better-sqlite3@13.1.1)(mysql2@3.24.6(@types/node@26.6.6)):
+  knex@3.3.0(better-sqlite3@13.2.0)(mysql2@3.24.6(@types/node@26.6.6)):
     dependencies:
       colorette: 2.0.19
       commander: 10.0.1
@@ -2330,7 +2330,7 @@ snapshots:
       tarn: 3.1.2
       tildify: 2.0.0
     optionalDependencies:
-      better-sqlite3: 13.1.1
+      better-sqlite3: 13.2.0
       mysql2: 3.24.6(@types/node@26.6.6)
     transitivePeerDependencies:
       - supports-color
