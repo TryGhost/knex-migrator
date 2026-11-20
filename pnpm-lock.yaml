@@ -182,8 +182,8 @@ importers:
         specifier: ^3.4.8
         version: 3.4.8
       '@tryghost/logging':
-        specifier: ^6.0.7
-        version: 6.0.7
+        specifier: ^6.1.0
+        version: 6.1.0
       commander:
         specifier: ^15.1.0
         version: 15.1.0
@@ -658,8 +658,8 @@ packages:
   '@tryghost/http-stream@2.4.1':
     resolution: {integrity: sha512-46EYUZ4sayaJ5rLM+FOU/qW5yAFZKd9WiLyLCvRVpjhrjjqOsCMV8Zn/nEFYDBYpvTADK8iqmEThS4onMvzr0w==}
 
-  '@tryghost/logging@6.0.7':
-    resolution: {integrity: sha512-EvWsWwZtD8HCLI9aXHoNY4xajHpUm6p24G8G4MrARvVTHr8Wa044gAqC50gsgKYUeACzG70JbBwXlnFX9TtuHg==}
+  '@tryghost/logging@6.1.0':
+    resolution: {integrity: sha512-bvlzwfLMDT7mHLPMN2q14EDwgwFb8BZxcBV1m6BJrI7uc47/G4P159DNMfhQ0dN7YLVDrnuyy3BXsNRj89PVoA==}
 
   '@tryghost/pretty-stream@2.3.22':
     resolution: {integrity: sha512-UGXOdUVxE/+fs+tsYPVjizJDLBq2oQfKuwZuk6elecBMWqP0gzuRX3Rsc7NOJaFPSb28lEojHLto1PhnTXivDA==}
@@ -1906,7 +1906,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@tryghost/logging@6.0.7':
+  '@tryghost/logging@6.1.0':
     dependencies:
       '@tryghost/bunyan-rotating-filestream': 0.0.29
       '@tryghost/http-stream': 2.4.1
