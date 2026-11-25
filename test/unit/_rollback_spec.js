@@ -290,6 +290,103 @@ describe('Unit: _rollback', function () {
             });
     });
 
+    it('only rolls back tasks the failed run executed', function () {
+        const knexMigrator = new KnexMigrator({
+            knexMigratorConfig: {
+                database: {},
+                migrationPath: 'location',
+                currentVersion: '3.0',
+            },
+        });
+
+        knexMigrator.connection = sinon.stub().returns({
+            where: sinon.stub().returns({
+                delete: sinon.stub().resolves(),
+            }),
+        });
+
+        const tasks = [
+            {
+                up: sinon.stub(),
+                down: sinon.stub().resolves(),
+                name: '1-applied-earlier',
+            },
+            {
+                up: sinon.stub(),
+                down: sinon.stub().resolves(),
+                name: '2-executed',
+            },
+            {
+                up: sinon.stub(),
+                down: sinon.stub().resolves(),
+                name: '3-failed',
+            },
+            {
+                up: sinon.stub(),
+                down: sinon.stub().resolves(),
+                name: '4-not-reached',
+            },
+        ];
+
+        sinon.stub(utils, 'readTasks').returns(tasks);
+
+        return knexMigrator
+            ._rollback({
+                version: '2.31',
+                executedTasks: [tasks[1], tasks[2]],
+            })
+            .then(function () {
+                expect(utils.readTasks.called).toEqual(false);
+                expect(tasks[0].down.called).toEqual(false);
+                expect(tasks[1].down.calledOnce).toEqual(true);
+                expect(tasks[2].down.calledOnce).toEqual(true);
+                expect(tasks[2].down.calledBefore(tasks[1].down)).toEqual(true);
+                expect(tasks[3].down.called).toEqual(false);
+            });
+    });
+
+    it('ignores irreversible migrations the failed run did not execute', function () {
+        const knexMigrator = new KnexMigrator({
+            knexMigratorConfig: {
+                database: {},
+                migrationPath: 'location',
+                currentVersion: '3.0',
+            },
+        });
+
+        knexMigrator.connection = sinon.stub().returns({
+            where: sinon.stub().returns({
+                delete: sinon.stub().resolves(),
+            }),
+        });
+
+        const tasks = [
+            {
+                config: { irreversible: true },
+                up: sinon.stub(),
+                down: sinon.stub().resolves(),
+                name: '1-applied-earlier',
+            },
+            {
+                up: sinon.stub(),
+                down: sinon.stub().resolves(),
+                name: '2-executed',
+            },
+        ];
+
+        sinon.stub(utils, 'readTasks').returns(tasks);
+
+        return knexMigrator
+            ._rollback({
+                version: '2.31',
+                executedTasks: [tasks[1]],
+            })
+            .then(function () {
+                expect(tasks[0].down.called).toEqual(false);
+                expect(tasks[1].down.calledOnce).toEqual(true);
+            });
+    });
+
     it('skips requested rollback tasks', function () {
         const knexMigrator = new KnexMigrator({
             knexMigratorConfig: {
