@@ -345,6 +345,105 @@ describe('KnexMigrator', function () {
                     expect(err.message).toEqual('boom');
                 });
         });
+
+        describe('executedTasks', function () {
+            function migrateFailingTask(task, options) {
+                const knexMigrator = createKnexMigrator();
+                const executedTasks = [];
+                knexMigrator.connection = createDeleteChain;
+
+                sinon.stub(utils, 'readTasks').returns([task]);
+                sinon.stub(knexMigrator, '_beforeEach').resolves();
+                sinon.stub(knexMigrator, '_afterEach').resolves();
+                sinon.stub(database, 'createTransaction').callsFake(function (connection, cb) {
+                    return cb({});
+                });
+
+                return knexMigrator
+                    ._migrateTo({
+                        version: '1.0',
+                        executedTasks: executedTasks,
+                        ...options,
+                    })
+                    .then(function () {
+                        expect.unreachable();
+                    })
+                    .catch(function (err) {
+                        expect(err).toBeInstanceOf(errors.MigrationScriptError);
+                        return executedTasks;
+                    });
+            }
+
+            function createLongKeyError() {
+                const err = new Error(
+                    'Specified key was too long for index `table_name`.`idx_name`.`field_name`',
+                );
+                err.code = 'ER_TOO_LONG_KEY';
+                return err;
+            }
+
+            it('does not collect a task whose beforeEach hook failed', async function () {
+                const task = { name: '1-test.js', up: sinon.stub().resolves() };
+
+                const executedTasks = await migrateFailingTask(task, {
+                    hooks: { beforeEach: sinon.stub().rejects(new Error('boom')) },
+                });
+
+                expect(task.up.called).toEqual(false);
+                expect(executedTasks).toEqual([]);
+            });
+
+            it('collects a failed task which did not run in a transaction', async function () {
+                const task = { name: '1-test.js', up: sinon.stub().rejects(new Error('boom')) };
+
+                expect(await migrateFailingTask(task)).toEqual([task]);
+            });
+
+            it('does not collect a failed task which ran in a transaction', async function () {
+                const task = {
+                    name: '1-test.js',
+                    config: { transaction: true },
+                    up: sinon.stub().rejects(new Error('boom')),
+                };
+
+                expect(await migrateFailingTask(task)).toEqual([]);
+            });
+
+            it('collects a transactional task when the afterEach hook failed', async function () {
+                const task = {
+                    name: '1-test.js',
+                    config: { transaction: true },
+                    up: sinon.stub().resolves(),
+                };
+
+                const executedTasks = await migrateFailingTask(task, {
+                    hooks: { afterEach: sinon.stub().rejects(new Error('boom')) },
+                });
+
+                expect(executedTasks).toEqual([task]);
+            });
+
+            it('collects a transactional task which failed with a long key error', async function () {
+                const task = {
+                    name: '1-test.js',
+                    config: { transaction: true },
+                    up: sinon.stub().rejects(createLongKeyError()),
+                };
+
+                expect(await migrateFailingTask(task)).toEqual([task]);
+            });
+
+            it('does not collect a task whose beforeEach hook failed with a long key error', async function () {
+                const task = { name: '1-test.js', up: sinon.stub().resolves() };
+
+                const executedTasks = await migrateFailingTask(task, {
+                    hooks: { beforeEach: sinon.stub().rejects(createLongKeyError()) },
+                });
+
+                expect(task.up.called).toEqual(false);
+                expect(executedTasks).toEqual([]);
+            });
+        });
     });
 
     describe('_integrityCheck', function () {
