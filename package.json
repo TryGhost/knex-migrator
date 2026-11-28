@@ -73,7 +73,7 @@
   },
   "devDependencies": {
     "@tryghost/pro-ship": "2.0.4",
-    "@types/node": "26.6.6",
+    "@types/node": "26.6.7",
     "@vitest/coverage-v8": "5.1.1",
     "knex": "3.3.0",
     "knex2": "npm:knex@2.4.2",
